@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 
-
 function buildIndex(inputFolder, outputFolder){
     //make directory
     if (fs.existsSync(outputFolder)){
