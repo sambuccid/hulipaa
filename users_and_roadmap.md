@@ -22,11 +22,6 @@ The Minimal Viable Product consists of:
 -- it doesn't need to be customisable for now
 
 ## user/tech stories for MVP(incomplete)
-### install library
-As the creator of the website
-I want to be able to import the library in both the back-end and the front-end
-So that I can use it
-
 ### search bar
 As the creator of the website
 I want to be able to place the searchbarin my website
@@ -63,3 +58,6 @@ As a visitor of the website
 If I search for a word that is not present in the page
 I want the page to still work
 And have a message telling me that there were no results
+
+### install library
+
