@@ -23,9 +23,6 @@ The Minimal Viable Product consists of:
 
 ## user/tech stories for MVP(incomplete)
 ### search bar
-As the creator of the website
-I want to be able to place the searchbarin my website
-So that the user can see it
 
 ### results for one word in one file
 As a visitor of the website
