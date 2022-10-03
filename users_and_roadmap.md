@@ -71,3 +71,13 @@ this involves it working with all the type of data(json, MD and so on) seamlessl
 ### secure
 Need to go throught the code and check that everything is secure and doesn't expose
 private informations
+
+### visually appealing
+Need to provide the default configuration for the front end with a generic, neutral but visually appealing theme/style
+
+### basic frontend configuration
+It needs to be possible to configure basic style things on the front end like for example changing background and foreground colors
+
+# Other versions
+- use prettier
+- get some kind of spell checking on the code
