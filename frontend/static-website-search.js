@@ -6,9 +6,26 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     function loadSearchbar(searchDiv){
+        addSearchBarElements(searchDiv)
+
+    }
+
+    function onClickSearch(searchDiv, textarea){
+        let resultsDiv = searchDiv.getElementsByClassName("sws_results")[0]
+        if(resultsDiv == null){
+            resultsDiv = document.createElement("div");
+            resultsDiv.className = "sws_results"
+            searchDiv.appendChild(resultsDiv)
+        }
+        
+        resultsDiv.textContent = textarea.value
+    }
+
+    function addSearchBarElements(searchDiv){
         const textarea = document.createElement("input");
         
         const button = document.createElement("button");
+        button.onclick = onClickSearch.bind(null, searchDiv, textarea)
 
         const searchImg = document.createElement("img")
         searchImg.innerText = "Search"
@@ -20,12 +37,5 @@ window.addEventListener('DOMContentLoaded', () => {
 
         searchDiv.appendChild(textarea)
         searchDiv.appendChild(button)
-        // result.classList.add("hiddenSong");
-        // result.onclick=onOpenSong;
-
-        // const title = document.createElement("h1");
-        // const titleTxt = document.createTextNode(songTitle);
-        // title.appendChild(titleTxt);
-        // result.appendChild(title);
     }
 });
