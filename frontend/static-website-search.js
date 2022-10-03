@@ -9,7 +9,14 @@ window.addEventListener('DOMContentLoaded', () => {
         const textarea = document.createElement("input");
         
         const button = document.createElement("button");
-        button.innerText = "Search"
+
+        const searchImg = document.createElement("img")
+        searchImg.innerText = "Search"
+        searchImg.src = "../frontend/images/glass_magnifier_icon.svg"
+        searchImg.width = 30
+        searchImg.height = 30
+
+        button.appendChild(searchImg)
 
         searchDiv.appendChild(textarea)
         searchDiv.appendChild(button)

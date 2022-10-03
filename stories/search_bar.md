@@ -16,7 +16,6 @@ And it should be where I placed it
 [Done]
 The searchbar should have a textbox where to enter text
 The searchbar should have a button at the right of the textbox
-
 The search button should have a search icon
     https://www.iconfinder.com/search?q=search
 
