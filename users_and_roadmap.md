@@ -58,3 +58,16 @@ And have a message telling me that there were no results
 
 ### install library
 
+# Version 0.0.1
+This is the version when we think the library is enough useful, easy to use and configurable.
+## user/tech stories(incomplete)
+
+### auto completition
+
+### fully integrated with 11ty(spike)
+Need to see how much work would be needed to integrate it as a 11ty plugin
+this involves it working with all the type of data(json, MD and so on) seamlessly
+
+### secure
+Need to go throught the code and check that everything is secure and doesn't expose
+private informations
