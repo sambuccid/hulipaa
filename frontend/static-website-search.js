@@ -7,8 +7,12 @@ window.addEventListener('DOMContentLoaded', () => {
 
     function loadSearchbar(searchDiv){
         const textarea = document.createElement("input");
+        
+        const button = document.createElement("button");
+        button.innerText = "Search"
 
         searchDiv.appendChild(textarea)
+        searchDiv.appendChild(button)
         // result.classList.add("hiddenSong");
         // result.onclick=onOpenSong;
 
