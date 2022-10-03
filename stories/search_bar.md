@@ -30,3 +30,10 @@ And I still have the html focus on the textbox
 When I press enter
 Then placed under the textbox there should be a section for the results
 And a message of successfull execution should be displayed (temporarily used as placeholder for real results)
+(
+    possible implementation:
+    put textarea and button in a form
+    the button becomes of type submit
+    intercept the onsubmit of the form and disable the event when catched
+    connect with function that runs the search
+)
