@@ -4,8 +4,10 @@ I want to be able to place the searchbar in my website
 So that the user can see it
 
 ### ACs
+[Done]
 In order to use the searchbar I should add a html tag like `<div class="sws_searchbar" />`
 
+[Done]
 Given I added a searchbar successfully
 When I open the page
 Then the searchbar should be visible
