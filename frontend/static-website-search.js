@@ -13,6 +13,9 @@ window.addEventListener('DOMContentLoaded', () => {
         form: function(options){
             return EL._createElement("form", options)
         },
+        div: function(options){
+            return EL._createElement("div", options)
+        },
         _createElement: function(name, options){
             const element = document.createElement(name);
 
@@ -48,8 +51,9 @@ window.addEventListener('DOMContentLoaded', () => {
     function onClickSearch(searchDiv, textarea){
         let resultsDiv = searchDiv.getElementsByClassName("sws_results")[0]
         if(resultsDiv == null){
-            resultsDiv = document.createElement("div");
-            resultsDiv.className = "sws_results"
+            resultsDiv = EL.div({
+                className: "sws_results"
+            });
             searchDiv.appendChild(resultsDiv)
         }
         
