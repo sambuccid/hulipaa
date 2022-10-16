@@ -22,7 +22,7 @@ The Minimal Viable Product consists of:
 -- it doesn't need to be customisable for now
 
 ## user/tech stories for MVP(incomplete)
-### search bar
+### ~~search bar~~
 
 ### results for one word in one file
 As a visitor of the website
