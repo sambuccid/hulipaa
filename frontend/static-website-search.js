@@ -21,11 +21,11 @@ window.addEventListener('DOMContentLoaded', () => {
         resultsDiv.textContent = textarea.value
     }
 
+
     function addSearchBarElements(searchDiv){
         const textarea = document.createElement("input");
         
         const button = document.createElement("button");
-        button.onclick = onClickSearch.bind(null, searchDiv, textarea)
 
         const searchImg = document.createElement("img")
         searchImg.innerText = "Search"
@@ -35,8 +35,17 @@ window.addEventListener('DOMContentLoaded', () => {
 
         button.appendChild(searchImg)
 
-        searchDiv.appendChild(textarea)
-        searchDiv.appendChild(button)
+        const form = document.createElement("form")
+        form.appendChild(textarea)
+        form.appendChild(button)
+
+        form.onsubmit = function(event){
+            event.preventDefault()
+            onClickSearch(searchDiv, textarea)
+            return false
+        }
+        
+        searchDiv.appendChild(form)
     }
 
 

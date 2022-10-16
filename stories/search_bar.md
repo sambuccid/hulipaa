@@ -25,6 +25,7 @@ When I click the search button
 Then placed under the textbox there should be a section for the results
 And a message of successfull execution should be displayed (temporarily used as placeholder for real results)
 
+[done]
 Given I added some text in the textbox
 And I still have the html focus on the textbox
 When I press enter
