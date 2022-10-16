@@ -5,10 +5,11 @@ I want to start by being able to generate the results for a specific word in a s
 So that I can start flashing out the algorithm
   (the results will have the format of {results: [{title:"", path:"", numberOfMatches:0}])
 
+[done]
 AC1
 Given I have a file
 When I run the generate utility searching for an hardcoded word
-I get back the file with the results
+A file gets generated in json
 
 AC2
 Given I have a file

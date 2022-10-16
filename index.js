@@ -1,6 +1,15 @@
 const fs = require('fs');
 const path = require('path');
 
+const inputDir = process.argv[2];
+const outputDir = process.argv[3];
+if(!inputDir || !outputDir){
+    console.error("missing arguments");
+    return 1;
+}
+
+buildIndex(inputDir, outputDir);
+
 function buildIndex(inputFolder, outputFolder){
     //make directory
     if (fs.existsSync(outputFolder)){
@@ -8,12 +17,12 @@ function buildIndex(inputFolder, outputFolder){
     }
     fs.mkdirSync(outputFolder);
 
-    //get data
-    const dataFiles = fs.readdirSync(inputFolder)
-    const dataFile1 = fs.readFileSync(path.join(inputFolder, dataFiles[0]), 'utf8')
+    // //get data
+    // const dataFiles = fs.readdirSync(inputFolder)
+    // const dataFile1 = fs.readFileSync(path.join(inputFolder, dataFiles[0]), 'utf8')
 
     //make file
-    fs.writeFileSync(path.join(outputFolder, "big-index.json"),dataFile1)
+    fs.writeFileSync(path.join(outputFolder, "big-index.json"), "{}")
 }
 
 module.exports = {buildIndex};

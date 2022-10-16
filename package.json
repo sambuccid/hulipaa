@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "serve": "live-server"
+    "serve": "live-server",
+    "generate": "node index.js input .output"
   },
   "author": "sambuccid",
   "license": "ISC",
