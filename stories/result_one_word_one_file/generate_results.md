@@ -11,6 +11,7 @@ Given I have a file
 When I run the generate utility searching for an hardcoded word
 A file gets generated in json
 
+[done]
 AC2
 Given I have a file
 When I run the generate utility searching for an hardcoded word

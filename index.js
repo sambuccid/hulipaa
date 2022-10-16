@@ -18,11 +18,20 @@ function buildIndex(inputFolder, outputFolder){
     fs.mkdirSync(outputFolder);
 
     // //get data
-    // const dataFiles = fs.readdirSync(inputFolder)
-    // const dataFile1 = fs.readFileSync(path.join(inputFolder, dataFiles[0]), 'utf8')
+    const dataFiles = fs.readdirSync(inputFolder)
+    const dataFile = fs.readFileSync(path.join(inputFolder, dataFiles[0]), 'utf8')
+    const content = JSON.parse(dataFile);
+
+    const result = {
+        results: [{
+            title: content.title,
+            path:"",
+            numberOfMatches:0
+        }]
+    };
 
     //make file
-    fs.writeFileSync(path.join(outputFolder, "big-index.json"), "{}")
+    fs.writeFileSync(path.join(outputFolder, "big-index.json"), JSON.stringify(result))
 }
 
 module.exports = {buildIndex};
