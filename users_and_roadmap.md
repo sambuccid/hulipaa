@@ -29,10 +29,6 @@ As a visitor of the website
 I want to be able to use the searchbar to see all the occurrences of a hardcoded word in aspecific page
 So that I can find where the word is
 #### generate results
-As the programmer
-I want to start by being able to generate the results for a specific word in a specific file
-So that I can start flashing out the algorithm
-(the results will have the format of {results: [{title:"", path:"", numberOfMatches:0}])
 #### show results
 As a visitor of the website
 I want to be able to see the results of my search
