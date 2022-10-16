@@ -1,44 +1,37 @@
 window.addEventListener('DOMContentLoaded', () => {
+    //mini library for support of creation of html elements
     const EL={
-        textarea: function(){
-            return document.createElement("input");
+        input: function(options){
+            return EL._createElement("input", options);
         },
         button: function(options){
-            const { els } = options;
-            options.els = undefined;
-            const button = document.createElement("button");
-
-            els.forEach((el)=>{
-                button.appendChild(el);
-            })
-
-            return button;
+            return EL._createElement("button", options);
         },
         img: function(options){
-            const img = document.createElement("img");
-            for(const prop in options){
-                img[prop] = options[prop];
-            }
-            return img;
+            return EL._createElement("img", options);
         },
         form: function(options){
-            const { els } = options;
-            options.els = undefined;
-            const form = document.createElement("form");
+            return EL._createElement("form", options)
+        },
+        _createElement: function(name, options){
+            const element = document.createElement(name);
 
-            els.forEach((el)=>{
-                form.appendChild(el);
-            })
+            if(options){
+                const children = options.els;
+                options.els = undefined;
 
-            for(const prop in options){
-                form[prop] = options[prop];
+                if(children){
+                    children.forEach((child)=>{
+                        element.appendChild(child);
+                    })
+                }
+
+                for(const prop in options){
+                    element[prop] = options[prop];
+                }
             }
-            return form;
+            return element;
         }
-        // },
-        // _createElement: function(name, options){
-
-        // }
     }
 
     const searchDivs = document.getElementsByClassName("sws_searchbar")
@@ -65,7 +58,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
     function addSearchBarElements(searchDiv){
-        const textarea = EL.textarea()
+        const textarea = EL.input()
         const form = EL.form({els:[
                 textarea,
                 EL.button({els:[
