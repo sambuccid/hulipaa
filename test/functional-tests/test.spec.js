@@ -2,7 +2,7 @@ const fs = require('fs');
 // const fsP = fs.promises;
 const path = require('path');
 
-const SWS = require('../../index')
+// const SWS = require('../../index')
 
 describe('Generation of search results', ()=>{
     it('creates a result file', ()=>{

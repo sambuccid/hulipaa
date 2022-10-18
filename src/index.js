@@ -13,7 +13,7 @@ function buildIndex(inputFolder, outputFolder){
     // //get data
     const dataFiles = fs.readdirSync(inputFolder)
     const dataFile = fs.readFileSync(path.join(inputFolder, dataFiles[0]), 'utf8')
-    const content = parseData(dataFile)
+    const content = parser(dataFile)
 
     //use case
     const result = getResults(content)
@@ -24,7 +24,7 @@ function buildIndex(inputFolder, outputFolder){
     fs.writeFileSync(path.join(outputFolder, "big-index.json"), outputResult)
 }
 
-function parseData(data){
+function parser(data){
     return JSON.parse(data);
 }
 
@@ -32,4 +32,4 @@ function presenter(output){
     return JSON.stringify(output);
 }
 
-module.exports = {buildIndex};
+module.exports = {buildIndex, parser, presenter};
