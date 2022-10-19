@@ -17,6 +17,7 @@ Given I have a file
 When I run the generate utility searching for an hardcoded word
 I get the file with the title of the page
 
+[done]
 **We need to start adding some tests around use case, parser and presenter**
 
 AC3
