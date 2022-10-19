@@ -6,7 +6,8 @@ describe('getResult', ()=>{
         expect(getResults).toThrow()
     });
     const inputData = {
-        title: "aaaaa"
+        title: "aaaaa",
+        path: "pages/page1/aa.json"
     }
     it('all results match the defined format', ()=>{
         // Given
@@ -27,5 +28,12 @@ describe('getResult', ()=>{
         const res = getResults(inputData);
         // Then
         expect(res.results[0].title).toEqual(inputData.title)
+    });
+    it('return the path of the data reachable fom the ui', ()=>{
+        // Given
+        // When
+        const res = getResults(inputData);
+        // Then
+        expect(res.results[0].path).toEqual("../"+inputData.path)
     });
 });

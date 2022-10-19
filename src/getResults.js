@@ -5,11 +5,15 @@ function getResults(pageData){
     const result = {
         results: [{
             title: pageData.title,
-            path:"",
+            path: adjustPath(pageData.path),
             numberOfMatches:0
         }]
     };
     return result;
+}
+
+function adjustPath(oldPath){
+    return "../"+oldPath
 }
 
 module.exports = getResults;
