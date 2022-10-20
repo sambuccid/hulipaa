@@ -26,6 +26,7 @@ Given I have a file
 When I run the generate utility searching for an hardcoded word
 I get the file with the path of the data of the page, reachable by the UI
 
+[done]
 AC4
 Given I have a file
 When I run the generate utility searching for an hardcoded word
