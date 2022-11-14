@@ -27,7 +27,4 @@ When I click again on the result
 I want the result to collapse
 
 AC5
-We want automated feature testing that can check that the code of the UI intergrates with the browser well, potentially being able to run it in different browsers
-
-AC6
 We want to be able to test the logic in the web application without needing to spin up a browser
