@@ -30,9 +30,6 @@ I want to be able to use the searchbar to see all the occurrences of a hardcoded
 So that I can find where the word is
 #### ~~generate results~~
 #### show results
-As a visitor of the website
-I want to be able to see the results of my search
-So that i can use them
 
 ### results for all words in one file
 As a visitor of the website
