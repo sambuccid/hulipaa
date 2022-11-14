@@ -32,21 +32,14 @@ Given I have a file
 When I run the generate utility searching for an hardcoded word
 I get the file with the number of occurrences of the word
 
+[done]
 AC5
 The code needs to support easily changing the format of the song data
-(
-  maybe map it as a gateway
-)
 
+[done]
 AC6
 The tests should be easy to write
-(
-  maybe keep outside the file logic
-  maybe follow the clean architecture pattern
-)
 
+[done]
 AC7
 The tests should be quick to run and not be flaky
-(
-  maybe keep outside the file logic
-)

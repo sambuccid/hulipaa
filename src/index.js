@@ -10,7 +10,7 @@ function buildIndex(inputFolder, outputFolder){
     }
     fs.mkdirSync(outputFolder);
 
-    // //get data
+    // get data
     const dataFiles = fs.readdirSync(inputFolder)
     const dataFile = fs.readFileSync(path.join(inputFolder, dataFiles[0]), 'utf8')
     const content = parser(dataFile)
