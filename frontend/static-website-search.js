@@ -2,8 +2,7 @@ import * as SearchBar from './searchbar/searchbar-ui.js'
 import * as ResultsContainer from './resultsContainer/resultsContainer-ui.js'
 
 window.addEventListener('DOMContentLoaded', () => {
-    //TODO sws_searchbar and sws_results needs to be a contsant
-    const searchDivs = document.getElementsByClassName("sws_searchbar")
+    const searchDivs = document.getElementsByClassName(SearchBar.CLASS_NAME)
     
     for(let i=0; i<searchDivs.length; i++){
         loadSearchbar(searchDivs[i])
@@ -15,7 +14,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     //TODO this needs to move in anotehr module, This is actual logic
     function onClickSearch(searchDiv, textarea){
-        let resultsDiv = searchDiv.getElementsByClassName("sws_results")[0]
+        let resultsDiv = searchDiv.getElementsByClassName(ResultsContainer.CLASS_NAME)[0]
         if(resultsDiv == null){
             resultsDiv = ResultsContainer.addElements(searchDiv)
         }
