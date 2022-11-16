@@ -1,0 +1,27 @@
+import EL from '../EL.js'
+
+export function addElements(searchDiv, { onSubmit }) {
+    const textarea = EL.input()
+    const form = EL.form({
+        els: [
+            textarea,
+            EL.button({
+                els: [
+                    EL.img({
+                        innerText: "Search",
+                        src: "../frontend/images/glass_magnifier_icon.svg",
+                        width: 30,
+                        height: 30
+                    })
+                ]
+            })
+        ],
+        onsubmit: function (event) {
+            event.preventDefault()
+            onSubmit(searchDiv, textarea)
+            return false
+        }
+    });
+    searchDiv.appendChild(form)
+    return form
+}
