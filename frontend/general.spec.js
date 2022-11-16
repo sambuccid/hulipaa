@@ -8,7 +8,7 @@ jest.mock('./service',() => {
 const mockContainer = {}
 
 describe('processSearch',() => {
-    it('creates an element with the results returned ',() => {
+    it('creates an element with the results returned from the backend',() => {
         // When
         processSearch("search",mockContainer)
 
