@@ -20,7 +20,7 @@ export function addElements(searchDiv, { onSubmit }) {
         ],
         onsubmit: function (event) {
             event.preventDefault()
-            onSubmit(searchDiv, textarea)
+            onSubmit(textarea.value)
             return false
         }
     });
