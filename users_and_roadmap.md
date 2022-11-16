@@ -52,6 +52,7 @@ And have a message telling me that there were no results
 ### install library
 with a manual test
 * along all the other things test also if we can reach the path of the files
+(this might include using webpack or some other bundling)
 
 # Version 0.0.1
 This is the version when we think the library is enough useful, easy to use and configurable.

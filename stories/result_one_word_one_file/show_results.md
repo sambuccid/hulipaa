@@ -4,6 +4,7 @@ As a visitor of the website
 I want to be able to see the results of my search
 So that i can use them
 
+[in progress]
 AC1
 Given I am on the search page
 When I enter and run the search for the hardcoded word

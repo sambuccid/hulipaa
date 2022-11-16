@@ -1,42 +1,6 @@
+import EL from './EL.js'
+
 window.addEventListener('DOMContentLoaded', () => {
-    //mini library for support of creation of html elements
-    const EL={
-        input: function(options){
-            return EL._createElement("input", options);
-        },
-        button: function(options){
-            return EL._createElement("button", options);
-        },
-        img: function(options){
-            return EL._createElement("img", options);
-        },
-        form: function(options){
-            return EL._createElement("form", options)
-        },
-        div: function(options){
-            return EL._createElement("div", options)
-        },
-        _createElement: function(name, options){
-            const element = document.createElement(name);
-
-            if(options){
-                const children = options.els;
-                options.els = undefined;
-
-                if(children){
-                    children.forEach((child)=>{
-                        element.appendChild(child);
-                    })
-                }
-
-                for(const prop in options){
-                    element[prop] = options[prop];
-                }
-            }
-            return element;
-        }
-    }
-
     const searchDivs = document.getElementsByClassName("sws_searchbar")
     
     for(let i=0; i<searchDivs.length; i++){
@@ -45,7 +9,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
     function loadSearchbar(searchDiv){
         addSearchBarElements(searchDiv)
-
     }
 
     function onClickSearch(searchDiv, textarea){
@@ -59,7 +22,6 @@ window.addEventListener('DOMContentLoaded', () => {
         
         resultsDiv.textContent = textarea.value
     }
-
 
     function addSearchBarElements(searchDiv){
         const textarea = EL.input()
