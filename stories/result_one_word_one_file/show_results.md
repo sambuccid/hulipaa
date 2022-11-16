@@ -27,5 +27,6 @@ And I click on one of the results
 When I click again on the result
 I want the result to collapse
 
+[in progress]
 AC5
 We want to be able to test the logic in the web application without needing to spin up a browser
