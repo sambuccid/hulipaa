@@ -1,5 +1,6 @@
 import * as SearchBarUI from './searchbar/searchbar-ui.js'
 import * as ResultsContainer from './resultsContainer/resultsContainer.js'
+import { processSearch } from './general.js'
 
 window.addEventListener('DOMContentLoaded',() => {
     const searchDivs = document.getElementsByClassName(SearchBarUI.CLASS_NAME)
@@ -13,12 +14,8 @@ window.addEventListener('DOMContentLoaded',() => {
 
         function onSearch(query) {
             const resultContainer = ResultsContainer.initResultContainer(searchDiv)
-            processSearch(query, resultContainer)
+            processSearch(query,resultContainer)
         }
     }
 
-    // TODO all functions under this comment don't have yet their own module but they need to be sorted out at some point
-    function processSearch(query, resultContainer){
-        resultContainer.textContent = query
-    }
 });

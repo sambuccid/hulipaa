@@ -42,6 +42,31 @@ So that I can find the topic I want
 As a visitor of the website
 I want to be able to see the results of my search
 So that i can use them
+(
+AC-N
+Given I am on the search page
+When I enter and run the search for the hardcoded word
+I want the results to be clearly separated from one another
+)
+
+### results for all words in all files
+As a visitor of the website
+I want to be able to use the searchbar to see all the occurrences of any word in a list of pages
+So that I can find the topic I want
+#### generate results
+- expand the program so that we can search for all the files
+(no need to think about empty results)
+#### show results
+As a visitor of the website
+I want to be able to see the results of my search
+So that i can use them
+(
+AC-N
+Given I am on the search page
+When I enter and run the search for the hardcoded word
+I want the results to be clearly separated from one another
+)
+
 
 ### empty results
 As a visitor of the website
