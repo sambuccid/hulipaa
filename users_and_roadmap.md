@@ -67,6 +67,11 @@ When I enter and run the search for the hardcoded word
 I want the results to be clearly separated from one another
 )
 
+### search multiple words
+As a visitor of the website
+I want to be able to use the searchbar typing multiple words
+So that I can find more relevant results
+(I want the results to be ordered by relevance)
 
 ### empty results
 As a visitor of the website

@@ -22,6 +22,12 @@ And I click on one of the results
 When I click again on the result
 I want the result to collapse
 
+AC5
+Given the network is not working
+When I run a search
+I want to be informed that something gone wrong
+And the page to still work
+
 [in progress]
-AC4
+AC6
 We want to be able to test the logic in the web application without needing to spin up a browser
