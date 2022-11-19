@@ -6,7 +6,7 @@ jest.mock('./network.js',() => {
     return { get: jest.fn() }
 });
 
-const mockContainer = {}
+const mockContainer = { appendChild: jest.fn() }
 
 beforeEach(() => {
     jest.clearAllMocks();
@@ -23,17 +23,20 @@ describe('processSearch',() => {
     Network.get.mockResolvedValue({ ok: true,json: jest.fn().mockResolvedValue(result) })
 
 
-    it("calls the backend to get the result",() => {
+    it("calls the backend to get the result",async () => {
         const word = "searchedWord"
-        processSearch(word,mockContainer)
+        await processSearch(word,mockContainer)
 
         expect(Network.get).toHaveBeenCalled();
         expect(Network.get).toHaveBeenCalledWith("search/" + word);
     });
-    it('creates an element with the results returned from the backend',() => {
-        const word = "searchedWord"
-        processSearch(word,mockContainer)
 
-        //TODO assert mockContainer to have added element
+    it('creates an element with the results returned from the backend',async () => {
+        const word = "searchedWord"
+
+        await processSearch(word,mockContainer)
+
+        expect(mockContainer.appendChild).toHaveBeenCalled()
+        expect(mockContainer.appendChild).toHaveBeenCalledWith(expect.anything())
     });
 });
