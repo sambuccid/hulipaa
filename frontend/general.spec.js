@@ -1,10 +1,16 @@
 import { processSearch } from './general.js'
-// import * as Service from './service'
 import * as Network from './network.js'
+import * as EL from './EL.js'
+
 
 jest.mock('./network.js',() => {
     return { get: jest.fn() }
 });
+
+jest.mock('./EL.js',() => {
+    return { div: jest.fn().mockReturnValue({}) }
+});
+
 
 const mockContainer = { appendChild: jest.fn() }
 
@@ -36,7 +42,10 @@ describe('processSearch',() => {
 
         await processSearch(word,mockContainer)
 
+        expect(EL.div).toHaveBeenCalled()
+
         expect(mockContainer.appendChild).toHaveBeenCalled()
         expect(mockContainer.appendChild).toHaveBeenCalledWith(expect.anything())
+
     });
 });
