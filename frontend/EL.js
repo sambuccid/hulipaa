@@ -22,8 +22,12 @@ const EL = {
         const element = document.createElement(name);
 
         if (options) {
+            // Extract special values from options
             const children = options.els;
             options.els = undefined;
+            const style = options.style;
+            options.style = undefined;
+
 
             if (children) {
                 children.forEach((child) => {
@@ -33,6 +37,10 @@ const EL = {
 
             for (const prop in options) {
                 element[prop] = options[prop];
+            }
+
+            for (const styleProp in style) {
+                element.style[styleProp] = style[styleProp];
             }
         }
         return element;
