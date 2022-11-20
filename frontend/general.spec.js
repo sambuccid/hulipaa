@@ -48,4 +48,15 @@ describe('processSearch',() => {
         expect(mockContainer.appendChild).toHaveBeenCalledWith(expect.anything())
 
     });
+
+
+    it('the element contains the title of the page',async () => {
+        const word = "searchedWord"
+
+        await processSearch(word,mockContainer)
+
+        expect(EL.span).toHaveBeenCalledWith(expect.objectContaining({
+            innerText: result.results[0].title
+        }))
+    });
 });
