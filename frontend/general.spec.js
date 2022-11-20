@@ -8,7 +8,10 @@ jest.mock('./network.js',() => {
 });
 
 jest.mock('./EL.js',() => {
-    return { div: jest.fn().mockReturnValue({}) }
+    return {
+        div: jest.fn().mockReturnValue({}),
+        span: jest.fn().mockReturnValue({})
+    }
 });
 
 

@@ -1,34 +1,37 @@
 //mini library for support of creation of html elements
-const EL={
-    input: function(options){
-        return EL._createElement("input", options);
+const EL = {
+    input: function (options) {
+        return EL._createElement("input",options);
     },
-    button: function(options){
-        return EL._createElement("button", options);
+    button: function (options) {
+        return EL._createElement("button",options);
     },
-    img: function(options){
-        return EL._createElement("img", options);
+    img: function (options) {
+        return EL._createElement("img",options);
     },
-    form: function(options){
-        return EL._createElement("form", options)
+    form: function (options) {
+        return EL._createElement("form",options)
     },
-    div: function(options){
-        return EL._createElement("div", options)
+    div: function (options) {
+        return EL._createElement("div",options)
     },
-    _createElement: function(name, options){
+    span: function (options) {
+        return EL._createElement("span",options);
+    },
+    _createElement: function (name,options) {
         const element = document.createElement(name);
 
-        if(options){
+        if (options) {
             const children = options.els;
             options.els = undefined;
 
-            if(children){
-                children.forEach((child)=>{
+            if (children) {
+                children.forEach((child) => {
                     element.appendChild(child);
                 })
             }
 
-            for(const prop in options){
+            for (const prop in options) {
                 element[prop] = options[prop];
             }
         }
