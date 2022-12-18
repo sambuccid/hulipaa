@@ -1,6 +1,6 @@
 import EL from '../EL.js'
 
-export function addElements(div) {
+export function addElements(div, {resultTitle}) {
 
     /*
     <div><span>Title Page 1</span></div>
@@ -9,7 +9,7 @@ export function addElements(div) {
     const element = EL.div({
         els: [
             EL.span({
-                innerText: "aaaa"
+                innerText: resultTitle
             })
         ],
         style: {
