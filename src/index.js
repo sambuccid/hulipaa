@@ -23,7 +23,7 @@ function buildIndex(inputFolder, outputFolder){
     const outputResult = presenter(result);
 
     //make file
-    fs.writeFileSync(path.join(outputFolder, "big-index.json"), outputResult)
+    fs.writeFileSync(path.join(outputFolder, `${searchedWord}.json`), outputResult)
 }
 
 function parser(data){

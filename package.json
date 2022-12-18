@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "serve": "live-server",
-    "generate": "node index.js .input .output"
+    "generate": "node index.js .input search"
   },
   "author": "sambuccid",
   "license": "ISC",

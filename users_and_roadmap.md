@@ -107,3 +107,4 @@ It needs to be possible to configure basic style things on the front end like fo
 # Other versions
 - use prettier
 - get some kind of spell checking on the code
+- configure path where to have results(/search/word.json)
