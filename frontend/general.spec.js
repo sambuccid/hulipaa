@@ -37,7 +37,7 @@ describe('processSearch',() => {
         await processSearch(word,mockContainer)
 
         expect(Network.get).toHaveBeenCalled();
-        expect(Network.get).toHaveBeenCalledWith("search/" + word);
+        expect(Network.get).toHaveBeenCalledWith("/search/" + word + ".json");
     });
 
     it('creates an element with the results returned from the backend',async () => {
