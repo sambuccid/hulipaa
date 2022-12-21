@@ -3,7 +3,8 @@ import EL from '../EL.js'
 export const CLASS_NAME = "sws_searchbar"
 
 export function addElements(searchDiv, { onSubmit }) {
-    const textarea = EL.input()
+    //const textarea = EL.input({style: {width: "auto"}})
+    const textarea = EL.input();
     const form = EL.form({
         els: [
             textarea,
