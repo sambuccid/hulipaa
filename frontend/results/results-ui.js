@@ -1,11 +1,6 @@
 import EL from '../EL.js'
 
-export function addElements(div, {resultTitle}) {
-
-    /*
-    <div><span>Title Page 1</span></div>
-    
-    .sws_searchbar{width: fit-content}*/
+export function addElements(div,{ resultTitle }) {
     const element = EL.div({
         els: [
             EL.span({

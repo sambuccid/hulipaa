@@ -4,14 +4,12 @@ As a visitor of the website
 I want to be able to see the results of my search
 So that i can use them
 
-[in progress]
+[done]
 AC1
 Given I am on the search page
 When I enter and run the search for the hardcoded word
 I want to see the results for that word
-Remaining:
-- make the searchbar to fill all the space it can and style sws_searchbar so that to limit it filling the whole page
-- check that test 'the element contains the title of the page' fails if implementation wrong
+- also should be possible to style the sws_searchbar element to decide how much space the searchbar is going to fill
 
 AC2
 Given I searched for the hardcoded word
