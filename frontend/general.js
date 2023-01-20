@@ -1,6 +1,7 @@
 //A generic module that contains all the things that don't have their own module yet
 import { search } from './service.js'
 import * as ResultsUI from './results/results-ui.js'
+import { bindFunction } from './helpers.js'
 
 
 export async function processSearch(query,resultContainer) {
@@ -9,10 +10,10 @@ export async function processSearch(query,resultContainer) {
 
     ResultsUI.addElements(resultContainer,{
         resultTitle: firstResult.title,
-        onclick: onResultClick.bind(null,"TODO path to call")
+        onclick: bindFunction(onResultClick, "TODO path to call")
     })
 }
 
-export async function onResultClick() {
-    console.log("TODO")
+export async function onResultClick(resultPath) {
+    console.log("TODO"+resultPath)
 }
