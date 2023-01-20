@@ -1,14 +1,14 @@
 import EL from '../EL.js'
 import { onResultClick } from '../general.js'
 
-export function addElements(div,{ resultTitle }) {
+export function addElements(div,{ resultTitle,onclick }) {
     const element = EL.div({
         els: [
             EL.span({
                 innerText: resultTitle
             })
         ],
-        onclick: onResultClick,
+        onclick: onclick,
         style: {
             backgroundColor: "white",
             borderRadius: "10px",

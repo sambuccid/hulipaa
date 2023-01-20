@@ -52,7 +52,6 @@ describe('processSearch',() => {
 
     });
 
-
     it('the element contains the title of the page',async () => {
         const word = "searchedWord"
 
@@ -69,12 +68,49 @@ describe('processSearch',() => {
         await processSearch(word,mockContainer)
 
         expect(EL.div).toHaveBeenCalledWith(expect.objectContaining({
-            onclick: onResultClick
+            onclick: expect.any(Function)
         }))
+        //TODO maybe check that the function has been binded with the correct path to load
+        //  to do that we could have a bind helper method that could be in a different file
+        //  and that we could then mock out in here and would allow us to have better readability over what the code is doing
+
+    });
+});
+
+describe('onResultClick',() => {
+    it("calls the backend to get the content of the result",async () => {
+        //TODO when called calls the backend to load the content of a specific result
+
+        // const word = "searchedWord"
+        // await processSearch(word,mockContainer)
+
+        // expect(Network.get).toHaveBeenCalled();
+        // expect(Network.get).toHaveBeenCalledWith("/search/" + word + ".json");
     });
 
-    //TODO have a specific function that when called calls the backend to load the content of a specific result
-    //TODO the same function when called should call El.div or EL.span with something that contains the searched word
-    //   the specific function is onResultClick
+    it('TODO creates an element...',async () => {
+        //TODO should call El.div or EL.span with something that contains the searched word
 
+        // const word = "searchedWord"
+
+        // await processSearch(word,mockContainer)
+
+        // expect(EL.div).toHaveBeenCalled()
+
+        // expect(mockContainer.appendChild).toHaveBeenCalled()
+        // expect(mockContainer.appendChild).toHaveBeenCalledWith(expect.anything())
+    });
+
+    it('TODO the element contains...',async () => {
+        //TODO should call El.div or EL.span with something that contains the searched word
+
+        // const word = "searchedWord"
+
+        // await processSearch(word,mockContainer)
+
+        // expect(EL.span).toHaveBeenCalledWith(expect.objectContaining({
+        //     innerText: result.results[0].title
+        // }))
+    });
 });
+
