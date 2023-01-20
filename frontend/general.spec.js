@@ -1,4 +1,4 @@
-import { processSearch } from './general.js'
+import { processSearch,onResultClick } from './general.js'
 import * as Network from './network.js'
 import * as EL from './EL.js'
 
@@ -69,13 +69,12 @@ describe('processSearch',() => {
         await processSearch(word,mockContainer)
 
         expect(EL.div).toHaveBeenCalledWith(expect.objectContaining({
-            //TODO the onClick is a specific function!
-            onClick: 'aaaa'
+            onclick: onResultClick
         }))
     });
 
-
     //TODO have a specific function that when called calls the backend to load the content of a specific result
     //TODO the same function when called should call El.div or EL.span with something that contains the searched word
+    //   the specific function is onResultClick
 
 });

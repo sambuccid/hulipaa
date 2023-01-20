@@ -1,4 +1,5 @@
 import EL from '../EL.js'
+import { onResultClick } from '../general.js'
 
 export function addElements(div,{ resultTitle }) {
     const element = EL.div({
@@ -7,6 +8,7 @@ export function addElements(div,{ resultTitle }) {
                 innerText: resultTitle
             })
         ],
+        onclick: onResultClick,
         style: {
             backgroundColor: "white",
             borderRadius: "10px",

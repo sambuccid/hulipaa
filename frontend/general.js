@@ -7,5 +7,9 @@ export async function processSearch(query,resultContainer) {
     const res = await search(query);
     const firstResult = res.results[0]
 
-    ResultsUI.addElements(resultContainer, {resultTitle: firstResult.title})
+    ResultsUI.addElements(resultContainer,{ resultTitle: firstResult.title })
+}
+
+export async function onResultClick() {
+    console.log("TODO")
 }
