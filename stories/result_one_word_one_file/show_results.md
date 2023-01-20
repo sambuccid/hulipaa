@@ -11,6 +11,7 @@ When I enter and run the search for the hardcoded word
 I want to see the results for that word
 - also should be possible to style the sws_searchbar element to decide how much space the searchbar is going to fill
 
+[in progress]
 AC2
 Given I searched for the hardcoded word
 When I click on one of the results
