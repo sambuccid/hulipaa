@@ -1,7 +1,6 @@
 import { get } from './network.js'
 
 export async function search(query) {
-    //TODO always reference root url(instead of relative path)
     const result = await get("/search/" + query + ".json");
     // const result = await get("../.output/big-index.json");
 
