@@ -30,9 +30,6 @@ I want to be able to use the searchbar to see all the occurrences of a hardcoded
 So that I can find where the word is
 #### ~~generate results~~
 #### show results
-As a visitor of the website
-I want to be able to see the results of my search
-So that i can use them
 
 ### results for all words in one file
 As a visitor of the website
@@ -45,6 +42,36 @@ So that I can find the topic I want
 As a visitor of the website
 I want to be able to see the results of my search
 So that i can use them
+(
+AC-N
+Given I am on the search page
+When I enter and run the search for the hardcoded word
+I want the results to be clearly separated from one another
+)
+
+### results for all words in all files
+As a visitor of the website
+I want to be able to use the searchbar to see all the occurrences of any word in a list of pages
+So that I can find the topic I want
+#### generate results
+- expand the program so that we can search for all the files
+(no need to think about empty results)
+#### show results
+As a visitor of the website
+I want to be able to see the results of my search
+So that i can use them
+(
+AC-N
+Given I am on the search page
+When I enter and run the search for the hardcoded word
+I want the results to be clearly separated from one another
+)
+
+### search multiple words
+As a visitor of the website
+I want to be able to use the searchbar typing multiple words
+So that I can find more relevant results
+(I want the results to be ordered by relevance)
 
 ### empty results
 As a visitor of the website
@@ -55,6 +82,7 @@ And have a message telling me that there were no results
 ### install library
 with a manual test
 * along all the other things test also if we can reach the path of the files
+(this might include using webpack or some other bundling)
 
 # Version 0.0.1
 This is the version when we think the library is enough useful, easy to use and configurable.
@@ -79,3 +107,4 @@ It needs to be possible to configure basic style things on the front end like fo
 # Other versions
 - use prettier
 - get some kind of spell checking on the code
+- configure path where to have results(/search/word.json)

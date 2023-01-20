@@ -6,11 +6,15 @@
   "scripts": {
     "test": "jest",
     "serve": "live-server",
-    "generate": "node index.js .input .output"
+    "generate": "node index.js .input search"
   },
   "author": "sambuccid",
   "license": "ISC",
   "devDependencies": {
+    "@babel/cli": "^7.19.3",
+    "@babel/core": "^7.20.2",
+    "@babel/preset-env": "^7.20.2",
+    "babel-jest": "^29.3.1",
     "jest": "^29.1.2"
   }
 }
