@@ -61,11 +61,19 @@ describe('processSearch',() => {
         expect(EL.span).toHaveBeenCalledWith(expect.objectContaining({
             innerText: result.results[0].title
         }))
-
     });
-    //TODO test similar to above
-    // that expect EL.div to have been called with an object containing onClick?
-    // and the onClick is a specific function?
+
+    it('the element should be clickable',async () => {
+        const word = "searchedWord"
+
+        await processSearch(word,mockContainer)
+
+        expect(EL.div).toHaveBeenCalledWith(expect.objectContaining({
+            //TODO the onClick is a specific function!
+            onClick: 'aaaa'
+        }))
+    });
+
 
     //TODO have a specific function that when called calls the backend to load the content of a specific result
     //TODO the same function when called should call El.div or EL.span with something that contains the searched word
