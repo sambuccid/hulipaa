@@ -1,15 +1,14 @@
 import { processSearch,onResultClick } from './general.js'
 import * as Network from './network.js'
 import * as EL from './EL.js'
-import * as Helpers from './EL.js'
+import * as Helpers from './helpers.js'
 
 
 jest.mock('./network.js',() => {
     return { get: jest.fn() }
 });
-const mockedBoundFunction = jest.fn();
 jest.mock('./helpers.js',() => {
-    return { bindFunction: jest.fn().mockReturnValue(mockedBoundFunction) }
+    return { bindFunction: jest.fn() }
 });
 
 jest.mock('./EL.js',() => {
@@ -69,18 +68,16 @@ describe('processSearch',() => {
 
     it('the element should be clickable',async () => {
         const word = "searchedWord"
+        const mockedBoundFunction = jest.fn();
+        Helpers.bindFunction.mockReturnValue(mockedBoundFunction)
 
         await processSearch(word,mockContainer)
 
         expect(EL.div).toHaveBeenCalledWith(expect.objectContaining({
             onclick: mockedBoundFunction
         }))
-        expect(General.bindFunction).toHaveBeenCalled();
-        expect(General.bindFunction).toHaveBeenCalledWith(onResultClick,result.results[0].path);
-        //TODO maybe check that the function has been binded with the correct path to load
-        //  to do that we could have a bind helper method that could be in a different file
-        //  and that we could then mock out in here and would allow us to have better readability over what the code is doing
-
+        expect(Helpers.bindFunction).toHaveBeenCalled();
+        expect(Helpers.bindFunction).toHaveBeenCalledWith(onResultClick,result.results[0].path);
     });
 });
 

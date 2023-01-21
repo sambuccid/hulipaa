@@ -10,10 +10,10 @@ export async function processSearch(query,resultContainer) {
 
     ResultsUI.addElements(resultContainer,{
         resultTitle: firstResult.title,
-        onclick: bindFunction(onResultClick, "TODO path to call")
+        onclick: bindFunction(onResultClick,firstResult.path)
     })
 }
 
 export function onResultClick(resultPath) {
-    alert("TODO"+resultPath)
+    alert("TODO" + resultPath)
 }
