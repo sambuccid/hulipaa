@@ -14,6 +14,6 @@ export async function processSearch(query,resultContainer) {
     })
 }
 
-export async function onResultClick(resultPath) {
-    console.log("TODO"+resultPath)
+export function onResultClick(resultPath) {
+    alert("TODO"+resultPath)
 }
