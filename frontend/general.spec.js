@@ -83,13 +83,12 @@ describe('processSearch',() => {
 
 describe('onResultClick',() => {
     it("calls the backend to get the content of the result",async () => {
-        //TODO when called calls the backend to load the content of a specific result
+        const resultPath = 'testpath.json';
 
-        // const word = "searchedWord"
-        // await processSearch(word,mockContainer)
-
-        // expect(Network.get).toHaveBeenCalled();
-        // expect(Network.get).toHaveBeenCalledWith("/search/" + word + ".json");
+        await onResultClick(resultPath);
+       
+        expect(Network.get).toHaveBeenCalled();
+        expect(Network.get).toHaveBeenCalledWith("/" + resultPath);
     });
 
     it('TODO creates an element...',async () => {
