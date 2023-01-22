@@ -21,19 +21,19 @@ jest.mock('./EL.js',() => {
 
 const mockContainer = { appendChild: jest.fn() }
 
-beforeEach(() => {
-    jest.clearAllMocks();
-});
-
 describe('processSearch',() => {
-    const result = {
+    const resultList = {
         results: [{
             title: "a page1",
             path: "page1.json",
             numberOfMatches: 1
         }]
     };
-    Network.get.mockResolvedValue({ ok: true,json: jest.fn().mockResolvedValue(result) })
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+        Network.get.mockResolvedValueOnce({ ok: true,json: jest.fn().mockResolvedValue(resultList) })
+    });
 
 
     it("calls the backend to get the result",async () => {
@@ -62,7 +62,7 @@ describe('processSearch',() => {
         await processSearch(word,mockContainer)
 
         expect(EL.span).toHaveBeenCalledWith(expect.objectContaining({
-            innerText: result.results[0].title
+            innerText: resultList.results[0].title
         }))
     });
 
@@ -77,16 +77,28 @@ describe('processSearch',() => {
             onclick: mockedBoundFunction
         }))
         expect(Helpers.bindFunction).toHaveBeenCalled();
-        expect(Helpers.bindFunction).toHaveBeenCalledWith(onResultClick,result.results[0].path);
+        expect(Helpers.bindFunction).toHaveBeenCalledWith(onResultClick,resultList.results[0].path);
     });
 });
 
 describe('onResultClick',() => {
+    const result = {
+        "title": "test title",
+        "path": "testpath.json",
+        "text": "content of the page"
+    };
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+        Network.get.mockResolvedValueOnce({ ok: true,json: jest.fn().mockResolvedValue(result) })
+    });
+
+
     it("calls the backend to get the content of the result",async () => {
         const resultPath = 'testpath.json';
 
         await onResultClick(resultPath);
-       
+
         expect(Network.get).toHaveBeenCalled();
         expect(Network.get).toHaveBeenCalledWith("/" + resultPath);
     });
