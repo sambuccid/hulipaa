@@ -7,5 +7,5 @@ export function addElements(searchDiv) {
         className: CLASS_NAME
     });
     searchDiv.appendChild(resultsDiv)
-    return resultsDiv
+    return { element: resultsDiv }
 }

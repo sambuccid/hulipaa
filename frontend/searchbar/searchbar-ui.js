@@ -26,5 +26,5 @@ export function addElements(searchDiv,{ onSubmit }) {
         }
     });
     searchDiv.appendChild(form)
-    return form
+    return { element: form }
 }

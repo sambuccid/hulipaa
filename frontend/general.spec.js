@@ -74,10 +74,12 @@ describe('processSearch',() => {
         await processSearch(word,mockContainer)
 
         expect(EL.div).toHaveBeenCalledWith(expect.objectContaining({
-            onclick: mockedBoundFunction
+            onclick: expect.anything()
         }))
-        expect(Helpers.bindFunction).toHaveBeenCalled();
-        expect(Helpers.bindFunction).toHaveBeenCalledWith(onResultClick,resultList.results[0].path);
+        // expect(Helpers.bindFunction).toHaveBeenCalled();
+        // expect(Helpers.bindFunction).toHaveBeenCalledWith(onResultClick,resultList.results[0].path,mockContainer);
+
+        //TODO perhaps we need to find a way to test that the onClick function is called with the right parameter(the result path)
     });
 });
 
@@ -97,7 +99,11 @@ describe('onResultClick',() => {
     it("calls the backend to get the content of the result",async () => {
         const resultPath = 'testpath.json';
 
-        await onResultClick(resultPath);
+        const mockResultSpan = { innerText: 'aa' };
+        const mockResultDiv = { appendChild: jest.fn(),getElementsByTagName: jest.fn() }
+        mockResultDiv.getElementsByTagName.mockReturnValueOnce([mockResultSpan])
+
+        await onResultClick(resultPath,mockResultDiv);
 
         expect(Network.get).toHaveBeenCalled();
         expect(Network.get).toHaveBeenCalledWith("/" + resultPath);
@@ -105,10 +111,10 @@ describe('onResultClick',() => {
 
     it('TODO creates an element...',async () => {
         //TODO should call El.div or EL.span with something that contains the searched word
+        //TODO should also call something that removed the old result
+        // const resultPath = 'testpath.json';
 
-        // const word = "searchedWord"
-
-        // await processSearch(word,mockContainer)
+        // await onResultClick(resultPath);
 
         // expect(EL.div).toHaveBeenCalled()
 

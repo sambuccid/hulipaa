@@ -8,15 +8,18 @@ export async function processSearch(query,resultContainer) {
     const res = await search(query);
     const firstResult = res.results[0]
 
-    ResultsUI.addElements(resultContainer,{
+    const { element } = ResultsUI.addElements(resultContainer,{
         resultTitle: firstResult.title,
-        onclick: bindFunction(onResultClick,firstResult.path)
+        onclick: onClick
     })
+    const resultElement = element;
+    function onClick() {
+        onResultClick(firstResult.path,resultElement);
+    }
 }
 
-export async function onResultClick(resultPath) {
+export async function onResultClick(resultPath,resultDiv) {
     const result = await loadResult(resultPath);
-    //TODO call UI to generate result element
-    //TODO append element
+    ResultsUI.populateWith({ resultDiv,text: result.text })
     console.log("TODO" + resultPath)
 }

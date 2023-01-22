@@ -17,6 +17,14 @@ export function addElements(div,{ resultTitle,onclick }) {
             border: "gray solid 1px"
         }
     })
+
     div.appendChild(element)
-    return element
+    return { element: element }
+}
+
+
+export function populateWith({ resultDiv,text }) {
+    let span = resultDiv.getElementsByTagName('span');
+    span = span[0];
+    span.innerText = text;
 }
