@@ -1,5 +1,4 @@
 import EL from '../EL.js'
-import { onResultClick } from '../general.js'
 
 export function addElements(div,{ resultTitle,onclick }) {
     const element = EL.div({

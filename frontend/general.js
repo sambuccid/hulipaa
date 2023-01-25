@@ -18,7 +18,7 @@ export async function processSearch(query,resultContainer) {
     }
 }
 
-export async function onResultClick(resultPath,resultDiv) {
+async function onResultClick(resultPath,resultDiv) {
     const result = await loadResult(resultPath);
     ResultsUI.populateWith({ resultDiv,text: result.text })
     console.log("TODO" + resultPath)

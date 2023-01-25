@@ -1,4 +1,4 @@
-import { processSearch,onResultClick } from './general.js'
+import { processSearch } from './general.js'
 import * as Network from './network.js'
 import * as EL from './EL.js'
 import * as Helpers from './helpers.js'
@@ -7,19 +7,23 @@ import * as Helpers from './helpers.js'
 jest.mock('./network.js',() => {
     return { get: jest.fn() }
 });
-jest.mock('./helpers.js',() => {
-    return { bindFunction: jest.fn() }
-});
 
 jest.mock('./EL.js',() => {
     return {
-        div: jest.fn().mockReturnValue({}),
-        span: jest.fn().mockReturnValue({})
+        div: jest.fn(),
+        span: jest.fn()
     }
 });
 
 
 const mockContainer = { appendChild: jest.fn() }
+
+function getOnclickPropertyOfResultDiv() {
+    const lastCallParameters = EL.div.mock.lastCall
+    const firstParameter = lastCallParameters[0]
+    const onclickProperty = firstParameter.onclick
+    return onclickProperty
+}
 
 describe('processSearch',() => {
     const resultList = {
@@ -33,8 +37,13 @@ describe('processSearch',() => {
     beforeEach(() => {
         jest.clearAllMocks();
         Network.get.mockResolvedValueOnce({ ok: true,json: jest.fn().mockResolvedValue(resultList) })
+        const mockedSpan = {}
+        const mockedDiv = {
+            getElementsByTagName: jest.fn().mockReturnValue([mockedSpan])
+        }
+        EL.div.mockReturnValue(mockedDiv)
+        EL.span.mockReturnValue(mockedSpan)
     });
-
 
     it("calls the backend to get the result",async () => {
         const word = "searchedWord"
@@ -68,70 +77,62 @@ describe('processSearch',() => {
 
     it('the element should be clickable',async () => {
         const word = "searchedWord"
-        const mockedBoundFunction = jest.fn();
-        Helpers.bindFunction.mockReturnValue(mockedBoundFunction)
 
         await processSearch(word,mockContainer)
 
         expect(EL.div).toHaveBeenCalledWith(expect.objectContaining({
             onclick: expect.anything()
         }))
-        // expect(Helpers.bindFunction).toHaveBeenCalled();
-        // expect(Helpers.bindFunction).toHaveBeenCalledWith(onResultClick,resultList.results[0].path,mockContainer);
+    });
 
-        //TODO perhaps we need to find a way to test that the onClick function is called with the right parameter(the result path)
+    describe('when clicking the result element',() => {
+        const result = {
+            title: resultList.results[0].title,
+            path: resultList.results[0].path,
+            text: "content of the page"
+        };
+
+        beforeEach(() => {
+            Network.get.mockResolvedValueOnce({ ok: true,json: jest.fn().mockResolvedValue(result) })
+        });
+
+
+        it("calls the backend to get the content of the result",async () => {
+            const word = "searchedWord"
+
+            await processSearch(word,mockContainer)
+
+            const resultOnClick = getOnclickPropertyOfResultDiv();
+
+            await resultOnClick();
+
+            expect(Network.get).toHaveBeenCalledTimes(2);
+            expect(Network.get).toHaveBeenNthCalledWith(2,"/" + resultList.results[0].path);
+        });
+
+        it('TODO creates an element...',async () => {
+            //TODO should call El.div or EL.span with something that contains the searched word
+            //TODO should also call something that removed the old result
+            // const resultPath = 'testpath.json';
+
+            // await onResultClick(resultPath);
+
+            // expect(EL.div).toHaveBeenCalled()
+
+            // expect(mockContainer.appendChild).toHaveBeenCalled()
+            // expect(mockContainer.appendChild).toHaveBeenCalledWith(expect.anything())
+        });
+
+        it('TODO the element contains...',async () => {
+            //TODO should call El.div or EL.span with something that contains the searched word
+
+            // const word = "searchedWord"
+
+            // await processSearch(word,mockContainer)
+
+            // expect(EL.span).toHaveBeenCalledWith(expect.objectContaining({
+            //     innerText: result.results[0].title
+            // }))
+        });
     });
 });
-
-describe('onResultClick',() => {
-    const result = {
-        "title": "test title",
-        "path": "testpath.json",
-        "text": "content of the page"
-    };
-
-    beforeEach(() => {
-        jest.clearAllMocks();
-        Network.get.mockResolvedValueOnce({ ok: true,json: jest.fn().mockResolvedValue(result) })
-    });
-
-
-    it("calls the backend to get the content of the result",async () => {
-        const resultPath = 'testpath.json';
-
-        const mockResultSpan = { innerText: 'aa' };
-        const mockResultDiv = { appendChild: jest.fn(),getElementsByTagName: jest.fn() }
-        mockResultDiv.getElementsByTagName.mockReturnValueOnce([mockResultSpan])
-
-        await onResultClick(resultPath,mockResultDiv);
-
-        expect(Network.get).toHaveBeenCalled();
-        expect(Network.get).toHaveBeenCalledWith("/" + resultPath);
-    });
-
-    it('TODO creates an element...',async () => {
-        //TODO should call El.div or EL.span with something that contains the searched word
-        //TODO should also call something that removed the old result
-        // const resultPath = 'testpath.json';
-
-        // await onResultClick(resultPath);
-
-        // expect(EL.div).toHaveBeenCalled()
-
-        // expect(mockContainer.appendChild).toHaveBeenCalled()
-        // expect(mockContainer.appendChild).toHaveBeenCalledWith(expect.anything())
-    });
-
-    it('TODO the element contains...',async () => {
-        //TODO should call El.div or EL.span with something that contains the searched word
-
-        // const word = "searchedWord"
-
-        // await processSearch(word,mockContainer)
-
-        // expect(EL.span).toHaveBeenCalledWith(expect.objectContaining({
-        //     innerText: result.results[0].title
-        // }))
-    });
-});
-
