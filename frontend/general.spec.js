@@ -33,16 +33,16 @@ describe('processSearch',() => {
             numberOfMatches: 1
         }]
     };
+    const mockedInnerSpan = {}
 
     beforeEach(() => {
         jest.clearAllMocks();
         Network.get.mockResolvedValueOnce({ ok: true,json: jest.fn().mockResolvedValue(resultList) })
-        const mockedSpan = {}
         const mockedDiv = {
-            getElementsByTagName: jest.fn().mockReturnValue([mockedSpan])
+            getElementsByTagName: jest.fn().mockReturnValue([mockedInnerSpan])
         }
         EL.div.mockReturnValue(mockedDiv)
-        EL.span.mockReturnValue(mockedSpan)
+        EL.span.mockReturnValue(mockedInnerSpan)
     });
 
     it("calls the backend to get the result",async () => {
@@ -111,11 +111,21 @@ describe('processSearch',() => {
         });
 
         it('TODO creates an element...',async () => {
-            //TODO should call El.div or EL.span with something that contains the searched word
+            const innerTextSetterSpy = jest.spyOn(mockedInnerSpan, 'innerText', 'set')
+            //nTODO should call El.div or EL.span with something that contains the searched word
             //TODO should also call something that removed the old result
-            // const resultPath = 'testpath.json';
+            // const resultPath = 'testpath.json''
+                        const word = "searchedWord"
 
-            // await onResultClick(resultPath);
+            await processSearch(word,mockContainer)
+
+            const resultOnClick = getOnclickPropertyOfResultDiv();
+
+            await resultOnClick();
+            
+            expect(innerTextSetterSpy).toHaveBeenCalledTimes(1)
+            expect(innerTextSetterSpy).toHaveBeenCalledwith(result.text)
+
 
             // expect(EL.div).toHaveBeenCalled()
 
