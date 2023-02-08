@@ -33,7 +33,11 @@ describe('processSearch',() => {
             numberOfMatches: 1
         }]
     };
-    const mockedInnerSpan = {}
+    const mockedInnerSpan = {
+        //set innerText(_val){},
+        //get innerText(){return ""}
+        innerText: null
+    }
 
     beforeEach(() => {
         jest.clearAllMocks();
@@ -110,12 +114,8 @@ describe('processSearch',() => {
             expect(Network.get).toHaveBeenNthCalledWith(2,"/" + resultList.results[0].path);
         });
 
-        it('TODO creates an element...',async () => {
-            const innerTextSetterSpy = jest.spyOn(mockedInnerSpan, 'innerText', 'set')
-            //nTODO should call El.div or EL.span with something that contains the searched word
-            //TODO should also call something that removed the old result
-            // const resultPath = 'testpath.json''
-                        const word = "searchedWord"
+        it('shows the text of the result',async () => {
+            const word = "searchedWord"
 
             await processSearch(word,mockContainer)
 
@@ -123,26 +123,7 @@ describe('processSearch',() => {
 
             await resultOnClick();
             
-            expect(innerTextSetterSpy).toHaveBeenCalledTimes(1)
-            expect(innerTextSetterSpy).toHaveBeenCalledwith(result.text)
-
-
-            // expect(EL.div).toHaveBeenCalled()
-
-            // expect(mockContainer.appendChild).toHaveBeenCalled()
-            // expect(mockContainer.appendChild).toHaveBeenCalledWith(expect.anything())
-        });
-
-        it('TODO the element contains...',async () => {
-            //TODO should call El.div or EL.span with something that contains the searched word
-
-            // const word = "searchedWord"
-
-            // await processSearch(word,mockContainer)
-
-            // expect(EL.span).toHaveBeenCalledWith(expect.objectContaining({
-            //     innerText: result.results[0].title
-            // }))
+            expect(mockedInnerSpan.innerText).toBe(result.text)
         });
     });
 });

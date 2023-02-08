@@ -18,10 +18,6 @@ When I click on one of the results
 I want to see the text where the result is
 And I want the word i searched for to be highlighted
 Remaining:
-- create test for it(click will call backend, and the searched word will be displayed)
-- start by implementing onClick
-- then call backend and load json file
-- then create a div displaying all the content
 - then limit the content to just the right lines
 - then highlight the right words(<mark>)
 

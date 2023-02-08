@@ -28,6 +28,8 @@ The Minimal Viable Product consists of:
 As a visitor of the website
 I want to be able to use the searchbar to see all the occurrences of a hardcoded word in aspecific page
 So that I can find where the word is
+
+Should be able to end to end manually test with changing page
 #### ~~generate results~~
 #### show results
 
@@ -35,6 +37,8 @@ So that I can find where the word is
 As a visitor of the website
 I want to be able to use the searchbar to see all the occurrences of any word in aspecific page
 So that I can find the topic I want
+
+Should be able to end to end test it
 #### generate results
 - expand the program so that we can search for any specific word in a specific file
 (no need to think about empty results)
@@ -53,6 +57,8 @@ I want the results to be clearly separated from one another
 As a visitor of the website
 I want to be able to use the searchbar to see all the occurrences of any word in a list of pages
 So that I can find the topic I want
+
+Should be able to end to end manually test it
 #### generate results
 - expand the program so that we can search for all the files
 (no need to think about empty results)
@@ -85,7 +91,7 @@ with a manual test
 (this might include using webpack or some other bundling)
 
 # Version 0.0.1
-This is the version when we think the library is enough useful, easy to use and configurable.
+This is the version of the library that we think is enough useful, easy to use and configurable.
 ## user/tech stories(incomplete)
 
 ### auto completition
