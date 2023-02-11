@@ -114,7 +114,7 @@ describe('processSearch',() => {
             expect(Network.get).toHaveBeenNthCalledWith(2,"/" + resultList.results[0].path);
         });
 
-        it('shows the text of the result',async () => {
+        it('shows the right content of the result',async () => {
             const word = "searchedWord"
 
             await processSearch(word,mockContainer)
@@ -123,7 +123,9 @@ describe('processSearch',() => {
 
             await resultOnClick();
             
-            expect(mockedInnerSpan.innerText).toBe(result.text)
+            //TODO parametrise this test to check that with a specific content the shown text is cut and formatted correctly
+             expect(mockedInnerSpan.innerText).toBe(result.text)
         });
     });
 });
+
