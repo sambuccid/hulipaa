@@ -2,6 +2,7 @@ import { processSearch } from './general.js'
 import * as Network from './network.js'
 import * as EL from './EL.js'
 import * as Helpers from './helpers.js'
+import { when,resetAllWhenMocks } from 'jest-when'
 
 
 jest.mock('./network.js',() => {
@@ -33,15 +34,18 @@ describe('processSearch',() => {
             numberOfMatches: 1
         }]
     };
-    const mockedInnerSpan = {
-        //set innerText(_val){},
-        //get innerText(){return ""}
-        innerText: null
-    }
+    let mockedInnerSpan;
+    const searchedWord = "searchedWord"
 
     beforeEach(() => {
+        resetAllWhenMocks()
         jest.clearAllMocks();
-        Network.get.mockResolvedValueOnce({ ok: true,json: jest.fn().mockResolvedValue(resultList) })
+        mockedInnerSpan = {
+            innerText: null,
+            id: Math.random()
+        }
+        when(Network.get).calledWith(`/search/${searchedWord}.json`)
+            .mockResolvedValue({ ok: true,json: jest.fn().mockResolvedValue(resultList) })
         const mockedDiv = {
             getElementsByTagName: jest.fn().mockReturnValue([mockedInnerSpan])
         }
@@ -50,29 +54,23 @@ describe('processSearch',() => {
     });
 
     it("calls the backend to get the result",async () => {
-        const word = "searchedWord"
-        await processSearch(word,mockContainer)
+        await processSearch(searchedWord,mockContainer)
 
         expect(Network.get).toHaveBeenCalled();
-        expect(Network.get).toHaveBeenCalledWith("/search/" + word + ".json");
+        expect(Network.get).toHaveBeenCalledWith("/search/" + searchedWord + ".json");
     });
 
     it('creates an element with the results returned from the backend',async () => {
-        const word = "searchedWord"
-
-        await processSearch(word,mockContainer)
+        await processSearch(searchedWord,mockContainer)
 
         expect(EL.div).toHaveBeenCalled()
 
         expect(mockContainer.appendChild).toHaveBeenCalled()
         expect(mockContainer.appendChild).toHaveBeenCalledWith(expect.anything())
-
     });
 
     it('the element contains the title of the page',async () => {
-        const word = "searchedWord"
-
-        await processSearch(word,mockContainer)
+        await processSearch(searchedWord,mockContainer)
 
         expect(EL.span).toHaveBeenCalledWith(expect.objectContaining({
             innerText: resultList.results[0].title
@@ -80,9 +78,7 @@ describe('processSearch',() => {
     });
 
     it('the element should be clickable',async () => {
-        const word = "searchedWord"
-
-        await processSearch(word,mockContainer)
+        await processSearch(searchedWord,mockContainer)
 
         expect(EL.div).toHaveBeenCalledWith(expect.objectContaining({
             onclick: expect.anything()
@@ -97,14 +93,13 @@ describe('processSearch',() => {
         };
 
         beforeEach(() => {
-            Network.get.mockResolvedValueOnce({ ok: true,json: jest.fn().mockResolvedValue(result) })
+            when(Network.get).calledWith(`/${resultList.results[0].path}`)
+                .mockResolvedValue({ ok: true,json: jest.fn().mockResolvedValue(result) })
         });
 
 
         it("calls the backend to get the content of the result",async () => {
-            const word = "searchedWord"
-
-            await processSearch(word,mockContainer)
+            await processSearch(searchedWord,mockContainer)
 
             const resultOnClick = getOnclickPropertyOfResultDiv();
 
@@ -114,22 +109,24 @@ describe('processSearch',() => {
             expect(Network.get).toHaveBeenNthCalledWith(2,"/" + resultList.results[0].path);
         });
 
-         it.each([["short","short content of result","short content of result"]])('shows the right content of the result when input is %s',async (_desc,resultText, expectedResult) => {
-            const word = "searchedWord"
+        //TODO add more test scenarios
+        it.each([
+            ["short","short content of result","short content of result"]
+        ])('shows the right content of the result when input is %s',
+            async (_desc,resultText,expectedResult) => {
+                const mockedResult = { ...result,text: resultText }
 
-const mockedResult = {...result, text:resultText}
+                when(Network.get).calledWith(`/${resultList.results[0].path}`)
+                    .mockResolvedValue({ ok: true,json: jest.fn().mockResolvedValue(mockedResult) })
 
-Network.get.mockResolvedValueOnce({ ok: true,json: jest.fn().mockResolvedValue(mockedResult) })
+                await processSearch(searchedWord,mockContainer)
 
-            await processSearch(word,mockContainer)
+                const resultOnClick = getOnclickPropertyOfResultDiv();
 
-            const resultOnClick = getOnclickPropertyOfResultDiv();
+                await resultOnClick();
 
-            await resultOnClick();
-            
-            //TODO parametrise this test to check that with a specific content the shown text is cut and formatted correctly
-             expect(mockedInnerSpan.innerText).toBe(expectedResult)
-        });
+                expect(mockedInnerSpan.innerText).toBe(expectedResult)
+            });
     });
 });
 

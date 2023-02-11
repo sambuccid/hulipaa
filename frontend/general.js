@@ -13,13 +13,12 @@ export async function processSearch(query,resultContainer) {
         onclick: onClick
     })
     const resultElement = element;
-    function onClick() {
-        onResultClick(firstResult.path,resultElement);
+    async function onClick() {
+        await onResultClick(firstResult.path,resultElement);
     }
 }
 
 async function onResultClick(resultPath,resultDiv) {
     const result = await loadResult(resultPath);
     ResultsUI.populateWith({ resultDiv,text: result.text })
-    console.log("TODO" + resultPath)
 }

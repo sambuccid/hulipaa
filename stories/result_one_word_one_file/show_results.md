@@ -18,6 +18,7 @@ When I click on one of the results
 I want to see the text where the result is
 And I want the word i searched for to be highlighted
 Remaining:
+- use jest-when to mock better calls
 - then limit the content to just the right lines
 -- show 15 characters before searched word of current line
 -- show 15 characters after searched word of current line
