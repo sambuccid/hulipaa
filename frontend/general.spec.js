@@ -114,8 +114,12 @@ describe('processSearch',() => {
             expect(Network.get).toHaveBeenNthCalledWith(2,"/" + resultList.results[0].path);
         });
 
-        it('shows the right content of the result',async () => {
+         it.each([["short","short content of result","short content of result"]])('shows the right content of the result when input is %s',async (_desc,resultText, expectedResult) => {
             const word = "searchedWord"
+
+const mockedResult = {...result, text:resultText}
+
+Network.get.mockResolvedValueOnce({ ok: true,json: jest.fn().mockResolvedValue(mockedResult) })
 
             await processSearch(word,mockContainer)
 
@@ -124,7 +128,7 @@ describe('processSearch',() => {
             await resultOnClick();
             
             //TODO parametrise this test to check that with a specific content the shown text is cut and formatted correctly
-             expect(mockedInnerSpan.innerText).toBe(result.text)
+             expect(mockedInnerSpan.innerText).toBe(expectedResult)
         });
     });
 });
