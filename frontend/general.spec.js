@@ -88,7 +88,7 @@ describe('processSearch',() => {
         const result = {
             title: resultList.results[0].title,
             path: resultList.results[0].path,
-            text: "content of the page"
+            text: `content ${searchedWord} of the page`
         };
 
         beforeEach(() => {

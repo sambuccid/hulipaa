@@ -24,6 +24,10 @@ Remaining:
 -- if a word is split in half, don't include it
 -- if in current line before or after there aren't 15 chars don't show lines before or after(for now)
 -- show "..." Before or after cut out text
+- multiple results in same file
+-- if multiple lines have the result, show each result in it's own line cut accordingly
+-- if multiple lines have the result, higthlight all the occurrences of the word
+-- we can ignore 2 results of the same word on the same line
 - decide if it looks alright, with long text or multiple short lines
 - then highlight the right words(<mark>)
 
