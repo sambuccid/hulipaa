@@ -18,12 +18,6 @@ When I click on one of the results
 I want to see the text where the result is
 And I want the word i searched for to be highlighted
 Remaining:
-- then limit the content to just the right lines
--- show 20 characters before searched word of current line
--- show 20 characters after searched word of current line
--- if a word is split in half, don't include it
--- if in current line before or after there aren't 15 chars don't show lines before or after(for now)
--- show "..." Before or after cut out text
 - multiple results in same file
 -- if multiple lines have the result, show each result in it's own line cut accordingly
 -- if multiple lines have the result, higthlight all the occurrences of the word
