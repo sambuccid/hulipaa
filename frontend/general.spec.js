@@ -137,6 +137,32 @@ describe('processSearch',() => {
 
                 expect(mockedInnerSpan.innerText).toBe(expectedResult)
             });
+
+
+        it('shows one line for each line in the content that has the searched word',async () => {
+            const resultText = `The content has one result here ${searchedWord}\n` +
+                `and in the new line there is another result ${searchedWord}\n` +
+                `third line\n` +
+                `\n` +
+                `${searchedWord} last line with result`
+
+            const expectedResult = `...has one result here ${searchedWord}\n` +
+                `... is another result ${searchedWord}\n` +
+                `${searchedWord} last line with ...`
+
+            const mockedResult = { ...result,text: resultText }
+
+            when(Network.get).calledWith(`/${resultList.results[0].path}`)
+                .mockResolvedValue({ ok: true,json: jest.fn().mockResolvedValue(mockedResult) })
+
+            await processSearch(searchedWord,mockContainer)
+
+            const resultOnClick = getOnclickPropertyOfResultDiv();
+
+            await resultOnClick();
+
+            expect(mockedInnerSpan.innerText).toBe(expectedResult)
+        });
     });
 });
 

@@ -18,12 +18,9 @@ When I click on one of the results
 I want to see the text where the result is
 And I want the word i searched for to be highlighted
 Remaining:
-- multiple results in same file
--- if multiple lines have the result, show each result in it's own line cut accordingly
--- if multiple lines have the result, higthlight all the occurrences of the word
--- we can ignore 2 results of the same word on the same line
 - decide if it looks alright, with long text or multiple short lines
 - then highlight the right words(<mark>)
+-- even in multiple lines
 
 AC3
 Given I searched for the hardcoded word

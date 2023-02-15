@@ -26,32 +26,36 @@ async function onResultClick(resultPath,resultDiv,searchedWord) {
 }
 const N_CHARS_CUT_TEXT = 20
 function formatTextForResult(text,searchedWord) { //TODO needs refactoring to simplify
-    //find line containig result
+    //find all lines containig result
     const separateLines = text.split(/\r?\n|\r|\n/g);
-    const lineWithSearchedWord = separateLines.find(line => line.includes(searchedWord));
-
-    if (!lineWithSearchedWord) {
+    const allLinesWithSearchedWord = separateLines.filter(line => line.includes(searchedWord));
+    if (allLinesWithSearchedWord == null || allLinesWithSearchedWord.length == 0) {
         throw "Error, searched word not found"
     }
-    let formattedText = lineWithSearchedWord
 
-    //extract text just right before and right after searchedWord
-    let searchedWordIdx = formattedText.indexOf(searchedWord)
-    let idxWhereToCut = searchedWordIdx - N_CHARS_CUT_TEXT
-    formattedText = shortenText({
-        from: searchedWordIdx,
-        to: idxWhereToCut,
-        text: formattedText
+    const formattedLines = allLinesWithSearchedWord.map((line) => {
+        //extract text just right before and right after the searched word
+        let searchedWordIdx = line.indexOf(searchedWord)
+        let idxWhereToCut = searchedWordIdx - N_CHARS_CUT_TEXT
+        line = shortenText({
+            from: searchedWordIdx,
+            to: idxWhereToCut,
+            text: line
+        })
+
+        searchedWordIdx = line.indexOf(searchedWord)
+        const searchedWordRightIdx = searchedWordIdx + searchedWord.length
+        idxWhereToCut = searchedWordRightIdx + N_CHARS_CUT_TEXT
+        line = shortenText({
+            from: searchedWordIdx,
+            to: idxWhereToCut,
+            text: line
+        })
+
+        return line
     })
 
-    searchedWordIdx = formattedText.indexOf(searchedWord)
-    const searchedWordRightIdx = searchedWordIdx + searchedWord.length
-    idxWhereToCut = searchedWordRightIdx + N_CHARS_CUT_TEXT
-    formattedText = shortenText({
-        from: searchedWordIdx,
-        to: idxWhereToCut,
-        text: formattedText
-    })
+    const finalText = formattedLines.join('\n')
 
-    return formattedText
+    return finalText
 }
