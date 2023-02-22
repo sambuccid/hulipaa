@@ -1,7 +1,3 @@
-export function bindFunction(fun,...params) {
-    return fun.bind(null,...params);
-}
-
 // Shortens text adding '...' where it cuts
 // it doesn't cut the text midword, it will exclude the word from the text
 // if from and to are the same indexes it throws an exception

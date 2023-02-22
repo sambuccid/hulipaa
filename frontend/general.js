@@ -25,7 +25,7 @@ async function onResultClick(resultPath,resultDiv,searchedWord) {
     ResultsUI.populateWith({ resultDiv,htmlText: formattedText })
 }
 const N_CHARS_CUT_TEXT = 20
-function formatTextForResult(text,searchedWord) { //TODO needs refactoring to simplify
+function formatTextForResult(text,searchedWord) {
     //find all lines containig result
     const separateLines = text.split(/\r?\n|\r|\n/g);
     const allLinesWithSearchedWord = separateLines.filter(line => line.includes(searchedWord));
