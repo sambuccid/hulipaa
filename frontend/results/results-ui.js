@@ -22,8 +22,8 @@ export function addElements(div,{ resultTitle,onclick }) {
 }
 
 
-export function populateWith({ resultDiv,text }) {
+export function populateWith({ resultDiv,htmlText }) {
     let span = resultDiv.getElementsByTagName('span');
     span = span[0];
-    span.innerText = text;
+    span.innerHTML = htmlText;
 }

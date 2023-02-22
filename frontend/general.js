@@ -22,7 +22,7 @@ export async function processSearch(query,resultContainer) {
 async function onResultClick(resultPath,resultDiv,searchedWord) {
     const result = await loadResult(resultPath);
     const formattedText = formatTextForResult(result.text,searchedWord)
-    ResultsUI.populateWith({ resultDiv,text: formattedText })
+    ResultsUI.populateWith({ resultDiv,htmlText: formattedText })
 }
 const N_CHARS_CUT_TEXT = 20
 function formatTextForResult(text,searchedWord) { //TODO needs refactoring to simplify
@@ -52,10 +52,12 @@ function formatTextForResult(text,searchedWord) { //TODO needs refactoring to si
             text: line
         })
 
+        // Highlight the searched word
+        line = line.replaceAll(searchedWord,`<mark>${searchedWord}</mark>`)
         return line
     })
 
-    const finalText = formattedLines.join('\n')
+    const finalHtmlText = formattedLines.join('<br>')
 
-    return finalText
+    return finalHtmlText
 }

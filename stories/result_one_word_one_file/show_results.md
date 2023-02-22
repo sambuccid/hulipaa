@@ -11,16 +11,13 @@ When I enter and run the search for the hardcoded word
 I want to see the results for that word
 - also should be possible to style the sws_searchbar element to decide how much space the searchbar is going to fill
 
-[in progress]
+[done]
 AC2
 Given I searched for the hardcoded word
 When I click on one of the results
 I want to see the text where the result is
 And I want the word i searched for to be highlighted
-Remaining:
-- decide if it looks alright, with long text or multiple short lines
-- then highlight the right words(<mark>)
--- even in multiple lines
+
 
 AC3
 Given I searched for the hardcoded word

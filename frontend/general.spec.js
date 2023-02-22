@@ -40,6 +40,7 @@ describe('processSearch',() => {
         resetAllWhenMocks()
         jest.clearAllMocks();
         mockedInnerSpan = {
+            innerHTML: null,
             innerText: null,
             id: Math.random()
         }
@@ -109,19 +110,22 @@ describe('processSearch',() => {
         });
 
         it.each([
-            ["is short doesn't cut anything and doesn't add '...'",`short content ${searchedWord} of result`,`short content ${searchedWord} of result`],
+            ["is short doesn't cut anything and doesn't add '...'",`short content ${searchedWord} of result`,`short content <mark>${searchedWord}</mark> of result`],
             ["is long it cuts it to 20 chars adding '...' where it cuts",
                 `a long content of the page, the content conains the ${searchedWord},is very long and it will need to be cut`,
-                `...content conains the ${searchedWord},is very long and it...`],
+                `...content conains the <mark>${searchedWord}</mark>,is very long and it...`],
             ["contains a long word before the searched word that will need to be cut, it doesn't cut the word but it excludes it",
                 `a long_long_word and other words ${searchedWord} a`,
-                `... and other words ${searchedWord} a`],
+                `... and other words <mark>${searchedWord}</mark> a`],
             ["contains a long word after the searched word that will need to be cut, it doesn't cut the word but it excludes it",
                 `a ${searchedWord} with words and long_long_word a`,
-                `a ${searchedWord} with words and ...`],
+                `a <mark>${searchedWord}</mark> with words and ...`],
             ["contains multiple lines, shows just the one with teh searched word",
                 `there is a line 1\nand ${searchedWord} line\nand line 3`,
-                `and ${searchedWord} line`]
+                `and <mark>${searchedWord}</mark> line`],
+            ["contains the searched word it highlights the searched word, even across multiple lines",
+                `there is a line 1\nand ${searchedWord} line\nand line 3 ${searchedWord} a`,
+                `and <mark>${searchedWord}</mark> line<br>and line 3 <mark>${searchedWord}</mark> a`]
         ])('shows the right content of the result, when input %s',
             async (_desc,resultText,expectedResult) => {
                 const mockedResult = { ...result,text: resultText }
@@ -135,7 +139,7 @@ describe('processSearch',() => {
 
                 await resultOnClick();
 
-                expect(mockedInnerSpan.innerText).toBe(expectedResult)
+                expect(mockedInnerSpan.innerHTML).toBe(expectedResult)
             });
 
 
@@ -146,9 +150,9 @@ describe('processSearch',() => {
                 `\n` +
                 `${searchedWord} last line with result`
 
-            const expectedResult = `...has one result here ${searchedWord}\n` +
-                `... is another result ${searchedWord}\n` +
-                `${searchedWord} last line with ...`
+            const expectedResult = `...has one result here <mark>${searchedWord}</mark><br>` +
+                `... is another result <mark>${searchedWord}</mark><br>` +
+                `<mark>${searchedWord}</mark> last line with ...`
 
             const mockedResult = { ...result,text: resultText }
 
@@ -161,7 +165,7 @@ describe('processSearch',() => {
 
             await resultOnClick();
 
-            expect(mockedInnerSpan.innerText).toBe(expectedResult)
+            expect(mockedInnerSpan.innerHTML).toBe(expectedResult)
         });
     });
 });

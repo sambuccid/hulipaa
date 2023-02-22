@@ -104,6 +104,9 @@ this involves it working with all the type of data(json, MD and so on) seamlessl
 Need to go throught the code and check that everything is secure and doesn't expose
 private informations
 
+### when showing results the code should escape html
+If the pages are in html or contain html, we should not render it in the results
+
 ### visually appealing
 Need to provide the default configuration for the front end with a generic, neutral but visually appealing theme/style
 
