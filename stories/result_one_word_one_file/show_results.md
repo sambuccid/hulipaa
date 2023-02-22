@@ -11,18 +11,13 @@ When I enter and run the search for the hardcoded word
 I want to see the results for that word
 - also should be possible to style the sws_searchbar element to decide how much space the searchbar is going to fill
 
+[done]
 AC2
 Given I searched for the hardcoded word
 When I click on one of the results
 I want to see the text where the result is
 And I want the word i searched for to be highlighted
-Remaining:
-- create test for it(click will call backend, and the searched word will be displayed)
-- start by implementing onClick
-- then call backend and load json file
-- then create a div displaying all the content
-- then limit the content to just the right lines
-- then highlight the right words(<mark>)
+
 
 AC3
 Given I searched for the hardcoded word

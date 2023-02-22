@@ -1,12 +1,13 @@
 import EL from '../EL.js'
 
-export function addElements(div,{ resultTitle }) {
+export function addElements(div,{ resultTitle,onclick }) {
     const element = EL.div({
         els: [
             EL.span({
                 innerText: resultTitle
             })
         ],
+        onclick: onclick,
         style: {
             backgroundColor: "white",
             borderRadius: "10px",
@@ -15,6 +16,14 @@ export function addElements(div,{ resultTitle }) {
             border: "gray solid 1px"
         }
     })
+
     div.appendChild(element)
-    return element
+    return { element: element }
+}
+
+
+export function populateWith({ resultDiv,htmlText }) {
+    let span = resultDiv.getElementsByTagName('span');
+    span = span[0];
+    span.innerHTML = htmlText;
 }
