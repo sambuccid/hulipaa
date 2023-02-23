@@ -167,6 +167,32 @@ describe('processSearch',() => {
 
             expect(mockedInnerSpan.innerHTML).toBe(expectedResult)
         });
+
+        it("when clicking the result twice it goes back showing the title of the result",async () => {
+            await processSearch(searchedWord,mockContainer)
+
+            const resultOnClick = getOnclickPropertyOfResultDiv();
+
+            await resultOnClick();
+            await resultOnClick();
+
+            expect(mockedInnerSpan.innerText).toBe(resultList.results[0].title)
+        });
+
+
+        it("when clicking the result 3 times it shows the content of the result",async () => {
+            await processSearch(searchedWord,mockContainer)
+
+            const resultOnClick = getOnclickPropertyOfResultDiv();
+
+            await resultOnClick();
+            await resultOnClick();
+            await resultOnClick();
+
+            const expectedHtml = `content <mark>${searchedWord}</mark> of the page`;
+            expect(mockedInnerSpan.innerHTML).toBe(expectedHtml)
+        });
     });
+
 });
 
