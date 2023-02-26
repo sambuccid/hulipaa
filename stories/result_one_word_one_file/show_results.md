@@ -18,7 +18,7 @@ When I click on one of the results
 I want to see the text where the result is
 And I want the word i searched for to be highlighted
 
-
+[done]
 AC3
 Given I searched for the hardcoded word
 And I click on one of the results

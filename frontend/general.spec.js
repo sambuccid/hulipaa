@@ -15,6 +15,18 @@ jest.mock('./EL.js',() => {
     }
 });
 
+function simulateHtmlAttributes(element) {
+    element.mockAttrList = {}
+    element.getAttribute = function (attrName) {
+        return this.mockAttrList[attrName]
+    }
+    element.setAttribute = function (attrName,value) {
+        this.mockAttrList[attrName] = value
+    }
+    element.removeAttribute = function (attrName) {
+        this.mockAttrList[attrName] = undefined
+    }
+}
 
 const mockContainer = { appendChild: jest.fn() }
 
@@ -49,6 +61,7 @@ describe('processSearch',() => {
         const mockedDiv = {
             getElementsByTagName: jest.fn().mockReturnValue([mockedInnerSpan])
         }
+        simulateHtmlAttributes(mockedDiv)
         EL.div.mockReturnValue(mockedDiv)
         EL.span.mockReturnValue(mockedInnerSpan)
     });
@@ -167,6 +180,32 @@ describe('processSearch',() => {
 
             expect(mockedInnerSpan.innerHTML).toBe(expectedResult)
         });
+
+        it("when clicking the result twice it goes back showing the title of the result",async () => {
+            await processSearch(searchedWord,mockContainer)
+
+            const resultOnClick = getOnclickPropertyOfResultDiv();
+
+            await resultOnClick();
+            await resultOnClick();
+
+            expect(mockedInnerSpan.innerText).toBe(resultList.results[0].title)
+        });
+
+
+        it("when clicking the result 3 times it shows the content of the result",async () => {
+            await processSearch(searchedWord,mockContainer)
+
+            const resultOnClick = getOnclickPropertyOfResultDiv();
+
+            await resultOnClick();
+            await resultOnClick();
+            await resultOnClick();
+
+            const expectedHtml = `content <mark>${searchedWord}</mark> of the page`;
+            expect(mockedInnerSpan.innerHTML).toBe(expectedHtml)
+        });
     });
+
 });
 
