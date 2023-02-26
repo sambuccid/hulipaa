@@ -18,15 +18,13 @@ When I click on one of the results
 I want to see the text where the result is
 And I want the word i searched for to be highlighted
 
-[in progress]
+[done]
 AC3
 Given I searched for the hardcoded word
 And I click on one of the results
 When I click again on the result
 I want the result to collapse
 And clicking again will show the content again(the cnntent not duplicated)
-- test click again shows title(innerText)
-- test clicking 3 times shows content(innerHtml)
 
 
 AC5

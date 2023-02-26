@@ -15,14 +15,20 @@ export async function processSearch(query,resultContainer) {
     })
     const resultElement = element;
     async function onClick() {
-        await onResultClick(firstResult.path,resultElement,query);
+        await onResultClick(firstResult,resultElement,query);
     }
 }
 
-async function onResultClick(resultPath,resultDiv,searchedWord) {
-    const result = await loadResult(resultPath);
-    const formattedText = formatTextForResult(result.text,searchedWord)
-    ResultsUI.populateWith({ resultDiv,htmlText: formattedText })
+async function onResultClick(indexedResult,resultDiv,searchedWord) {
+    if (!ResultsUI.isExpanded({ resultDiv })) {
+        const result = await loadResult(indexedResult.path);
+        const formattedText = formatTextForResult(result.text,searchedWord)
+        ResultsUI.populateWith({ resultDiv,htmlText: formattedText })
+        ResultsUI.expand({ resultDiv })
+    } else {
+        ResultsUI.populateWith({ resultDiv,text: indexedResult.title })
+        ResultsUI.collapse({ resultDiv })
+    }
 }
 const N_CHARS_CUT_TEXT = 20
 function formatTextForResult(text,searchedWord) {

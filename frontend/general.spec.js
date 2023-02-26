@@ -15,6 +15,18 @@ jest.mock('./EL.js',() => {
     }
 });
 
+function simulateHtmlAttributes(element) {
+    element.mockAttrList = {}
+    element.getAttribute = function (attrName) {
+        return this.mockAttrList[attrName]
+    }
+    element.setAttribute = function (attrName,value) {
+        this.mockAttrList[attrName] = value
+    }
+    element.removeAttribute = function (attrName) {
+        this.mockAttrList[attrName] = undefined
+    }
+}
 
 const mockContainer = { appendChild: jest.fn() }
 
@@ -49,6 +61,7 @@ describe('processSearch',() => {
         const mockedDiv = {
             getElementsByTagName: jest.fn().mockReturnValue([mockedInnerSpan])
         }
+        simulateHtmlAttributes(mockedDiv)
         EL.div.mockReturnValue(mockedDiv)
         EL.span.mockReturnValue(mockedInnerSpan)
     });
