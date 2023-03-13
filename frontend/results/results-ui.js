@@ -34,6 +34,10 @@ export function populateWith({ resultDiv,htmlText,text }) {
     }
 }
 
+export function clear(div) {
+    div.replaceChildren()
+}
+
 export function isExpanded({ resultDiv }) {
     if (resultDiv.getAttribute(EXPANDED_DATA_ATTRIBUTE))
         return true

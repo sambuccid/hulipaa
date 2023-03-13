@@ -26,18 +26,19 @@ When I click again on the result
 I want the result to collapse
 And clicking again will show the content again(the cnntent not duplicated)
 
-
-AC5
+[done]
+AC4
 Given I searched for the hardcoded word
 When I search for it again
 I want to see just the new results and the old result should disappear
 
-AC6
+
+AC5
 Given the network is not working
 When I run a search
 I want to be informed that something gone wrong
 And the page to still work
 
 [in progress]
-AC7
+AC6
 We want to be able to test the logic in the web application without needing to spin up a browser

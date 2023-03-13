@@ -6,15 +6,17 @@ import { shortenText } from './helpers.js'
 
 
 export async function processSearch(query,resultContainer) {
+    ResultsUI.clear(resultContainer)
     const res = await search(query);
     const firstResult = res.results[0]
 
-    const { element } = ResultsUI.addElements(resultContainer,{
+    ResultsUI.addElements(resultContainer,{
         resultTitle: firstResult.title,
         onclick: onClick
     })
-    const resultElement = element;
-    async function onClick() {
+    async function onClick(event) {
+        // Is important to reference the result element from the event, because otherwise we might create a memory leak
+        const resultElement = event.currentTarget;
         await onResultClick(firstResult,resultElement,query);
     }
 }

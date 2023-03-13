@@ -28,7 +28,7 @@ function simulateHtmlAttributes(element) {
     }
 }
 
-const mockContainer = { appendChild: jest.fn() }
+const mockContainer = { appendChild: jest.fn(),replaceChildren: jest.fn() }
 
 function getOnclickPropertyOfResultDiv() {
     const lastCallParameters = EL.div.mock.lastCall
@@ -46,6 +46,7 @@ describe('processSearch',() => {
         }]
     };
     let mockedInnerSpan;
+    let mockedDiv;
     const searchedWord = "searchedWord"
 
     beforeEach(() => {
@@ -58,13 +59,19 @@ describe('processSearch',() => {
         }
         when(Network.get).calledWith(`/search/${searchedWord}.json`)
             .mockResolvedValue({ ok: true,json: jest.fn().mockResolvedValue(resultList) })
-        const mockedDiv = {
+        mockedDiv = {
             getElementsByTagName: jest.fn().mockReturnValue([mockedInnerSpan])
         }
         simulateHtmlAttributes(mockedDiv)
         EL.div.mockReturnValue(mockedDiv)
         EL.span.mockReturnValue(mockedInnerSpan)
     });
+
+    async function simulateClickOnResultDiv() {
+        const resultOnClick = getOnclickPropertyOfResultDiv();
+        const event = { currentTarget: mockedDiv }
+        await resultOnClick(event);
+    }
 
     it("calls the backend to get the result",async () => {
         await processSearch(searchedWord,mockContainer)
@@ -88,6 +95,13 @@ describe('processSearch',() => {
         expect(EL.span).toHaveBeenCalledWith(expect.objectContaining({
             innerText: resultList.results[0].title
         }))
+    });
+
+    it('empties the old results before adding the new results',async () => {
+        await processSearch(searchedWord,mockContainer)
+
+        expect(mockContainer.replaceChildren).toHaveBeenCalled()
+        expect(mockContainer.replaceChildren).toHaveBeenCalledWith()
     });
 
     it('the element should be clickable',async () => {
@@ -114,9 +128,7 @@ describe('processSearch',() => {
         it("calls the backend to get the content of the result",async () => {
             await processSearch(searchedWord,mockContainer)
 
-            const resultOnClick = getOnclickPropertyOfResultDiv();
-
-            await resultOnClick();
+            await simulateClickOnResultDiv();
 
             expect(Network.get).toHaveBeenCalledTimes(2);
             expect(Network.get).toHaveBeenNthCalledWith(2,"/" + resultList.results[0].path);
@@ -148,9 +160,7 @@ describe('processSearch',() => {
 
                 await processSearch(searchedWord,mockContainer)
 
-                const resultOnClick = getOnclickPropertyOfResultDiv();
-
-                await resultOnClick();
+                await simulateClickOnResultDiv();
 
                 expect(mockedInnerSpan.innerHTML).toBe(expectedResult)
             });
@@ -174,9 +184,7 @@ describe('processSearch',() => {
 
             await processSearch(searchedWord,mockContainer)
 
-            const resultOnClick = getOnclickPropertyOfResultDiv();
-
-            await resultOnClick();
+            await simulateClickOnResultDiv();
 
             expect(mockedInnerSpan.innerHTML).toBe(expectedResult)
         });
@@ -184,10 +192,8 @@ describe('processSearch',() => {
         it("when clicking the result twice it goes back showing the title of the result",async () => {
             await processSearch(searchedWord,mockContainer)
 
-            const resultOnClick = getOnclickPropertyOfResultDiv();
-
-            await resultOnClick();
-            await resultOnClick();
+            await simulateClickOnResultDiv();
+            await simulateClickOnResultDiv();
 
             expect(mockedInnerSpan.innerText).toBe(resultList.results[0].title)
         });
@@ -196,11 +202,9 @@ describe('processSearch',() => {
         it("when clicking the result 3 times it shows the content of the result",async () => {
             await processSearch(searchedWord,mockContainer)
 
-            const resultOnClick = getOnclickPropertyOfResultDiv();
-
-            await resultOnClick();
-            await resultOnClick();
-            await resultOnClick();
+            await simulateClickOnResultDiv();
+            await simulateClickOnResultDiv();
+            await simulateClickOnResultDiv();
 
             const expectedHtml = `content <mark>${searchedWord}</mark> of the page`;
             expect(mockedInnerSpan.innerHTML).toBe(expectedHtml)
