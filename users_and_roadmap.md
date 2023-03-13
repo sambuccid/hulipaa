@@ -31,7 +31,7 @@ So that I can find where the word is
 
 Should be able to end to end manually test with changing page
 #### ~~generate results~~
-#### show results
+#### ~~show results~~
 
 ### results for all words in one file
 As a visitor of the website
@@ -39,6 +39,7 @@ I want to be able to use the searchbar to see all the occurrences of any word in
 So that I can find the topic I want
 
 Should be able to end to end test it
+an AC for this is the search should be case insensitive
 #### generate results
 - expand the program so that we can search for any specific word in a specific file
 (no need to think about empty results)
@@ -51,7 +52,18 @@ AC-N
 Given I am on the search page
 When I enter and run the search for the hardcoded word
 I want the results to be clearly separated from one another
+AC-N
+Given I have searched for something on the search page
+When I click on a result of a page that can't be found(404)
+I want to still be able to access all other results without runnin the search again
 )
+
+### Open result
+As a visitor of the website
+I want to be able to open the page tat contains the result
+so that I view it
+(Decide a way to store/generate the link to the page to show)
+(this will probably should be able to be customised heavily)
 
 ### results for all words in all files
 As a visitor of the website
