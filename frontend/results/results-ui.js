@@ -1,8 +1,19 @@
 import EL from '../EL.js'
 
-const EXPANDED_DATA_ATTRIBUTE = 'data-expanded';
-
-export function addElements(div,{ resultTitle,onclick }) {
+const EXPANDED_DATA_ATTRIBUTE = 'data-expanded'
+const ERROR_COLOR = '#ff7640'
+const MESSAGE_COLOR = '#ffd24d'
+export const messageType = {
+    ERROR: 'error',
+    MESSAGE: 'message'
+}
+export function addElements(div,{ resultTitle,onclick,type }) {
+    let backgroundColor = "white"
+    if (type === messageType.ERROR) {
+        backgroundColor = ERROR_COLOR
+    } else if (type === messageType.MESSAGE) {
+        backgroundColor = MESSAGE_COLOR
+    }
     const element = EL.div({
         els: [
             EL.span({
@@ -10,8 +21,9 @@ export function addElements(div,{ resultTitle,onclick }) {
             })
         ],
         onclick: onclick,
+
         style: {
-            backgroundColor: "white",
+            backgroundColor,
             borderRadius: "10px",
             padding: "10px",
             textAlign: "center",

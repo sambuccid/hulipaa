@@ -32,13 +32,19 @@ Given I searched for the hardcoded word
 When I search for it again
 I want to see just the new results and the old result should disappear
 
-
+[done]
 AC5
 Given the network is not working
 When I run a search
 I want to be informed that something gone wrong
 And the page to still work
 
-[in progress]
+[done]
+AC5.1
+When I search for a word that doesn't exist
+I want to be informed that there are no results
+And the page to still work
+
+[done]
 AC6
 We want to be able to test the logic in the web application without needing to spin up a browser
