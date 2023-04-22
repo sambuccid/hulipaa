@@ -24,7 +24,7 @@ The Minimal Viable Product consists of:
 ## user/tech stories for MVP(incomplete)
 ### ~~search bar~~
 
-### results for one word in one file
+### ~~results for one word in one file~~
 As a visitor of the website
 I want to be able to use the searchbar to see all the occurrences of a hardcoded word in aspecific page
 So that I can find where the word is
