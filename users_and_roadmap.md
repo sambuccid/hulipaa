@@ -41,8 +41,7 @@ So that I can find the topic I want
 Should be able to end to end test it
 an AC for this is the search should be case insensitive
 #### generate results
-- expand the program so that we can search for any specific word in a specific file
-(no need to think about empty results)
+
 #### show results
 As a visitor of the website
 I want to be able to see the results of my search
