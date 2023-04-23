@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --testPathIgnorePatterns=\"test/functional-tests\"",
+    "custom-regex-test": "jest",
+    "functional-test": "jest \"test/functional-tests\"",
     "serve": "live-server",
     "generate": "node index.js .input search"
   },
