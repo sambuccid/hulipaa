@@ -12,14 +12,15 @@ const {
 describe('Generation of search results',() => {
     it('creates a result file',() => {
         setUpTestFolder()
-        const searchedWord = 'testword'
 
         // Given I have a file
         const page = JSON.stringify({
             title: "page1",
             path: "justATestPath.json",
-            text: `random text with ${searchedWord}`
+            text: `random text with testword`
         })
+        const searchedWord = 'random'
+
         createInputTestFile("testFile.json",page)
 
         // When I run the generate utility searching for an hardcoded word
