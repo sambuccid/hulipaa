@@ -18,9 +18,9 @@ function buildIndex(inputFolder,outputFolder) {
     const content = parser(dataFile)
 
     //use case
-    const result = generateResultMap(content,searchedWord)
+    const resultMap = generateResultMap(content,searchedWord)
 
-    const outputResult = presenter(result);
+    const outputResult = presenter(resultMap);
 
     if (outputResult) {
         //make file
@@ -50,11 +50,26 @@ function validateInputData(data) {
     }
 }
 
-function presenter(output) {
-    if (output.results[0].numberOfMatches > 0) {
-        return JSON.stringify(output);
-    }
-    return null
+
+function presenter(resultMap) {
+    const resultArray = Object.entries(resultMap).map(result => (
+        {
+            resultWord: result[0], // Key in resultMap
+            resultInfos: result[1] // Value in resultMap
+        }
+    ))
+
+    const validResults = resultArray.filter(
+        (result) => result.resultInfos.results[0].numberOfMatches > 0)
+
+    const filesArray = validResults.map((result) => (
+        {
+            fileName: `${result.resultWord}.json`,
+            content: JSON.stringify(result.resultInfos)
+        }
+    ))
+
+    return filesArray
 }
 
 module.exports = { buildIndex,parser,presenter };
