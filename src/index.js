@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const getResults = require('./getResults.js')
+const generateResultMap = require('./generateResultMap.js')
 
 const searchedWord = "testword"
 
@@ -18,7 +18,7 @@ function buildIndex(inputFolder,outputFolder) {
     const content = parser(dataFile)
 
     //use case
-    const result = getResults(content,searchedWord)
+    const result = generateResultMap(content,searchedWord)
 
     const outputResult = presenter(result);
 

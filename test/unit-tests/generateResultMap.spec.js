@@ -1,9 +1,9 @@
-const getResults = require('../../src/getResults')
+const generateResultMap = require('../../src/generateResultMap')
 
-describe('getResult',() => {
+describe('generateResultMap',() => {
     it('with no parameter provided returns error',() => {
         // When / Then
-        expect(getResults).toThrow()
+        expect(generateResultMap).toThrow()
     });
     const firstWordTest = "firstWordInFile"
     const inputData = {
@@ -14,14 +14,14 @@ describe('getResult',() => {
     it('returns a map of the results',() => {
         // Given
         // When
-        const res = getResults(inputData);
+        const res = generateResultMap(inputData);
         // Then
         expect(res).toHaveProperty(firstWordTest)
     })
     it('all results match the defined format',() => {
         // Given
         // When
-        const res = getResults(inputData);
+        const res = generateResultMap(inputData);
         // Then
         expect(res[firstWordTest]).toHaveProperty("results")
         expect(res[firstWordTest].results.length).toBeGreaterThan(0)
@@ -34,14 +34,14 @@ describe('getResult',() => {
     it('extracts the title',() => {
         // Given
         // When
-        const res = getResults(inputData);
+        const res = generateResultMap(inputData);
         // Then
         expect(res[firstWordTest].results[0].title).toEqual(inputData.title)
     });
     it('returns the path of the data reachable fom the ui',() => {
         // Given
         // When
-        const res = getResults(inputData);
+        const res = generateResultMap(inputData);
         // Then
         expect(res[firstWordTest].results[0].path).toEqual("../" + inputData.path)
     });
@@ -53,7 +53,7 @@ describe('getResult',() => {
             text: `${searchedWord} test with the word ${searchedWord} repeased 3 times ${searchedWord}`
         }
         // When
-        const res = getResults(inData);
+        const res = generateResultMap(inData);
         // Then
         expect(res[searchedWord].results[0].numberOfMatches).toEqual(3)
     });
