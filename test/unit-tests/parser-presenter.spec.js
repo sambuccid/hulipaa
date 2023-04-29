@@ -1,4 +1,5 @@
 const { parser,presenter } = require('../../src/index')
+const jp = require('jsonpath')
 
 describe('parser',() => {
     it('parse the data as json string',() => {
@@ -60,4 +61,57 @@ describe('presenter',() => {
         // Then
         expect(result).toEqual([])
     });
+});
+
+
+
+describe('presenter using jsonpath',() => {
+    const defaultInput = {
+        word: {
+            results: [{
+                title: "helloooo",
+                path: "path.json",
+                numberOfMatches: 1,
+            }]
+        }
+    }
+    const testedFunction = presenter
+
+    test.each([
+        ['returns list','$',r => r.length == 1],
+        ['file name created',{ testWord: '$.word' },r => r[0].fileName == 'testWord.json'],
+        ['json content','$',r => r[0].content == JSON.stringify(defaultInput.word)],
+        // ['filters no matches',['$..numberOfMatches',0],r => r.length == 0]
+    ])('%s',(_desc,objectModifier,testResult) => {
+        //modify input with jsonpath
+        let input
+        if (objectModifier == '$') {
+            input = defaultInput
+        } else if (Array.isArray(objectModifier)) {
+            console.log("aaa")
+            input = substituteJsonpathArray(objectModifier,defaultInput)
+        } else if (typeof objectModifier === 'object') {
+            input = substituteJsonpath(objectModifier,defaultInput)
+        }
+
+        let result = testedFunction(input)
+        expect(testResult(result)).toBe(true)
+    });
+
+    function substituteJsonpath(objectWithJsonpath,input) {
+        const finalObject = { ...objectWithJsonpath }
+        for (let key in objectWithJsonpath) {
+            if (typeof objectWithJsonpath[key] === 'string') {
+                const jsonpathPath = objectWithJsonpath[key]
+                let value = jp.query(input,jsonpathPath)[0]
+                finalObject[key] = value
+            } else if (Array.isArray(objectWithJsonpath[key])) {
+                finalObject[key] = finalObject[key].map(value => substituteJsonpath(value,input))
+            } else {
+                finalObject[key] = substituteJsonpath(objectWithJsonpath[key],input)
+            }
+        }
+        return finalObject
+    }
+
 });

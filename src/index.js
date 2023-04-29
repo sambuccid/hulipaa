@@ -59,7 +59,7 @@ function presenter(resultMap) {
     ))
 
     const validResults = resultArray.filter(
-        (result) => result.resultInfos.results[0].numberOfMatches > 0)
+        (result) => result?.resultInfos?.results?.[0]?.numberOfMatches > 0)
 
     const filesArray = validResults.map((result) => (
         {
