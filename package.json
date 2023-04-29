@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --testPathIgnorePatterns=\"test/functional-tests\"",
+    "custom-regex-test": "jest",
+    "functional-test": "jest \"test/functional-tests\"",
     "serve": "live-server",
     "generate": "node index.js .input search"
   },
@@ -16,6 +18,7 @@
     "@babel/preset-env": "^7.20.2",
     "babel-jest": "^29.3.1",
     "jest": "^29.1.2",
-    "jest-when": "^3.5.2"
+    "jest-when": "^3.5.2",
+    "jsonpath": "^1.1.1"
   }
 }

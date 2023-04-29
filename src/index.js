@@ -1,55 +1,74 @@
 const fs = require('fs');
 const path = require('path');
 
-const getResults = require('./getResults.js')
+const generateResultMap = require('./generateResultMap.js')
 
 const searchedWord = "testword"
 
-function buildIndex(inputFolder, outputFolder){
+function buildIndex(inputFolder,outputFolder) {
     //make directory
-    if (fs.existsSync(outputFolder)){
-        fs.rmdirSync(outputFolder, { recursive: true });
+    if (fs.existsSync(outputFolder)) {
+        fs.rmSync(outputFolder,{ recursive: true });
     }
     fs.mkdirSync(outputFolder);
 
     // get data
     const dataFiles = fs.readdirSync(inputFolder)
-    const dataFile = fs.readFileSync(path.join(inputFolder, dataFiles[0]), 'utf8')
+    const dataFile = fs.readFileSync(path.join(inputFolder,dataFiles[0]),'utf8')
     const content = parser(dataFile)
 
     //use case
-    const result = getResults(content, searchedWord)
-    
-    const outputResult = presenter(result);
+    const resultMap = generateResultMap(content,searchedWord)
 
-    //make file
-    fs.writeFileSync(path.join(outputFolder, `${searchedWord}.json`), outputResult)
+    const files = presenter(resultMap);
+
+    for (let file of files) {
+        fs.writeFileSync(path.join(outputFolder,file.fileName),file.content)
+    }
 }
 
-function parser(data){
+function parser(data) {
     const parsedData = JSON.parse(data)
     validateInputData(parsedData)
     return parsedData
 }
 
-function validateInputData(data){
+function validateInputData(data) {
     if (isEmpty(data.title)) {
         throw "Input data is missng title"
     }
-    if (isEmpty(data.path)){
+    if (isEmpty(data.path)) {
         throw "Input data is missng path"
     }
-    if(isEmpty(data.text)){
+    if (isEmpty(data.text)) {
         throw "Input data is missng text"
     }
 
-    function isEmpty(val){
-        return val==null || val==="";
+    function isEmpty(val) {
+        return val == null || val === "";
     }
 }
 
-function presenter(output){
-    return JSON.stringify(output);
+
+function presenter(resultMap) {
+    const resultArray = Object.entries(resultMap).map(result => (
+        {
+            resultWord: result[0], // Key in resultMap
+            resultInfos: result[1] // Value in resultMap
+        }
+    ))
+
+    const validResults = resultArray.filter(
+        (result) => result?.resultInfos?.results?.[0]?.numberOfMatches > 0)
+
+    const filesArray = validResults.map((result) => (
+        {
+            fileName: `${result.resultWord}.json`,
+            content: JSON.stringify(result.resultInfos)
+        }
+    ))
+
+    return filesArray
 }
 
-module.exports = {buildIndex, parser, presenter};
+module.exports = { buildIndex,parser,presenter };

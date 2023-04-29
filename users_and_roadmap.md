@@ -24,7 +24,7 @@ The Minimal Viable Product consists of:
 ## user/tech stories for MVP(incomplete)
 ### ~~search bar~~
 
-### results for one word in one file
+### ~~results for one word in one file~~
 As a visitor of the website
 I want to be able to use the searchbar to see all the occurrences of a hardcoded word in aspecific page
 So that I can find where the word is
@@ -40,9 +40,8 @@ So that I can find the topic I want
 
 Should be able to end to end test it
 an AC for this is the search should be case insensitive
-#### generate results
-- expand the program so that we can search for any specific word in a specific file
-(no need to think about empty results)
+#### ~~generate results~~
+
 #### show results
 As a visitor of the website
 I want to be able to see the results of my search
