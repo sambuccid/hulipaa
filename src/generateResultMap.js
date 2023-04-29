@@ -3,9 +3,11 @@ function generateResultMap(pageData) {
     throw new Error("parameter missing")
   }
 
-  const results = {}
-  const wordsInFile = pageData.text.split(' ')
+  const symbolsRegexp = new RegExp('[A-Za-zÀ-ÖØ-öø-ÿ0-9]+','g')
 
+  const wordsInFile = [...pageData.text.matchAll(symbolsRegexp)]
+
+  const results = {}
   for (let searchedWord of wordsInFile) {
 
     if (results[searchedWord] == null) {

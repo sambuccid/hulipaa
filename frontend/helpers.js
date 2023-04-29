@@ -53,7 +53,7 @@ export function isCharPartOfWord(char) {
     if (char === '_' || char === '-' || char === "'") {
         return true;
     }
-    if (new RegExp('[A-Za-zÀ-ÖØ-öø-ÿ]').test(char)) {
+    if (new RegExp('[A-Za-zÀ-ÖØ-öø-ÿ0-9]').test(char)) {
         return true
     }
 

@@ -76,16 +76,18 @@ describe('generateResultMap',() => {
     });
     it('finds different words when separated by symbols',() => {
         // Given
-        // const inData = {
-        //     ...inputData,
-        //     text: `word1 word2 word3`
-        // }
+        const inputData = {
+            title: "aaaaa",
+            path: "pages/page1/aa.json",
+            text: `w word2.word3,word4/word5+wÖrd6-word7(word8"word9")word10`
+        }
         // When
-        // const res = generateResultMap(inData);
+        const res = generateResultMap(inputData);
         // Then
-        // expect(res).toHaveProperty('word1')
-        // expect(res).toHaveProperty('word2')
-        // expect(res).toHaveProperty('word3')
-        expect(true).toBe(false)
+        const expectedResults = ["w",'word2','word3','word4','word5','wÖrd6','word7','word8','word9',"word10"]
+        expect(Object.keys(res).length).toBe(10)
+        for (let expectedWord of expectedResults) {
+            expect(res).toHaveProperty(expectedWord)
+        }
     });
 });
