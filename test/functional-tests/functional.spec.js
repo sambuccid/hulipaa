@@ -78,4 +78,38 @@ describe('Generation of search results',() => {
             expect(JSON.parse(outputFileContent)).toEqual(expectedOutputFile)
         }
     });
+
+    it('creates 1 result file with correct number of occurrences if the same word is repeated multiple times',() => {
+        setUpTestFolder()
+
+        // Given I have a file with 4 times the same words
+        const page = JSON.stringify({
+            title: "page1",
+            path: "justATestPath.json",
+            text: `word word,word. ,word`
+        })
+
+        createInputTestFile("testFile.json",page)
+
+        // When I run the generate utility searching for an hardcoded word
+        buildIndex(TEST_INPUT_FOLDER,TEST_OUTPUT_FOLDER)
+
+        // just 1 file get generated
+        const outputFiles = getFileListInOutputFolder()
+        expect(outputFiles.length).toEqual(1)
+        expect(outputFiles).toContain('word.json')
+
+        // And the content of the file is correct
+        const expectedOutputFile = {
+            results: [{
+                title: "page1",
+                path: "../justATestPath.json",
+                numberOfMatches: 4
+            }]
+        }
+        for (let outputFile of outputFiles) {
+            const outputFileContent = readOutputFile(outputFile)
+            expect(JSON.parse(outputFileContent)).toEqual(expectedOutputFile)
+        }
+    });
 });

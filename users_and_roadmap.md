@@ -40,7 +40,7 @@ So that I can find the topic I want
 
 Should be able to end to end test it
 an AC for this is the search should be case insensitive
-#### generate results
+#### ~~generate results~~
 
 #### show results
 As a visitor of the website

@@ -25,7 +25,7 @@ I want a new result file for each different word
 - the presenter then will need to be able to support many words in the map of results
 - and the index.js will need to create one file for element in the list returned by the presenter
 
-### AC2
+### AC2 [done]
 Gived there are 2 occurrences of same words in a file
 When I generate the results
 I want that just one result file is generated for the word
