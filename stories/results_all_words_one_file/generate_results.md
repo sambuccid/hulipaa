@@ -16,7 +16,7 @@ Refactor code so that it's easier for supporting next ACs
   - output: `[{fileName:'the.json',content:'{"results": [{"title": "amazing page","path":"page.json","numberOfMatches":1}]}'}]`
 - then index.js will just iterate over the list(with just one element) and create the file
 
-### AC1
+### AC1 [in progress]
 Gived I have a file with 10 words
 When I generate the results for that file
 I want a new result file for each different word

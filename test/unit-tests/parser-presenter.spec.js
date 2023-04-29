@@ -64,7 +64,7 @@ describe('presenter',() => {
 });
 
 
-
+// Experiment to have same tests just defined in a shorter and easier to read way
 describe('presenter using jsonpath',() => {
     const defaultInput = {
         word: {
