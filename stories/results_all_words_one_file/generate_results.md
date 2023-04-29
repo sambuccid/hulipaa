@@ -21,7 +21,7 @@ Gived I have a file with 10 words
 When I generate the results for that file
 I want a new result file for each different word
 - now getResults(or generateResultMap) will go over each word of the file and create the map of results with all the words in the file
-  - make sure we split words over punctuantion and other stiff
+  - make sure we split words over punctuantion and other stuff
 - the presenter then will need to be able to support many words in the map of results
 - and the index.js will need to create one file for element in the list returned by the presenter
 

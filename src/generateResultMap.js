@@ -3,24 +3,25 @@ function generateResultMap(pageData) {
     throw new Error("parameter missing")
   }
 
-  const searchedWord = pageData.text.substring(0,pageData.text.indexOf(' '))
+  const results = {}
+  const wordsInFile = pageData.text.split(' ')
 
-  const occurrences = pageData.text.matchAll(searchedWord)
+  for (let searchedWord of wordsInFile) {
 
-  let numberOfMatches = 0;
-  for (let _a of occurrences) {
-    numberOfMatches++;
+    if (results[searchedWord] == null) {
+      results[searchedWord] = {
+        results: [{
+          title: pageData.title,
+          path: adjustPath(pageData.path),
+          numberOfMatches: 1
+        }]
+      }
+    } else {
+      results[searchedWord].results[0].numberOfMatches++
+    }
+
   }
-
-  const result = {}
-  result[searchedWord] = {
-    results: [{
-      title: pageData.title,
-      path: adjustPath(pageData.path),
-      numberOfMatches: numberOfMatches
-    }]
-  }
-  return result;
+  return results;
 }
 
 function adjustPath(oldPath) {
