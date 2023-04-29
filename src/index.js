@@ -20,11 +20,10 @@ function buildIndex(inputFolder,outputFolder) {
     //use case
     const resultMap = generateResultMap(content,searchedWord)
 
-    const outputResult = presenter(resultMap);
+    const files = presenter(resultMap);
 
-    if (outputResult) {
-        //make file
-        fs.writeFileSync(path.join(outputFolder,`${searchedWord}.json`),outputResult)
+    for (let file of files) {
+        fs.writeFileSync(path.join(outputFolder,file.fileName),file.content)
     }
 }
 

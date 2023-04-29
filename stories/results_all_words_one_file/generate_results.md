@@ -5,7 +5,7 @@ So that I can find any relevant results of my query
 
 (no need to think about empty results)
 
-### AC0 [in progress]
+### AC0 [done]
 Refactor code so that it's easier for supporting next ACs
 - getResult will not need to accept a specific word
 - getResults will need to return a map of results, for now with just the first word in the file as a result
