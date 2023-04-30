@@ -216,7 +216,10 @@ describe('processSearch',() => {
                 `and <mark>${searchedWord}</mark> line`],
             ["contains the searched word it highlights the searched word, even across multiple lines",
                 `there is a line 1\nand ${searchedWord} line\nand line 3 ${searchedWord} a`,
-                `and <mark>${searchedWord}</mark> line<br>and line 3 <mark>${searchedWord}</mark> a`]
+                `and <mark>${searchedWord}</mark> line<br>and line 3 <mark>${searchedWord}</mark> a`],
+            ["contains a word and a substring of the word and it highlights just the substring if that's the search term",
+                `there is an enlarged word aaaaa${searchedWord}aaaa then aaaaa${searchedWord} and then ${searchedWord}aaaa and after the normal ${searchedWord} a`,
+                `... after the normal <mark>${searchedWord}</mark> a`]
         ])('shows the right content of the result, when input %s',
             async (_desc,resultText,expectedResult) => {
                 const mockedResult = { ...result,text: resultText }

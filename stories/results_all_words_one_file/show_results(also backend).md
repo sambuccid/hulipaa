@@ -3,7 +3,7 @@ As a visitor of the website
 I want to be able to see the results of my search
 So that i can use them
 
-### AC1
+### AC1[done]
 Investigate if it's possible to have end-to-end tests that cover both generation of results and search of them
 ##### What we would need:
 - have e2e folder
@@ -19,7 +19,7 @@ Investigate if it's possible to have end-to-end tests that cover both generation
 ##### Verdict:
 I think the effort would be more that it's worth it, the main effort would be the setting-up/configuration part, configuring pipeline and setting up project with cucumber or capybara
 
-### AC2
+### AC2[done]
 Given there is a page with a long word first and then a shorter word that is a sub-part of the longer word(... them ... the ...)
 And I have searched for the smaller word(the)
 When I click on a result of a page

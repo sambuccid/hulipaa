@@ -2,7 +2,7 @@
 // all the things that don't have their own module yet
 import { search,loadResult } from './service.js'
 import * as ResultsUI from './results/results-ui.js'
-import { shortenText } from './helpers.js'
+import { shortenText,splitTextInWords,findIndexOfWholeWord } from './helpers.js'
 import { NetworkError } from './network.js'
 
 
@@ -79,26 +79,29 @@ const N_CHARS_CUT_TEXT = 20
 function formatTextForResult(text,searchedWord) {
     //find all lines containig result
     const separateLines = text.split(/\r?\n|\r|\n/g);
-    const allLinesWithSearchedWord = separateLines.filter(line => line.includes(searchedWord));
+    const allLinesWithSearchedWord = separateLines.filter((line) => {
+        const wordsInLine = splitTextInWords(line)
+        return wordsInLine.includes(searchedWord)
+    });
     if (allLinesWithSearchedWord == null || allLinesWithSearchedWord.length == 0) {
         throw "Error, searched word not found"
     }
 
     const formattedLines = allLinesWithSearchedWord.map((line) => {
         //extract text just right before and right after the searched word
-        let searchedWordIdx = line.indexOf(searchedWord)
-        let idxWhereToCut = searchedWordIdx - N_CHARS_CUT_TEXT
+        let searchedWordIdxs = findIndexOfWholeWord(searchedWord,line)
+        let idxWhereToCut = searchedWordIdxs.start - N_CHARS_CUT_TEXT
+
         line = shortenText({
-            from: searchedWordIdx,
+            from: searchedWordIdxs.start,
             to: idxWhereToCut,
             text: line
         })
 
-        searchedWordIdx = line.indexOf(searchedWord)
-        const searchedWordRightIdx = searchedWordIdx + searchedWord.length
-        idxWhereToCut = searchedWordRightIdx + N_CHARS_CUT_TEXT
+        searchedWordIdxs = findIndexOfWholeWord(searchedWord,line)
+        idxWhereToCut = searchedWordIdxs.end + N_CHARS_CUT_TEXT
         line = shortenText({
-            from: searchedWordIdx,
+            from: searchedWordIdxs.start,
             to: idxWhereToCut,
             text: line
         })
