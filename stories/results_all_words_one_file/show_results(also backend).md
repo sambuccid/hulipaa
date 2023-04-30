@@ -5,6 +5,19 @@ So that i can use them
 
 ### AC1
 Investigate if it's possible to have end-to-end tests that cover both generation of results and search of them
+##### What we would need:
+- have e2e folder
+- have input and output folders inside that
+- start generate script for those
+- have folder with frontend pages
+- probably use pipeline service
+- start website in background
+- use cucumber or capybara to go through pages
+##### Gains:
+- we discover part of the integration issues between backend and frontend now instead of later
+- we have tests that check some integration issues
+##### Verdict:
+I think the effort would be more that it's worth it, the main effort would be the setting-up/configuration part, configuring pipeline and setting up project with cucumber or capybara
 
 ### AC2
 Given there is a page with a long word first and then a shorter word that is a sub-part of the longer word(... them ... the ...)
