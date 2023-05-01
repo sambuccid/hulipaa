@@ -41,7 +41,7 @@ So that I can find the topic I want
 Should be able to end to end test it
 #### ~~generate results~~
 
-#### show results
+#### ~~show results~~
 
 
 ### Open result

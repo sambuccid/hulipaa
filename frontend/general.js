@@ -125,7 +125,6 @@ function formatTextForResult(text,searchedWord) {
             line.substring(searchedWordIdxs.start,searchedWordIdxs.end) +
             '</mark>' +
             line.substring(searchedWordIdxs.end)
-        // line = line.replaceAll(searchedWord,`<mark>${searchedWord}</mark>`)
         return line
     })
 
