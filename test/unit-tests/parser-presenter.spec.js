@@ -37,7 +37,7 @@ describe('presenter',() => {
         })
         it('returns the name of the file to create',() => {
             expect(result[0]).toHaveProperty("fileName")
-            expect(result[0].fileName).toEqual('searchedWord.json')
+            expect(result[0].fileName).toEqual('searchedword.json')
         })
         it('returns the content of the file as json string',() => {
             expect(result[0]).toHaveProperty("content")
@@ -91,6 +91,42 @@ describe('presenter',() => {
         // Then
         expect(result.length).toEqual(3)
     });
+    it('normalises results by transforming carachters to normal string without accents',() => {
+        // Given
+        const resultMap = {
+            wordﬀandñ: {
+                results: [{
+                    title: "helloooo",
+                    path: "path.json",
+                    numberOfMatches: 1,
+                }]
+            }
+        }
+        // When
+        const result = presenter(resultMap)
+        // Then
+        expect(result.length).toEqual(1)
+        expect(result[0]).toHaveProperty("fileName")
+        expect(result[0].fileName).toEqual('wordffandn.json')
+    });
+    it('converts the words in lower case',() => {
+        // Given
+        const resultMap = {
+            UPPERCASEword: {
+                results: [{
+                    title: "helloooo",
+                    path: "path.json",
+                    numberOfMatches: 1,
+                }]
+            }
+        }
+        // When
+        const result = presenter(resultMap)
+        // Then
+        expect(result.length).toEqual(1)
+        expect(result[0]).toHaveProperty("fileName")
+        expect(result[0].fileName).toEqual('uppercaseword.json')
+    });
     it('filters number of matches event with multiple results',() => {
         // Given
         const resultMapWithNoMatches = {
@@ -139,7 +175,7 @@ describe('presenter using jsonpath',() => {
 
     test.each([
         ['returns list','$',r => r.length == 1],
-        ['file name created',{ testWord: '$.word' },r => r[0].fileName == 'testWord.json'],
+        ['file name created',{ testWord: '$.word' },r => r[0].fileName == 'testword.json'],
         ['json content','$',r => r[0].content == JSON.stringify(defaultInput.word)],
         // ['filters no matches',['$..numberOfMatches',0],r => r.length == 0]
     ])('%s',(_desc,objectModifier,testResult) => {

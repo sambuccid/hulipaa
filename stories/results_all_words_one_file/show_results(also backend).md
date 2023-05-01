@@ -25,7 +25,9 @@ And I have searched for the smaller word(the)
 When I click on a result of a page
 I want to see highlighted the smaller word
 
-### AC3
-The search should be case insensitive
-- the results get generated all lower case
-- the search transforms letters to lower case before searching
+### AC3[in progress]
+The search should be case insensitive and without accents
+- the results get generated all lower case and without accents
+    String.normalize("NFKD").replace(/[\u0300-\u036f]/g, '')
+- the search transforms letters to lower case and without accents before searching
+- when the user clicks on a result, the code transfrom the found text and the searched word before comparing them so it highlights the correct word

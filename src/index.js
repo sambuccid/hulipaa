@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const generateResultMap = require('./generateResultMap.js')
+const { normaliseAndLowecase } = require('./helper.js')
 
 const searchedWord = "testword"
 
@@ -61,7 +62,13 @@ function presenter(resultMap) {
     const validResults = resultArray.filter(
         (result) => result?.resultInfos?.results?.[0]?.numberOfMatches > 0)
 
-    const filesArray = validResults.map((result) => (
+
+    const normalisedValidResults = validResults.map(res => ({
+        ...res,
+        resultWord: normaliseAndLowecase(res.resultWord)
+    }))
+
+    const filesArray = normalisedValidResults.map((result) => (
         {
             fileName: `${result.resultWord}.json`,
             content: JSON.stringify(result.resultInfos)
