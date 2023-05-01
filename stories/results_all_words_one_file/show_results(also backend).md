@@ -25,7 +25,7 @@ And I have searched for the smaller word(the)
 When I click on a result of a page
 I want to see highlighted the smaller word
 
-### AC3[in progress]
+### AC3[done]
 The search should be case insensitive and without accents
 - the results get generated all lower case and without accents
     String.normalize("NFKD").replace(/[\u0300-\u036f]/g, '')

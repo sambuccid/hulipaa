@@ -49,6 +49,13 @@ export function findIndexOfWholeWord(word,text) {
     }
 }
 
+// !!THERE IS EXACLTY THE SAME FUNCTION IN BACK-END AND THEY NEED TO STAY THE SAME!!
+export function normaliseAndLowecase(str) {
+    return str.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g,'')
+}
+
+
+
 export function isIndexMidWord(idx,text) {
     if (idx <= 0 || idx >= text.length) {
         return false

@@ -2,15 +2,21 @@
 // all the things that don't have their own module yet
 import { search,loadResult } from './service.js'
 import * as ResultsUI from './results/results-ui.js'
-import { shortenText,splitTextInWords,findIndexOfWholeWord } from './helpers.js'
+import {
+    shortenText,
+    splitTextInWords,
+    findIndexOfWholeWord,
+    normaliseAndLowecase
+} from './helpers.js'
 import { NetworkError } from './network.js'
 
 
 export async function processSearch(query,resultContainer) {
     ResultsUI.clear(resultContainer)
+    const normalisedQuery = normaliseAndLowecase(query)
     let res;
     try {
-        res = await search(query);
+        res = await search(normalisedQuery);
     } catch (e) {
         onError(resultContainer,e)
         return;
@@ -77,11 +83,14 @@ async function onResultClick(indexedResult,resultDiv,searchedWord,resultContaine
 }
 const N_CHARS_CUT_TEXT = 20
 function formatTextForResult(text,searchedWord) {
+    const normalisedSearchedWord = normaliseAndLowecase(searchedWord)
+
     //find all lines containig result
     const separateLines = text.split(/\r?\n|\r|\n/g);
     const allLinesWithSearchedWord = separateLines.filter((line) => {
-        const wordsInLine = splitTextInWords(line)
-        return wordsInLine.includes(searchedWord)
+        const normalisedLine = normaliseAndLowecase(line)
+        const wordsInLine = splitTextInWords(normalisedLine)
+        return wordsInLine.includes(normalisedSearchedWord)
     });
     if (allLinesWithSearchedWord == null || allLinesWithSearchedWord.length == 0) {
         throw "Error, searched word not found"
@@ -89,7 +98,8 @@ function formatTextForResult(text,searchedWord) {
 
     const formattedLines = allLinesWithSearchedWord.map((line) => {
         //extract text just right before and right after the searched word
-        let searchedWordIdxs = findIndexOfWholeWord(searchedWord,line)
+        let normalisedLine = normaliseAndLowecase(line)
+        let searchedWordIdxs = findIndexOfWholeWord(normalisedSearchedWord,normalisedLine)
         let idxWhereToCut = searchedWordIdxs.start - N_CHARS_CUT_TEXT
 
         line = shortenText({
@@ -98,7 +108,8 @@ function formatTextForResult(text,searchedWord) {
             text: line
         })
 
-        searchedWordIdxs = findIndexOfWholeWord(searchedWord,line)
+        normalisedLine = normaliseAndLowecase(line)
+        searchedWordIdxs = findIndexOfWholeWord(normalisedSearchedWord,normalisedLine)
         idxWhereToCut = searchedWordIdxs.end + N_CHARS_CUT_TEXT
         line = shortenText({
             from: searchedWordIdxs.start,
@@ -107,7 +118,14 @@ function formatTextForResult(text,searchedWord) {
         })
 
         // Highlight the searched word
-        line = line.replaceAll(searchedWord,`<mark>${searchedWord}</mark>`)
+        normalisedLine = normaliseAndLowecase(line)
+        searchedWordIdxs = findIndexOfWholeWord(normalisedSearchedWord,normalisedLine)
+        line = line.substring(0,searchedWordIdxs.start) +
+            '<mark>' +
+            line.substring(searchedWordIdxs.start,searchedWordIdxs.end) +
+            '</mark>' +
+            line.substring(searchedWordIdxs.end)
+        // line = line.replaceAll(searchedWord,`<mark>${searchedWord}</mark>`)
         return line
     })
 
