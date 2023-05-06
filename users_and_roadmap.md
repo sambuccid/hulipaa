@@ -39,24 +39,10 @@ I want to be able to use the searchbar to see all the occurrences of any word in
 So that I can find the topic I want
 
 Should be able to end to end test it
-an AC for this is the search should be case insensitive
 #### ~~generate results~~
 
-#### show results
-As a visitor of the website
-I want to be able to see the results of my search
-So that i can use them
-(
-AC-N
-Given I have searched for something on the search page
-When I click on a result of a page that can't be found(404)
-I want to still be able to access all other results without running the search again
-AC-N
-Given there is a page with a long word first and then a shorter word that is a sub-part of the longer word(... them ... the ...)
-And I have searched for the smaller word(the)
-When I click on a result of a page
-I want to see highlighted the smaller word
-)
+#### ~~show results~~
+
 
 ### Open result
 As a visitor of the website
@@ -83,6 +69,10 @@ AC-N
 Given I am on the search page
 When I enter and run the search
 I want the results to be clearly separated from one another
+AC-N
+Given I have searched for something on the search page
+When I click on a result of a page that can't be found(404)
+I want to still be able to access all other results without running the search again
 )
 
 ### search multiple words

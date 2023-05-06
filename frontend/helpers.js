@@ -31,9 +31,35 @@ export function shortenText({ from,to,text }) {
     return text
 }
 
+export function splitTextInWords(text) {
+    return [...text.matchAll(getRegexFindWholeWord())].flat()
+}
+
+export function findIndexOfWholeWord(word,text) {
+    let wordIdx = -1
+    let wordRightIdx = -1
+    do {
+        wordIdx = text.indexOf(word,wordIdx + 1)
+        wordRightIdx = wordIdx + word.length
+    } while (isIndexMidWord(wordIdx,text) || isIndexMidWord(wordRightIdx,text))
+
+    return {
+        start: wordIdx,
+        end: wordRightIdx
+    }
+}
+
+// !!THERE IS EXACLTY THE SAME FUNCTION IN BACK-END AND THEY NEED TO STAY THE SAME!!
+export function normaliseAndLowecase(str) {
+    return str.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g,'')
+}
+
 
 
 export function isIndexMidWord(idx,text) {
+    if (idx <= 0 || idx >= text.length) {
+        return false
+    }
     if (!isCharPartOfWord(text[idx])) {
         return false
     }
@@ -47,15 +73,22 @@ export function isIndexMidWord(idx,text) {
     return false;
 }
 
-export function isCharPartOfWord(char) {
+function isCharPartOfWord(char) {
     if (char.length > 1) throw "passed input contains more than 1 character"
 
     if (char === '_' || char === '-' || char === "'") {
         return true;
     }
-    if (new RegExp('[A-Za-zÀ-ÖØ-öø-ÿ0-9]').test(char)) {
+    if (getRegexCharPartOfWord().test(char)) {
         return true
     }
 
     return false
+}
+
+const getRegexCharPartOfWord = () => {
+    return new RegExp('[A-Za-zÀ-ÖØ-öø-ÿ0-9]')
+}
+const getRegexFindWholeWord = () => {
+    return new RegExp('[A-Za-zÀ-ÖØ-öø-ÿ0-9]+','g')
 }

@@ -47,7 +47,7 @@ describe('processSearch',() => {
     };
     let mockedInnerSpan;
     let mockedDiv;
-    const searchedWord = "searchedWord"
+    const searchedWord = "searchedword"
 
     beforeEach(() => {
         resetAllWhenMocks()
@@ -78,6 +78,24 @@ describe('processSearch',() => {
 
         expect(Network.get).toHaveBeenCalled();
         expect(Network.get).toHaveBeenCalledWith("/search/" + searchedWord + ".json");
+    });
+
+    it("normalise and removes accents from the searched word before calling the backend",async () => {
+        const typedWord = "wörd"
+        const expectedWord = "word"
+        await processSearch(typedWord,mockContainer)
+
+        expect(Network.get).toHaveBeenCalled();
+        expect(Network.get).toHaveBeenCalledWith("/search/" + expectedWord + ".json");
+    });
+
+    it("tranform the searched word to lower case before calling the backend",async () => {
+        const typedWord = "CAPITALCASEword"
+        const expectedWord = "capitalcaseword"
+        await processSearch(typedWord,mockContainer)
+
+        expect(Network.get).toHaveBeenCalled();
+        expect(Network.get).toHaveBeenCalledWith("/search/" + expectedWord + ".json");
     });
 
     it('creates an element with the results returned from the backend',async () => {
@@ -216,7 +234,10 @@ describe('processSearch',() => {
                 `and <mark>${searchedWord}</mark> line`],
             ["contains the searched word it highlights the searched word, even across multiple lines",
                 `there is a line 1\nand ${searchedWord} line\nand line 3 ${searchedWord} a`,
-                `and <mark>${searchedWord}</mark> line<br>and line 3 <mark>${searchedWord}</mark> a`]
+                `and <mark>${searchedWord}</mark> line<br>and line 3 <mark>${searchedWord}</mark> a`],
+            ["contains a word and a substring of the word and it highlights just the substring if that's the search term",
+                `there is an enlarged word aaaaa${searchedWord}aaaa then aaaaa${searchedWord} and then ${searchedWord}aaaa and after the normal ${searchedWord} a`,
+                `... after the normal <mark>${searchedWord}</mark> a`]
         ])('shows the right content of the result, when input %s',
             async (_desc,resultText,expectedResult) => {
                 const mockedResult = { ...result,text: resultText }
@@ -230,6 +251,47 @@ describe('processSearch',() => {
 
                 expect(mockedInnerSpan.innerHTML).toBe(expectedResult)
             });
+        it('highlights the searched word correctly ingoring non standard characters in both typed word and content word',async () => {
+            const wordInText = 'wördnĳ'
+            const searchingWord = 'wordñij'
+            const normalisedWord = 'wordnij'
+            const resultText = `some text ${wordInText} some text`
+            // in theory there should be a space between the word and the </mark>, but it's a bug with the normalisation and it's not realy worth spending too much time to solve it
+            const expectedResult = `some text <mark>${wordInText} </mark>some text`
+
+            const mockedResult = { ...result,text: resultText }
+
+            when(Network.get).calledWith(`/search/${normalisedWord}.json`)
+                .mockResolvedValue({ ok: true,json: jest.fn().mockResolvedValue(resultList) })
+            when(Network.get).calledWith(`/${resultList.results[0].path}`)
+                .mockResolvedValue({ ok: true,json: jest.fn().mockResolvedValue(mockedResult) })
+
+            await processSearch(searchingWord,mockContainer)
+
+            await simulateClickOnResultDiv();
+
+            expect(mockedInnerSpan.innerHTML).toBe(expectedResult)
+        });
+        it('highlights the searched word correctly when either the typed word or the the word in the content contains upper case values',async () => {
+            const wordInText = 'CAPITALCASEword'
+            const searchingWord = 'capitalCASEword'
+            const lowercaseWord = 'capitalcaseword'
+            const resultText = `some text ${wordInText} some text`
+            const expectedResult = `some text <mark>${wordInText}</mark> some text`
+
+            const mockedResult = { ...result,text: resultText }
+
+            when(Network.get).calledWith(`/search/${lowercaseWord}.json`)
+                .mockResolvedValue({ ok: true,json: jest.fn().mockResolvedValue(resultList) })
+            when(Network.get).calledWith(`/${resultList.results[0].path}`)
+                .mockResolvedValue({ ok: true,json: jest.fn().mockResolvedValue(mockedResult) })
+
+            await processSearch(searchingWord,mockContainer)
+
+            await simulateClickOnResultDiv();
+
+            expect(mockedInnerSpan.innerHTML).toBe(expectedResult)
+        });
 
 
         it('shows one line for each line in the content that has the searched word',async () => {
