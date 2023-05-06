@@ -33,7 +33,7 @@ Should be able to end to end manually test with changing page
 #### ~~generate results~~
 #### ~~show results~~
 
-### results for all words in one file
+### ~~results for all words in one file~~
 As a visitor of the website
 I want to be able to use the searchbar to see all the occurrences of any word in aspecific page
 So that I can find the topic I want
@@ -46,7 +46,7 @@ Should be able to end to end test it
 
 ### Open result
 As a visitor of the website
-I want to be able to open the page tat contains the result
+I want to be able to open the page that contains the result
 so that I view it
 (Decide a way to store/generate the link to the page to show)
 (this will probably should be able to be customised heavily)
