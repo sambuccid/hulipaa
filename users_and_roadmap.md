@@ -48,8 +48,6 @@ Should be able to end to end test it
 As a visitor of the website
 I want to be able to open the page that contains the result
 so that I view it
-(Decide a way to store/generate the link to the page to show)
-(this will probably should be able to be customised heavily)
 
 ### results for all words in all files
 As a visitor of the website
