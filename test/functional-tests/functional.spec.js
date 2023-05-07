@@ -21,10 +21,13 @@ describe('Generation of search results',() => {
         })
         const searchedWord = 'random'
 
-        createInputTestFile("testFile.json",page)
+        const testFileName = "testFile.json"
+        createInputTestFile(testFileName,page)
 
         // When I run the generate utility searching for an hardcoded word
-        buildIndex(TEST_INPUT_FOLDER,TEST_OUTPUT_FOLDER)
+        buildIndex(TEST_INPUT_FOLDER,TEST_OUTPUT_FOLDER,(fileName,filePath) => {
+            return `link_${fileName}_${filePath}.html`
+        })
 
         // A file gets generated in json
         const outputFiles = getFileListInOutputFolder()
@@ -36,7 +39,8 @@ describe('Generation of search results',() => {
             results: [{
                 title: "page1",
                 path: "../justATestPath.json",
-                numberOfMatches: 1
+                numberOfMatches: 1,
+                link: `link_${testFileName}_${TEST_INPUT_FOLDER}.html`
             }]
         }
         const outputFileContent = readOutputFile(outputFiles[0])
@@ -55,7 +59,7 @@ describe('Generation of search results',() => {
         createInputTestFile("testFile.json",page)
 
         // When I run the generate utility searching for an hardcoded word
-        buildIndex(TEST_INPUT_FOLDER,TEST_OUTPUT_FOLDER)
+        buildIndex(TEST_INPUT_FOLDER,TEST_OUTPUT_FOLDER,() => 'test.html')
 
         // 4 files get generated in json
         const outputFiles = getFileListInOutputFolder()
@@ -70,7 +74,8 @@ describe('Generation of search results',() => {
             results: [{
                 title: "page1",
                 path: "../justATestPath.json",
-                numberOfMatches: 1
+                numberOfMatches: 1,
+                link: 'test.html'
             }]
         }
         for (let outputFile of outputFiles) {
@@ -92,7 +97,7 @@ describe('Generation of search results',() => {
         createInputTestFile("testFile.json",page)
 
         // When I run the generate utility searching for an hardcoded word
-        buildIndex(TEST_INPUT_FOLDER,TEST_OUTPUT_FOLDER)
+        buildIndex(TEST_INPUT_FOLDER,TEST_OUTPUT_FOLDER,() => 'test.html')
 
         // just 1 file get generated
         const outputFiles = getFileListInOutputFolder()
@@ -104,7 +109,8 @@ describe('Generation of search results',() => {
             results: [{
                 title: "page1",
                 path: "../justATestPath.json",
-                numberOfMatches: 4
+                numberOfMatches: 4,
+                link: 'test.html'
             }]
         }
         for (let outputFile of outputFiles) {

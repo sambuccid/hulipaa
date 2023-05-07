@@ -42,6 +42,7 @@ describe('processSearch',() => {
         results: [{
             title: "a page1",
             path: "page1.json",
+            link: 'aa.html',
             numberOfMatches: 1
         }]
     };

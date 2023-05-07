@@ -7,7 +7,7 @@ As the creator of the website
 I need to be able to specify where each result should link to
 So that the visitor can open the correct page
 
-### AC1
+### AC1 [done]
 (Creator website)
 Given I have a function that given the path of the file with the page returns the relative uri of the page where the user needs to be redirected
 When I call the `buildIndex` function to start the generation of the results
@@ -40,6 +40,7 @@ When the user clicks on the main top section
 Then it will be redirected to the page using the `link` property of the result
 
 ### AC6
+(Spike/Story timeboxed)
 Given the visitor search for a string
 And it gets some results
 And the results will have 2 sections

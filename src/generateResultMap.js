@@ -15,7 +15,8 @@ function generateResultMap(pageData) {
         results: [{
           title: pageData.title,
           path: adjustPath(pageData.path),
-          numberOfMatches: 1
+          link: pageData.link,
+          numberOfMatches: 1,
         }]
       }
     } else {
