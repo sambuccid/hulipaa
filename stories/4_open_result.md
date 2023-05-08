@@ -14,8 +14,19 @@ When I call the `buildIndex` function to start the generation of the results
 And I pass in my uri generation function
 Then the generated results will contain the `link` property that is associated with the page
 
-### AC2
+### AC2[done]
 Spike to investigate how difficult would be to use a regex or a substitution language to specify the uri given the path of the page's file
+#### Verdict
+It should be fairly easy to implement
+The replace function on a string is already very powerful when used with regular expressions.
+We could have a passed in regular expression alongside a replacement string, and they would be called on the full path(path+fileName) of the page
+for example:
+```
+full path: ".input/folder1/page.json"
+substitution regex: /(.*)\/(.*)\.(.*)/
+substitution string: "$1/generated/$2.html"
+result: ".input/folder1/generated/page.html"
+```
 
 ### AC3
 Given the visitor search for a string
