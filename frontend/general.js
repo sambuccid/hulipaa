@@ -26,7 +26,7 @@ export async function processSearch(query,resultContainer) {
 
     ResultsUI.addElements(resultContainer,{
         resultTitle: firstResult.title,
-        onclick: onClick
+        // onclick: onClick
     })
     async function onClick(event) {
         // Is important to reference the result element from the event, because otherwise we might create a memory leak

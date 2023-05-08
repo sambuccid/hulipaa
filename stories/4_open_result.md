@@ -28,7 +28,7 @@ substitution string: "$1/generated/$2.html"
 result: ".input/folder1/generated/page.html"
 ```
 
-### AC3
+### AC3[done]
 Given the visitor search for a string
 When it gets some results
 Then the results will look similar to the `result_ux.png` file
@@ -42,6 +42,7 @@ And it gets some results
 And the results will have 2 sections
 When the user clicks on the smaller bottom section
 Then the section will expand with an animation downwards showing the content of the page with the highlighted content, as already described in previous user stories
+(remember to re-enable and modify the unit tests that were commented out)
 
 ### AC5
 Given the visitor search for a string
@@ -51,6 +52,9 @@ When the user clicks on the main top section
 Then it will be redirected to the page using the `link` property of the result
 
 ### AC6
+Ensure error messages are not shown with the expand div
+
+### AC7
 (Spike/Story timeboxed)
 Given the visitor search for a string
 And it gets some results

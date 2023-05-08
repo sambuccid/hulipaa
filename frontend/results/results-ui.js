@@ -16,8 +16,36 @@ export function addElements(div,{ resultTitle,onclick,type }) {
     }
     const element = EL.div({
         els: [
-            EL.span({
-                innerText: resultTitle
+            EL.div({
+                els: [
+                    EL.span({
+                        innerText: resultTitle
+                    })],
+                style: {
+                    flex: '6 6 0px',
+                    paddingBottom: '2px',
+                    minHeight: '30px'
+                }
+            }),
+            EL.div({
+                els: [
+                    EL.img({
+                        innerText: "Expand",
+                        src: "../frontend/images/arrow_down_icon.svg",
+                        style: {
+                            width: 'auto',
+                            height: '100%'
+                        }
+                    })
+                ],
+                style: {
+                    flex: '4 4 0px',
+                    backgroundColor: 'lightblue',
+                    paddingTop: '2px',
+                    paddingBottom: '2px',
+                    overflow: 'auto',
+                    minHeight: '20px'
+                }
             })
         ],
         onclick: onclick,
@@ -25,9 +53,13 @@ export function addElements(div,{ resultTitle,onclick,type }) {
         style: {
             backgroundColor,
             borderRadius: "10px",
-            padding: "10px",
+            paddingTop: '3px',
+            paddingBottom: '0px',
             textAlign: "center",
-            border: "gray solid 1px"
+            border: "gray solid 1px",
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column'
         }
     })
 
