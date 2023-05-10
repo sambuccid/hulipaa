@@ -26,11 +26,12 @@ export async function processSearch(query,resultContainer) {
 
     ResultsUI.addElements(resultContainer,{
         resultTitle: firstResult.title,
+        onclickExpandDiv: onClickExpandDiv
         // onclick: onClick
     })
-    async function onClick(event) {
+    async function onClickExpandDiv(event) {
         // Is important to reference the result element from the event, because otherwise we might create a memory leak
-        const resultElement = event.currentTarget;
-        await onResultClick(firstResult,resultElement,query,resultContainer);
+        const expandDiv = event.currentTarget;
+        await onResultClick(firstResult,expandDiv,query,resultContainer);
     }
 }

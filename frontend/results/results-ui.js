@@ -1,13 +1,16 @@
 import EL from '../EL.js'
 
-const EXPANDED_DATA_ATTRIBUTE = 'data-expanded'
+// const EXPANDED_DATA_ATTRIBUTE = 'data-expanded'
+const EXPAND_DIV_TEST_ID = 'expand-div'
+const EXPAND_DIV_CLASS_NAME = 'expand-div'
+const EXPANDED_CLASS_NAME = 'expanded'
 const ERROR_COLOR = '#ff7640'
 const MESSAGE_COLOR = '#ffd24d'
 export const messageType = {
     ERROR: 'error',
     MESSAGE: 'message'
 }
-export function addElements(div,{ resultTitle,onclick,type }) {
+export function addElements(div,{ resultTitle,onclickExpandDiv,type }) {
     let backgroundColor = "white"
     if (type === messageType.ERROR) {
         backgroundColor = ERROR_COLOR
@@ -29,15 +32,9 @@ export function addElements(div,{ resultTitle,onclick,type }) {
             }),
             EL.div({
                 els: [
-                    EL.img({
-                        innerText: "Expand",
-                        src: "../frontend/images/arrow_down_icon.svg",
-                        style: {
-                            width: 'auto',
-                            height: '100%'
-                        }
-                    })
+                    createImageExpandDiv()
                 ],
+                onclick: onclickExpandDiv,
                 style: {
                     flex: '4 4 0px',
                     backgroundColor: 'lightblue',
@@ -45,10 +42,11 @@ export function addElements(div,{ resultTitle,onclick,type }) {
                     paddingBottom: '2px',
                     overflow: 'auto',
                     minHeight: '20px'
-                }
+                },
+                className: EXPAND_DIV_CLASS_NAME,
+                dataTestId: EXPAND_DIV_TEST_ID
             })
         ],
-        onclick: onclick,
 
         style: {
             backgroundColor,
@@ -67,32 +65,56 @@ export function addElements(div,{ resultTitle,onclick,type }) {
     return { element: element }
 }
 
+export function populateExpandWithImage({ expandDiv }) {
+    clear(expandDiv)
+    const img = createImageExpandDiv()
+    expandDiv.appendChild(img)
+}
 
-export function populateWith({ resultDiv,htmlText,text }) {
-    let span = resultDiv.getElementsByTagName('span');
-    span = span[0];
+export function createImageExpandDiv() {
+    return EL.img({
+        innerText: "Expand",
+        src: "../frontend/images/arrow_down_icon.svg",
+        style: {
+            width: 'auto',
+            height: '100%'
+        }
+    })
+}
+
+export function populateExpandWith({ expandDiv,htmlText,text }) {
+    clear(expandDiv)
+
+    let span
     if (htmlText) {
-        span.innerHTML = htmlText;
+        span = EL.span({
+            innerHTML: htmlText
+        })
     } else if (text) {
-        span.innerText = text;
+        span = EL.span({
+            innerText: test
+        })
     }
+    expandDiv.appendChild(span)
 }
 
 export function clear(div) {
     div.replaceChildren()
 }
 
-export function isExpanded({ resultDiv }) {
-    if (resultDiv.getAttribute(EXPANDED_DATA_ATTRIBUTE))
+export function isExpanded({ expandDiv }) {
+    if (expandDiv.classList.contains(EXPANDED_CLASS_NAME))
         return true
     else
         return false
 }
 
-export function expand({ resultDiv }) {
-    resultDiv.setAttribute(EXPANDED_DATA_ATTRIBUTE,"expanded")
+export function expand({ expandDiv }) {
+    expandDiv.classList.add(EXPANDED_CLASS_NAME)
+    expandDiv.style.flexBasis = 'auto'
 }
 
-export function collapse({ resultDiv }) {
-    resultDiv.removeAttribute(EXPANDED_DATA_ATTRIBUTE)
+export function collapse({ expandDiv }) {
+    expandDiv.classList.remove(EXPANDED_CLASS_NAME)
+    expandDiv.style.flexBasis = '0px'
 }
