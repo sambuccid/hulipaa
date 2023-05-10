@@ -18,6 +18,7 @@ jest.mock('./EL.js',() => {
     }
 });
 
+// TODO to move to new file
 function simulateHtmlAttributes(element) {
     element.mockAttrList = {}
     element.getAttribute = function (attrName) {
@@ -31,9 +32,11 @@ function simulateHtmlAttributes(element) {
     }
 }
 
+// TODO to moev to new file
 const mockContainer = { appendChild: jest.fn(),replaceChildren: jest.fn() }
 
 function getOnclickPropertyOfResultExpandDiv() {
+    // TODO needs to be modified to get on click property
     const correctCallParameters = findCallWithObjectWithProperty(EL.div.mock,"dataTestId",EXPAND_DIV_TEST_ID)
     const firstParameter = correctCallParameters[0]
     const onclickProperty = firstParameter.onclick
@@ -49,6 +52,7 @@ describe('processSearch',() => {
             numberOfMatches: 1
         }]
     };
+    // TODO move to different file
     let mockedInnerSpan;
     let mockedDiv;
     const searchedWord = "searchedword"
@@ -56,6 +60,7 @@ describe('processSearch',() => {
     beforeEach(() => {
         resetAllWhenMocks()
         jest.clearAllMocks();
+        // TODO move to different file
         mockedInnerSpan = {
             innerHTML: null,
             innerText: null,
@@ -63,6 +68,7 @@ describe('processSearch',() => {
         }
         when(Network.get).calledWith(`/search/${searchedWord}.json`)
             .mockResolvedValue({ ok: true,json: jest.fn().mockResolvedValue(resultList) })
+        // TODO move to different file
         mockedDiv = {
             getElementsByTagName: jest.fn().mockReturnValue([mockedInnerSpan])
         }
@@ -102,30 +108,9 @@ describe('processSearch',() => {
         expect(Network.get).toHaveBeenCalledWith("/search/" + expectedWord + ".json");
     });
 
-    it('creates an element with the results returned from the backend',async () => {
-        await processSearch(searchedWord,mockContainer)
+    // TODO test to check it calls ResultsUI.addElements
 
-        expect(EL.div).toHaveBeenCalled()
-
-        expect(mockContainer.appendChild).toHaveBeenCalled()
-        expect(mockContainer.appendChild).toHaveBeenCalledWith(expect.anything())
-    });
-
-    it('the element with the result contains 2 other elements',async () => {
-        await processSearch(searchedWord,mockContainer)
-
-        expect(EL.div).toHaveBeenCalledTimes(3)
-
-        expect(mockContainer.appendChild).toHaveBeenCalled()
-        expect(mockContainer.appendChild).toHaveBeenCalledWith(expect.anything())
-    });
-
-    it('the element for the dropdown in the result element has an image',async () => {
-        await processSearch(searchedWord,mockContainer)
-
-        expect(EL.img).toHaveBeenCalledTimes(1)
-    });
-
+    // TODO needs to be adapted with new mocks
     it('the element contains the title of the page',async () => {
         await processSearch(searchedWord,mockContainer)
 
@@ -134,6 +119,7 @@ describe('processSearch',() => {
         }))
     });
 
+    // TODO needs to be adapted with new mocks
     it('empties the old results before adding the new results',async () => {
         await processSearch(searchedWord,mockContainer)
 
@@ -142,6 +128,7 @@ describe('processSearch',() => {
     });
 
     // TODO this test will need to become more specific later on, to test that there are 2 elements that are clickable
+    // TODO needs to be adapted with new mocks
     it('there should be an element that should be clickable',async () => {
         await processSearch(searchedWord,mockContainer)
 
@@ -150,6 +137,7 @@ describe('processSearch',() => {
         }))
     });
 
+    // TODO adapt to mock UI
     it("should show an error if the network doesn't work",async () => {
         when(Network.get).calledWith(expect.anything())
             .mockRejectedValue()
@@ -172,6 +160,7 @@ describe('processSearch',() => {
         }))
     })
 
+    // TODO adapt to mock UI
     it("should show an error if the search call has problems",async () => {
         when(Network.get).calledWith(expect.anything())
             .mockResolvedValue({ ok: false,status: 500 })
@@ -194,6 +183,7 @@ describe('processSearch',() => {
         }))
     })
 
+    // TODO adapt to mock UI
     it("should show a message if the search doesn't find any result",async () => {
         when(Network.get).calledWith(expect.anything())
             .mockResolvedValue({ ok: false,status: 404 })
@@ -228,7 +218,7 @@ describe('processSearch',() => {
                 .mockResolvedValue({ ok: true,json: jest.fn().mockResolvedValue(result) })
         });
 
-
+        // TODO copy to have different version of it
         it("calls the backend to get the content of the result",async () => {
             await processSearch(searchedWord,mockContainer)
 
@@ -238,6 +228,7 @@ describe('processSearch',() => {
             expect(Network.get).toHaveBeenNthCalledWith(2,"/" + resultList.results[0].path);
         });
 
+        // TODO adapt to mock UI
         it.each([
             ["is short doesn't cut anything and doesn't add '...'",`short content ${searchedWord} of result`,`short content <mark>${searchedWord}</mark> of result`],
             ["is long it cuts it to 20 chars adding '...' where it cuts",
@@ -272,6 +263,9 @@ describe('processSearch',() => {
                 // TODO we need a good way of selecting the right span
                 expect(mockedInnerSpan.innerHTML).toBe(expectedResult)
             });
+
+        // TODO copy to have different version of it
+        // TODO possibly by moving it to it's own test file
         it('highlights the searched word correctly ingoring non standard characters in both typed word and content word',async () => {
             const wordInText = 'wördnĳ'
             const searchingWord = 'wordñij'
@@ -293,6 +287,9 @@ describe('processSearch',() => {
 
             expect(mockedInnerSpan.innerHTML).toBe(expectedResult)
         });
+
+        // TODO copy to have different version of it
+        // TODO possibly by moving it to it's own test file
         it('highlights the searched word correctly when either the typed word or the the word in the content contains upper case values',async () => {
             const wordInText = 'CAPITALCASEword'
             const searchingWord = 'capitalCASEword'
@@ -315,6 +312,8 @@ describe('processSearch',() => {
         });
 
 
+        // TODO copy to have different version of it
+        // TODO possibly by moving it to it's own test file
         it('shows one line for each line in the content that has the searched word',async () => {
             const resultText = `The content has one result here ${searchedWord}\n` +
                 `and in the new line there is another result ${searchedWord}\n` +
@@ -338,6 +337,7 @@ describe('processSearch',() => {
             expect(mockedInnerSpan.innerHTML).toBe(expectedResult)
         });
 
+        // TODO this is probably some functionality that is not going to be kept
         it("when clicking the result twice it goes back showing the title of the result",async () => {
             await processSearch(searchedWord,mockContainer)
 
@@ -347,7 +347,7 @@ describe('processSearch',() => {
             expect(mockedInnerSpan.innerText).toBe(resultList.results[0].title)
         });
 
-
+        // TODO this is probably some functionality that is not going to be kept
         it("when clicking the result 3 times it shows the content of the result",async () => {
             await processSearch(searchedWord,mockContainer)
 
@@ -359,7 +359,7 @@ describe('processSearch',() => {
             expect(mockedInnerSpan.innerHTML).toBe(expectedHtml)
         });
 
-
+        // TODO adapt to mock UI
         it("should show an error if the network doesn't work",async () => {
             when(Network.get).calledWith(`/${resultList.results[0].path}`)
                 .mockRejectedValue()
@@ -387,6 +387,7 @@ describe('processSearch',() => {
             }))
         })
 
+        // TODO adapt to mock UI
         it("should show an error if the result call has problems",async () => {
             when(Network.get).calledWith(`/${resultList.results[0].path}`)
                 .mockResolvedValue({ ok: false,status: 500 })
@@ -414,7 +415,7 @@ describe('processSearch',() => {
             }))
         })
 
-
+        // TODO adapt to mock UI
         it("should show a specific error if the result is not found",async () => {
             when(Network.get).calledWith(`/${resultList.results[0].path}`)
                 .mockResolvedValue({ ok: false,status: 404 })

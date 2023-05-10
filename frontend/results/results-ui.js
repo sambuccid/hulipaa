@@ -1,8 +1,8 @@
 import EL from '../EL.js'
 
 // const EXPANDED_DATA_ATTRIBUTE = 'data-expanded'
-const EXPAND_DIV_TEST_ID = 'expand-div'
-const EXPAND_DIV_CLASS_NAME = 'expand-div'
+// const EXPAND_DIV_TEST_ID = 'expand-div'
+export const EXPAND_DIV_CLASS_NAME = 'expand-div'
 const EXPANDED_CLASS_NAME = 'expanded'
 const ERROR_COLOR = '#ff7640'
 const MESSAGE_COLOR = '#ffd24d'
@@ -44,7 +44,7 @@ export function addElements(div,{ resultTitle,onclickExpandDiv,type }) {
                     minHeight: '20px'
                 },
                 className: EXPAND_DIV_CLASS_NAME,
-                dataTestId: EXPAND_DIV_TEST_ID
+                // dataTestId: EXPAND_DIV_TEST_ID
             })
         ],
 
