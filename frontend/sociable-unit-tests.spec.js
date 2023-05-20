@@ -1,23 +1,12 @@
 import { processSearch } from './general.js'
 import * as Network from './network.js'
-import * as EL from './EL.js'
 import * as ResultsUI from './results/results-ui.js'
 import { when,resetAllWhenMocks } from 'jest-when'
-import { findCallWithObjectWithProperty } from './test-helper'
-import { EXPAND_DIV_TEST_ID } from './results/results-ui'
-
 
 jest.mock('./network.js',() => {
     return { get: jest.fn(),NetworkError: class { } }
 });
 
-// jest.mock('./EL.js',() => {
-//     return {
-//         div: jest.fn(),
-//         span: jest.fn(),
-//         img: jest.fn(),
-//     }
-// });
 jest.mock('./results/results-ui.js',() => {
     const actualModule = jest.requireActual('./results/results-ui.js');
     return {
@@ -29,35 +18,8 @@ jest.mock('./results/results-ui.js',() => {
         populateExpandWith: jest.fn(),
         populateExpandWithImage: jest.fn(),
         messageType: actualModule.messageType
-        // EXPAND_DIV_CLASS_NAME = 'expand-div'
-        // messageType = {...}
-        // addElements(div,{ resultTitle,onclickExpandDiv,type })
-        // populateExpandWithImage({ expandDiv })
-        // createImageExpandDiv()
-        // populateExpandWith({ expandDiv,htmlText,text })
-        // clear(div)
-        // isExpanded({ expandDiv })
-        // expand({ expandDiv })
-        // collapse({ expandDiv })
     }
 })
-
-// TODO to move to new file
-function simulateHtmlAttributes(element) {
-    element.mockAttrList = {}
-    element.getAttribute = function (attrName) {
-        return this.mockAttrList[attrName]
-    }
-    element.setAttribute = function (attrName,value) {
-        this.mockAttrList[attrName] = value
-    }
-    element.removeAttribute = function (attrName) {
-        this.mockAttrList[attrName] = undefined
-    }
-}
-
-// TODO to move to new file
-const mockContainer = { appendChild: jest.fn(),replaceChildren: jest.fn() }
 
 function getOnclickPropertyOfResultExpandDiv() {
     const correctCallParameters = ResultsUI.addElements.mock.lastCall
@@ -67,6 +29,10 @@ function getOnclickPropertyOfResultExpandDiv() {
 }
 
 describe('processSearch',() => {
+    const mockContainer = {}
+    const mockedExpandDiv = '<div>test-expanded-div</div>'
+    const searchedWord = "searchedword"
+
     const resultList = {
         results: [{
             title: "a page1",
@@ -75,33 +41,15 @@ describe('processSearch',() => {
             numberOfMatches: 1
         }]
     };
-    // TODO move to different file
-    let mockedInnerSpan;
-    let mockedDiv;
-
-    const mockedExpandDiv = '<div>test-expanded-div</div>'
-
-    const searchedWord = "searchedword"
 
     beforeEach(() => {
         resetAllWhenMocks()
         jest.clearAllMocks();
-        // TODO move to different file
-        mockedInnerSpan = {
-            innerHTML: null,
-            innerText: null,
-            id: Math.random()
-        }
+
         when(Network.get).calledWith(`/search/${searchedWord}.json`)
             .mockResolvedValue({ ok: true,json: jest.fn().mockResolvedValue(resultList) })
-        // TODO move to different file
-        mockedDiv = {
-            getElementsByTagName: jest.fn().mockReturnValue([mockedInnerSpan])
-        }
+
         ResultsUI.isExpanded.mockReturnValue(false)
-        // simulateHtmlAttributes(mockedDiv)
-        // EL.div.mockReturnValue(mockedDiv)
-        // EL.span.mockReturnValue(mockedInnerSpan)
     });
 
     async function simulateClickOnResultExpandDiv() {
@@ -136,7 +84,6 @@ describe('processSearch',() => {
         expect(Network.get).toHaveBeenCalledWith("/search/" + expectedWord + ".json");
     });
 
-    // TODO test to check it calls ResultsUI.addElements with right parameters
 
     it('the element contains the title of the page',async () => {
         await processSearch(searchedWord,mockContainer)
@@ -331,6 +278,5 @@ describe('processSearch',() => {
             }))
         })
     });
-
 });
 
