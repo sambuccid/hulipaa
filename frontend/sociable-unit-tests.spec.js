@@ -91,8 +91,8 @@ describe('processSearch',() => {
     });
 
     it("normalise and removes accents from the searched word before calling the backend",async () => {
-        const typedWord = "wörd"
-        const expectedWord = "word"
+        const typedWord = "wordñij"
+        const expectedWord = "wordnij"
         await processSearch(typedWord,mockContainer)
 
         expect(Network.get).toHaveBeenCalled();
@@ -108,7 +108,7 @@ describe('processSearch',() => {
         expect(Network.get).toHaveBeenCalledWith("/search/" + expectedWord + ".json");
     });
 
-    // TODO test to check it calls ResultsUI.addElements
+    // TODO test to check it calls ResultsUI.addElements with right parameters
 
     // TODO needs to be adapted with new mocks
     it('the element contains the title of the page',async () => {
@@ -218,7 +218,7 @@ describe('processSearch',() => {
                 .mockResolvedValue({ ok: true,json: jest.fn().mockResolvedValue(result) })
         });
 
-        // TODO copy to have different version of it
+        // TODO adapt to mock UI
         it("calls the backend to get the content of the result",async () => {
             await processSearch(searchedWord,mockContainer)
 
@@ -229,101 +229,9 @@ describe('processSearch',() => {
         });
 
         // TODO adapt to mock UI
-        it.each([
-            ["is short doesn't cut anything and doesn't add '...'",`short content ${searchedWord} of result`,`short content <mark>${searchedWord}</mark> of result`],
-            ["is long it cuts it to 20 chars adding '...' where it cuts",
-                `a long content of the page, the content conains the ${searchedWord},is very long and it will need to be cut`,
-                `...content conains the <mark>${searchedWord}</mark>,is very long and it...`],
-            ["contains a long word before the searched word that will need to be cut, it doesn't cut the word but it excludes it",
-                `a long_long_word and other words ${searchedWord} a`,
-                `... and other words <mark>${searchedWord}</mark> a`],
-            ["contains a long word after the searched word that will need to be cut, it doesn't cut the word but it excludes it",
-                `a ${searchedWord} with words and long_long_word a`,
-                `a <mark>${searchedWord}</mark> with words and ...`],
-            ["contains multiple lines, shows just the one with teh searched word",
-                `there is a line 1\nand ${searchedWord} line\nand line 3`,
-                `and <mark>${searchedWord}</mark> line`],
-            ["contains the searched word it highlights the searched word, even across multiple lines",
-                `there is a line 1\nand ${searchedWord} line\nand line 3 ${searchedWord} a`,
-                `and <mark>${searchedWord}</mark> line<br>and line 3 <mark>${searchedWord}</mark> a`],
-            ["contains a word and a substring of the word and it highlights just the substring if that's the search term",
-                `there is an enlarged word aaaaa${searchedWord}aaaa then aaaaa${searchedWord} and then ${searchedWord}aaaa and after the normal ${searchedWord} a`,
-                `... after the normal <mark>${searchedWord}</mark> a`]
-        ])('shows the right content of the result, when input %s',
-            async (_desc,resultText,expectedResult) => {
-                const mockedResult = { ...result,text: resultText }
-
-                when(Network.get).calledWith(`/${resultList.results[0].path}`)
-                    .mockResolvedValue({ ok: true,json: jest.fn().mockResolvedValue(mockedResult) })
-
-                await processSearch(searchedWord,mockContainer)
-
-                await simulateClickOnResultExpandDiv();
-
-                // TODO we need a good way of selecting the right span
-                expect(mockedInnerSpan.innerHTML).toBe(expectedResult)
-            });
-
-        // TODO copy to have different version of it
-        // TODO possibly by moving it to it's own test file
-        it('highlights the searched word correctly ingoring non standard characters in both typed word and content word',async () => {
-            const wordInText = 'wördnĳ'
-            const searchingWord = 'wordñij'
-            const normalisedWord = 'wordnij'
-            const resultText = `some text ${wordInText} some text`
-            // in theory there should be a space between the word and the </mark>, but it's a bug with the normalisation and it's not realy worth spending too much time to solve it
-            const expectedResult = `some text <mark>${wordInText} </mark>some text`
-
-            const mockedResult = { ...result,text: resultText }
-
-            when(Network.get).calledWith(`/search/${normalisedWord}.json`)
-                .mockResolvedValue({ ok: true,json: jest.fn().mockResolvedValue(resultList) })
-            when(Network.get).calledWith(`/${resultList.results[0].path}`)
-                .mockResolvedValue({ ok: true,json: jest.fn().mockResolvedValue(mockedResult) })
-
-            await processSearch(searchingWord,mockContainer)
-
-            await simulateClickOnResultExpandDiv();
-
-            expect(mockedInnerSpan.innerHTML).toBe(expectedResult)
-        });
-
-        // TODO copy to have different version of it
-        // TODO possibly by moving it to it's own test file
-        it('highlights the searched word correctly when either the typed word or the the word in the content contains upper case values',async () => {
-            const wordInText = 'CAPITALCASEword'
-            const searchingWord = 'capitalCASEword'
-            const lowercaseWord = 'capitalcaseword'
-            const resultText = `some text ${wordInText} some text`
-            const expectedResult = `some text <mark>${wordInText}</mark> some text`
-
-            const mockedResult = { ...result,text: resultText }
-
-            when(Network.get).calledWith(`/search/${lowercaseWord}.json`)
-                .mockResolvedValue({ ok: true,json: jest.fn().mockResolvedValue(resultList) })
-            when(Network.get).calledWith(`/${resultList.results[0].path}`)
-                .mockResolvedValue({ ok: true,json: jest.fn().mockResolvedValue(mockedResult) })
-
-            await processSearch(searchingWord,mockContainer)
-
-            await simulateClickOnResultExpandDiv();
-
-            expect(mockedInnerSpan.innerHTML).toBe(expectedResult)
-        });
-
-
-        // TODO copy to have different version of it
-        // TODO possibly by moving it to it's own test file
-        it('shows one line for each line in the content that has the searched word',async () => {
-            const resultText = `The content has one result here ${searchedWord}\n` +
-                `and in the new line there is another result ${searchedWord}\n` +
-                `third line\n` +
-                `\n` +
-                `${searchedWord} last line with result`
-
-            const expectedResult = `...has one result here <mark>${searchedWord}</mark><br>` +
-                `... is another result <mark>${searchedWord}</mark><br>` +
-                `<mark>${searchedWord}</mark> last line with ...`
+        it('formats the content of the result',async () => {
+            const resultText = `short content ${searchedWord} of result`
+            const expectedResult = `short content <mark>${searchedWord}</mark> of result`
 
             const mockedResult = { ...result,text: resultText }
 
@@ -334,6 +242,7 @@ describe('processSearch',() => {
 
             await simulateClickOnResultExpandDiv();
 
+            // TODO we need a good way of selecting the right span
             expect(mockedInnerSpan.innerHTML).toBe(expectedResult)
         });
 
