@@ -1,6 +1,7 @@
 import { processSearch } from './general.js'
 import * as Network from './network.js'
 import * as EL from './EL.js'
+import * as ResultsUI from './results/results-ui.js'
 import { when,resetAllWhenMocks } from 'jest-when'
 import { findCallWithObjectWithProperty } from './test-helper'
 import { EXPAND_DIV_TEST_ID } from './results/results-ui'
@@ -10,13 +11,36 @@ jest.mock('./network.js',() => {
     return { get: jest.fn(),NetworkError: class { } }
 });
 
-jest.mock('./EL.js',() => {
+// jest.mock('./EL.js',() => {
+//     return {
+//         div: jest.fn(),
+//         span: jest.fn(),
+//         img: jest.fn(),
+//     }
+// });
+jest.mock('./results/results-ui.js',() => {
+    const actualModule = jest.requireActual('./results/results-ui.js');
     return {
-        div: jest.fn(),
-        span: jest.fn(),
-        img: jest.fn(),
+        addElements: jest.fn(),
+        clear: jest.fn(),
+        isExpanded: jest.fn(),
+        expand: jest.fn(),
+        collapse: jest.fn(),
+        populateExpandWith: jest.fn(),
+        populateExpandWithImage: jest.fn(),
+        messageType: actualModule.messageType
+        // EXPAND_DIV_CLASS_NAME = 'expand-div'
+        // messageType = {...}
+        // addElements(div,{ resultTitle,onclickExpandDiv,type })
+        // populateExpandWithImage({ expandDiv })
+        // createImageExpandDiv()
+        // populateExpandWith({ expandDiv,htmlText,text })
+        // clear(div)
+        // isExpanded({ expandDiv })
+        // expand({ expandDiv })
+        // collapse({ expandDiv })
     }
-});
+})
 
 // TODO to move to new file
 function simulateHtmlAttributes(element) {
@@ -32,14 +56,13 @@ function simulateHtmlAttributes(element) {
     }
 }
 
-// TODO to moev to new file
+// TODO to move to new file
 const mockContainer = { appendChild: jest.fn(),replaceChildren: jest.fn() }
 
 function getOnclickPropertyOfResultExpandDiv() {
-    // TODO needs to be modified to get on click property
-    const correctCallParameters = findCallWithObjectWithProperty(EL.div.mock,"dataTestId",EXPAND_DIV_TEST_ID)
-    const firstParameter = correctCallParameters[0]
-    const onclickProperty = firstParameter.onclick
+    const correctCallParameters = ResultsUI.addElements.mock.lastCall
+    const secondParameter = correctCallParameters[1]
+    const onclickProperty = secondParameter.onclickExpandDiv
     return onclickProperty
 }
 
@@ -55,6 +78,9 @@ describe('processSearch',() => {
     // TODO move to different file
     let mockedInnerSpan;
     let mockedDiv;
+
+    const mockedExpandDiv = '<div>test-expanded-div</div>'
+
     const searchedWord = "searchedword"
 
     beforeEach(() => {
@@ -72,15 +98,17 @@ describe('processSearch',() => {
         mockedDiv = {
             getElementsByTagName: jest.fn().mockReturnValue([mockedInnerSpan])
         }
-        simulateHtmlAttributes(mockedDiv)
-        EL.div.mockReturnValue(mockedDiv)
-        EL.span.mockReturnValue(mockedInnerSpan)
+        ResultsUI.isExpanded.mockReturnValue(false)
+        // simulateHtmlAttributes(mockedDiv)
+        // EL.div.mockReturnValue(mockedDiv)
+        // EL.span.mockReturnValue(mockedInnerSpan)
     });
 
     async function simulateClickOnResultExpandDiv() {
         const resultOnClick = getOnclickPropertyOfResultExpandDiv();
-        const event = { currentTarget: mockedDiv }
+        const event = { currentTarget: mockedExpandDiv }
         await resultOnClick(event);
+        ResultsUI.isExpanded.mockReturnValue(!ResultsUI.isExpanded())
     }
 
     it("calls the backend to get the result",async () => {
@@ -110,99 +138,73 @@ describe('processSearch',() => {
 
     // TODO test to check it calls ResultsUI.addElements with right parameters
 
-    // TODO needs to be adapted with new mocks
     it('the element contains the title of the page',async () => {
         await processSearch(searchedWord,mockContainer)
 
-        expect(EL.span).toHaveBeenCalledWith(expect.objectContaining({
-            innerText: resultList.results[0].title
+        expect(ResultsUI.addElements).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
+            resultTitle: resultList.results[0].title
         }))
     });
 
-    // TODO needs to be adapted with new mocks
     it('empties the old results before adding the new results',async () => {
         await processSearch(searchedWord,mockContainer)
 
-        expect(mockContainer.replaceChildren).toHaveBeenCalled()
-        expect(mockContainer.replaceChildren).toHaveBeenCalledWith()
+        expect(ResultsUI.clear).toHaveBeenCalledWith(mockContainer)
     });
 
-    // TODO this test will need to become more specific later on, to test that there are 2 elements that are clickable
-    // TODO needs to be adapted with new mocks
-    it('there should be an element that should be clickable',async () => {
+    it('there should be the expand element that should be clickable',async () => {
         await processSearch(searchedWord,mockContainer)
 
-        expect(EL.div).toHaveBeenCalledWith(expect.objectContaining({
-            onclick: expect.anything()
+        expect(ResultsUI.addElements).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
+            onclickExpandDiv: expect.anything()
         }))
     });
 
-    // TODO adapt to mock UI
     it("should show an error if the network doesn't work",async () => {
         when(Network.get).calledWith(expect.anything())
             .mockRejectedValue()
 
         await processSearch(searchedWord,mockContainer)
 
-        // Adds new element
-        expect(EL.div).toHaveBeenCalled()
-        expect(mockContainer.appendChild).toHaveBeenCalled()
-        expect(mockContainer.appendChild).toHaveBeenCalledWith(expect.anything())
+        // Removes old elements
+        expect(ResultsUI.clear).toHaveBeenCalledWith(mockContainer)
 
-        // New element contains error
-        expect(EL.span).toHaveBeenCalledWith(expect.objectContaining({
-            innerText: 'Experienced a network issue, please try again'
-        }))
-
-        // Error is shown with correct style
-        expect(EL.div).toHaveBeenCalledWith(expect.objectContaining({
-            style: expect.objectContaining({ backgroundColor: '#ff7640' })
+        // Adds new element with correct message and error style
+        expect(ResultsUI.addElements).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
+            resultTitle: 'Experienced a network issue, please try again',
+            type: ResultsUI.messageType.ERROR
         }))
     })
 
-    // TODO adapt to mock UI
     it("should show an error if the search call has problems",async () => {
         when(Network.get).calledWith(expect.anything())
             .mockResolvedValue({ ok: false,status: 500 })
 
         await processSearch(searchedWord,mockContainer)
 
-        // Adds new element
-        expect(EL.div).toHaveBeenCalled()
-        expect(mockContainer.appendChild).toHaveBeenCalled()
-        expect(mockContainer.appendChild).toHaveBeenCalledWith(expect.anything())
+        // Removes old elements
+        expect(ResultsUI.clear).toHaveBeenCalledWith(mockContainer)
 
-        // New element contains error
-        expect(EL.span).toHaveBeenCalledWith(expect.objectContaining({
-            innerText: 'There has been an issue, please try again'
-        }))
-
-        // Error is shown with correct style
-        expect(EL.div).toHaveBeenCalledWith(expect.objectContaining({
-            style: expect.objectContaining({ backgroundColor: '#ff7640' })
+        // Adds new element with correct message and error style
+        expect(ResultsUI.addElements).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
+            resultTitle: 'There has been an issue, please try again',
+            type: ResultsUI.messageType.ERROR
         }))
     })
 
-    // TODO adapt to mock UI
     it("should show a message if the search doesn't find any result",async () => {
         when(Network.get).calledWith(expect.anything())
             .mockResolvedValue({ ok: false,status: 404 })
 
         await processSearch(searchedWord,mockContainer)
 
-        // Adds new element
-        expect(EL.div).toHaveBeenCalled()
-        expect(mockContainer.appendChild).toHaveBeenCalled()
-        expect(mockContainer.appendChild).toHaveBeenCalledWith(expect.anything())
+        // Removes old elements
+        expect(ResultsUI.clear).toHaveBeenCalledWith(mockContainer)
 
-        // New element contains message
-        expect(EL.span).toHaveBeenCalledWith(expect.objectContaining({
-            innerText: 'No results were found for your search'
-        }))
-
-        // Error is shown with correct style
-        expect(EL.div).toHaveBeenCalledWith(expect.objectContaining({
-            style: expect.objectContaining({ backgroundColor: '#ffd24d' })
+        // Adds new element with correct message and message style
+        expect(ResultsUI.addElements).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
+            resultTitle: 'No results were found for your search',
+            type: ResultsUI.messageType.MESSAGE
         }))
     })
 
@@ -212,13 +214,13 @@ describe('processSearch',() => {
             path: resultList.results[0].path,
             text: `content ${searchedWord} of the page`
         };
+        const expectedHtml = `content <mark>${searchedWord}</mark> of the page`;
 
         beforeEach(() => {
             when(Network.get).calledWith(`/${resultList.results[0].path}`)
                 .mockResolvedValue({ ok: true,json: jest.fn().mockResolvedValue(result) })
         });
 
-        // TODO adapt to mock UI
         it("calls the backend to get the content of the result",async () => {
             await processSearch(searchedWord,mockContainer)
 
@@ -228,35 +230,34 @@ describe('processSearch',() => {
             expect(Network.get).toHaveBeenNthCalledWith(2,"/" + resultList.results[0].path);
         });
 
-        // TODO adapt to mock UI
-        it('formats the content of the result',async () => {
-            const resultText = `short content ${searchedWord} of result`
-            const expectedResult = `short content <mark>${searchedWord}</mark> of result`
-
-            const mockedResult = { ...result,text: resultText }
-
-            when(Network.get).calledWith(`/${resultList.results[0].path}`)
-                .mockResolvedValue({ ok: true,json: jest.fn().mockResolvedValue(mockedResult) })
-
+        it('expands that expandDiv and formats the content of the result',async () => {
             await processSearch(searchedWord,mockContainer)
 
             await simulateClickOnResultExpandDiv();
 
-            // TODO we need a good way of selecting the right span
-            expect(mockedInnerSpan.innerHTML).toBe(expectedResult)
+            // The div has been expanded
+            expect(ResultsUI.expand).toHaveBeenCalledWith({ expandDiv: mockedExpandDiv })
+
+            // The div has been populated with the content of the result
+            expect(ResultsUI.populateExpandWith).toHaveBeenCalledWith({
+                expandDiv: mockedExpandDiv,
+                htmlText: expectedHtml
+            })
         });
 
-        // TODO this is probably some functionality that is not going to be kept
-        it("when clicking the result twice it goes back showing the title of the result",async () => {
+        it("when clicking the result twice it goes back showing the down arrow image",async () => {
             await processSearch(searchedWord,mockContainer)
 
             await simulateClickOnResultExpandDiv();
             await simulateClickOnResultExpandDiv();
 
-            expect(mockedInnerSpan.innerText).toBe(resultList.results[0].title)
+            // The element has been collapsed
+            expect(ResultsUI.collapse).toHaveBeenCalledWith({ expandDiv: mockedExpandDiv })
+
+            // The element has the down arrow(expand) image
+            expect(ResultsUI.populateExpandWithImage).toHaveBeenCalledWith({ expandDiv: mockedExpandDiv })
         });
 
-        // TODO this is probably some functionality that is not going to be kept
         it("when clicking the result 3 times it shows the content of the result",async () => {
             await processSearch(searchedWord,mockContainer)
 
@@ -264,11 +265,18 @@ describe('processSearch',() => {
             await simulateClickOnResultExpandDiv();
             await simulateClickOnResultExpandDiv();
 
-            const expectedHtml = `content <mark>${searchedWord}</mark> of the page`;
-            expect(mockedInnerSpan.innerHTML).toBe(expectedHtml)
+            // The div has been expanded again
+            expect(ResultsUI.expand).toHaveBeenCalledTimes(2)
+            expect(ResultsUI.expand).toHaveBeenNthCalledWith(2,{ expandDiv: mockedExpandDiv })
+
+            // The div has been populated with the content of the result
+            expect(ResultsUI.populateExpandWith).toHaveBeenCalledTimes(2)
+            expect(ResultsUI.populateExpandWith).toHaveBeenNthCalledWith(2,{
+                expandDiv: mockedExpandDiv,
+                htmlText: expectedHtml
+            })
         });
 
-        // TODO adapt to mock UI
         it("should show an error if the network doesn't work",async () => {
             when(Network.get).calledWith(`/${resultList.results[0].path}`)
                 .mockRejectedValue()
@@ -278,25 +286,15 @@ describe('processSearch',() => {
             await simulateClickOnResultExpandDiv();
 
             // Removes result
-            expect(mockContainer.replaceChildren).toHaveBeenCalled()
-            expect(mockContainer.replaceChildren).toHaveBeenCalledWith()
+            expect(ResultsUI.clear).toHaveBeenCalledWith(mockContainer)
 
-            // Adds new element
-            expect(EL.div).toHaveBeenCalledTimes(2)
-            expect(mockContainer.appendChild).toHaveBeenCalledTimes(2)
-
-            // New element contains error
-            expect(EL.span).toHaveBeenCalledWith(expect.objectContaining({
-                innerText: 'Experienced a network issue, please try again'
-            }))
-
-            // Error is shown with correct style
-            expect(EL.div).toHaveBeenCalledWith(expect.objectContaining({
-                style: expect.objectContaining({ backgroundColor: '#ff7640' })
+            // Adds new element with correct message and error style
+            expect(ResultsUI.addElements).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
+                resultTitle: 'Experienced a network issue, please try again',
+                type: ResultsUI.messageType.ERROR
             }))
         })
 
-        // TODO adapt to mock UI
         it("should show an error if the result call has problems",async () => {
             when(Network.get).calledWith(`/${resultList.results[0].path}`)
                 .mockResolvedValue({ ok: false,status: 500 })
@@ -306,25 +304,15 @@ describe('processSearch',() => {
             await simulateClickOnResultExpandDiv();
 
             // Removes result
-            expect(mockContainer.replaceChildren).toHaveBeenCalled()
-            expect(mockContainer.replaceChildren).toHaveBeenCalledWith()
+            expect(ResultsUI.clear).toHaveBeenCalledWith(mockContainer)
 
-            // Adds new element
-            expect(EL.div).toHaveBeenCalledTimes(2)
-            expect(mockContainer.appendChild).toHaveBeenCalledTimes(2)
-
-            // New element contains error
-            expect(EL.span).toHaveBeenCalledWith(expect.objectContaining({
-                innerText: 'There has been an issue, please try again'
-            }))
-
-            // Error is shown with correct style
-            expect(EL.div).toHaveBeenCalledWith(expect.objectContaining({
-                style: expect.objectContaining({ backgroundColor: '#ff7640' })
+            // Adds new element with correct message and error style
+            expect(ResultsUI.addElements).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
+                resultTitle: 'There has been an issue, please try again',
+                type: ResultsUI.messageType.ERROR
             }))
         })
 
-        // TODO adapt to mock UI
         it("should show a specific error if the result is not found",async () => {
             when(Network.get).calledWith(`/${resultList.results[0].path}`)
                 .mockResolvedValue({ ok: false,status: 404 })
@@ -334,21 +322,12 @@ describe('processSearch',() => {
             await simulateClickOnResultExpandDiv();
 
             // Removes result
-            expect(mockContainer.replaceChildren).toHaveBeenCalled()
-            expect(mockContainer.replaceChildren).toHaveBeenCalledWith()
+            expect(ResultsUI.clear).toHaveBeenCalledWith(mockContainer)
 
-            // Adds new element
-            expect(EL.div).toHaveBeenCalledTimes(2)
-            expect(mockContainer.appendChild).toHaveBeenCalledTimes(2)
-
-            // New element contains error
-            expect(EL.span).toHaveBeenCalledWith(expect.objectContaining({
-                innerText: "There has been an error, the result couldn't be found"
-            }))
-
-            // Error is shown with correct style
-            expect(EL.div).toHaveBeenCalledWith(expect.objectContaining({
-                style: expect.objectContaining({ backgroundColor: '#ff7640' })
+            // Adds new element with correct message and error style
+            expect(ResultsUI.addElements).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
+                resultTitle: "There has been an error, the result couldn't be found",
+                type: ResultsUI.messageType.ERROR
             }))
         })
     });
