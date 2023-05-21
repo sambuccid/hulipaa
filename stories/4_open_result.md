@@ -50,9 +50,8 @@ And the results will have 2 sections
 When the user clicks on the main top section
 Then it will be redirected to the page using the `link` property of the result
 
-### AC6
+### AC6[done]
 Ensure error messages are not shown with the expand div
-this should also fix some of the failing unit tests
 
 ### AC7
 (Spike/Story timeboxed)
@@ -60,4 +59,5 @@ Given the visitor search for a string
 And it gets some results
 And the results will have 2 sections
 When the user hovers with the mouse on either of the 2 sections
-Then the color of the sections will have a quick animation showing a slightly brighter colour
+Then the mouse pointer should be have the "clicking" style
+And the color of the sections will have a quick animation showing a slightly brighter colour

@@ -1,5 +1,11 @@
 import * as EL from '../EL.js'
-import { addElements,clear,EXPAND_DIV_CLASS_NAME,MAIN_DIV_CLASS_NAME } from './results-ui'
+import {
+    addElements,
+    clear,
+    messageType,
+    EXPAND_DIV_CLASS_NAME,
+    MAIN_DIV_CLASS_NAME
+} from './results-ui'
 
 jest.mock('../EL.js',() => {
     return {
@@ -40,6 +46,32 @@ describe('addElements',() => {
 
         expect(EL.div).toHaveBeenCalledTimes(3)
     });
+
+    it('when the element is loaded with the message style it should contain just a span with the message',() => {
+        const message = 'test message'
+        addElements(mockContainer,{
+            resultTitle: message,
+            type: messageType.MESSAGE
+        })
+        expect(EL.div).toHaveBeenCalledTimes(1)
+        expect(EL.span).toHaveBeenCalledTimes(1)
+        expect(EL.span).toHaveBeenCalledWith(expect.objectContaining({
+            innerText: message
+        }))
+    })
+
+    it('when the element is loaded with the error style it should contain just a span with the error message',() => {
+        const errorMessage = 'error message'
+        addElements(mockContainer,{
+            resultTitle: errorMessage,
+            type: messageType.ERROR
+        })
+        expect(EL.div).toHaveBeenCalledTimes(1)
+        expect(EL.span).toHaveBeenCalledTimes(1)
+        expect(EL.span).toHaveBeenCalledWith(expect.objectContaining({
+            innerText: errorMessage
+        }))
+    })
 
     describe('the main part of the result',() => {
         it('contains specified title',async () => {

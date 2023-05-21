@@ -16,8 +16,15 @@ export function addElements(div,{ resultTitle,onclickExpandDiv,onclick,type }) {
     } else if (type === messageType.MESSAGE) {
         backgroundColor = MESSAGE_COLOR
     }
-    const element = EL.div({
-        els: [
+
+    let resultContent
+    if (type != null) {
+        resultContent = [
+            EL.span({
+                innerText: resultTitle
+            })]
+    } else {
+        resultContent = [
             EL.div({
                 els: [
                     EL.span({
@@ -44,11 +51,13 @@ export function addElements(div,{ resultTitle,onclickExpandDiv,onclick,type }) {
                     overflow: 'auto',
                     minHeight: '20px'
                 },
-                className: EXPAND_DIV_CLASS_NAME,
-                // dataTestId: EXPAND_DIV_TEST_ID
+                className: EXPAND_DIV_CLASS_NAME
             })
-        ],
+        ]
+    }
 
+    const element = EL.div({
+        els: resultContent,
         style: {
             backgroundColor,
             borderRadius: "10px",
