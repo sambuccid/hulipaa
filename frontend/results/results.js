@@ -5,11 +5,11 @@ import {
     normaliseAndLowecase
 } from '../helpers.js'
 import { loadResult } from '../service.js'
+import { assignUrl } from '../browser.js'
 import * as ResultsUI from './results-ui.js'
 import { showSearchMessage,manageExceptionUI } from '../resultsContainer/resultsContainer.js'
 
-// TODO rename function name to mention epxandDiv
-export async function onResultClick(indexedResult,expandDiv,searchedWord,resultContainer) {
+export async function onResultExpandClick(indexedResult,expandDiv,searchedWord,resultContainer) {
     if (!ResultsUI.isExpanded({ expandDiv })) {
         const { result,error } = await manageExceptionUI(resultContainer,async () =>
             await loadResult(indexedResult.path)
@@ -30,6 +30,10 @@ export async function onResultClick(indexedResult,expandDiv,searchedWord,resultC
         ResultsUI.populateExpandWithImage({ expandDiv })
         ResultsUI.collapse({ expandDiv })
     }
+}
+
+export function onResultClick(indexedResult) {
+    assignUrl(indexedResult.link)
 }
 
 const N_CHARS_CUT_TEXT = 20

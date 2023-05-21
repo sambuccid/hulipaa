@@ -36,16 +36,14 @@ And they will have:
 - A main section that will take most of the space with the name of the page
 - A smaller bottom section of the result with a different colour that will contain an arrow pointing down
 
-### AC4[in progress]
+### AC4[done]
 Given the visitor search for a string
 And it gets some results
 And the results will have 2 sections
 When the user clicks on the smaller bottom section
 Then the section will expand with an animation downwards showing the content of the page with the highlighted content, as already described in previous user stories
-(remember to re-enable and modify the unit tests that were commented out)
-- refactor unit tests to test UI creation in different tests
 
-### AC5
+### AC5[done]
 Given the visitor search for a string
 And it gets some results
 And the results will have 2 sections

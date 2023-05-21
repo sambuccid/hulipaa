@@ -1,8 +1,7 @@
 import EL from '../EL.js'
 
-// const EXPANDED_DATA_ATTRIBUTE = 'data-expanded'
-// const EXPAND_DIV_TEST_ID = 'expand-div'
 export const EXPAND_DIV_CLASS_NAME = 'expand-div'
+export const MAIN_DIV_CLASS_NAME = 'open-div'
 const EXPANDED_CLASS_NAME = 'expanded'
 const ERROR_COLOR = '#ff7640'
 const MESSAGE_COLOR = '#ffd24d'
@@ -10,7 +9,7 @@ export const messageType = {
     ERROR: 'error',
     MESSAGE: 'message'
 }
-export function addElements(div,{ resultTitle,onclickExpandDiv,type }) {
+export function addElements(div,{ resultTitle,onclickExpandDiv,onclick,type }) {
     let backgroundColor = "white"
     if (type === messageType.ERROR) {
         backgroundColor = ERROR_COLOR
@@ -24,11 +23,13 @@ export function addElements(div,{ resultTitle,onclickExpandDiv,type }) {
                     EL.span({
                         innerText: resultTitle
                     })],
+                onclick: onclick,
                 style: {
                     flex: '6 6 0px',
                     paddingBottom: '2px',
                     minHeight: '30px'
-                }
+                },
+                className: MAIN_DIV_CLASS_NAME
             }),
             EL.div({
                 els: [

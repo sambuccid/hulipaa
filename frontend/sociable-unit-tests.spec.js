@@ -1,10 +1,15 @@
 import { processSearch } from './general.js'
 import * as Network from './network.js'
+import * as Browser from './browser.js'
 import * as ResultsUI from './results/results-ui.js'
 import { when,resetAllWhenMocks } from 'jest-when'
 
 jest.mock('./network.js',() => {
     return { get: jest.fn(),NetworkError: class { } }
+});
+
+jest.mock('./browser.js',() => {
+    return { assignUrl: jest.fn() }
 });
 
 jest.mock('./results/results-ui.js',() => {
@@ -21,11 +26,13 @@ jest.mock('./results/results-ui.js',() => {
     }
 })
 
-function getOnclickPropertyOfResultExpandDiv() {
+function getOnclickPropertiesOfResult() {
     const correctCallParameters = ResultsUI.addElements.mock.lastCall
     const secondParameter = correctCallParameters[1]
-    const onclickProperty = secondParameter.onclickExpandDiv
-    return onclickProperty
+    return {
+        main: secondParameter.onclick,
+        expandDiv: secondParameter.onclickExpandDiv
+    }
 }
 
 describe('processSearch',() => {
@@ -52,13 +59,6 @@ describe('processSearch',() => {
         ResultsUI.isExpanded.mockReturnValue(false)
     });
 
-    async function simulateClickOnResultExpandDiv() {
-        const resultOnClick = getOnclickPropertyOfResultExpandDiv();
-        const event = { currentTarget: mockedExpandDiv }
-        await resultOnClick(event);
-        ResultsUI.isExpanded.mockReturnValue(!ResultsUI.isExpanded())
-    }
-
     it("calls the backend to get the result",async () => {
         await processSearch(searchedWord,mockContainer)
 
@@ -84,7 +84,6 @@ describe('processSearch',() => {
         expect(Network.get).toHaveBeenCalledWith("/search/" + expectedWord + ".json");
     });
 
-
     it('the element contains the title of the page',async () => {
         await processSearch(searchedWord,mockContainer)
 
@@ -106,6 +105,14 @@ describe('processSearch',() => {
             onclickExpandDiv: expect.anything()
         }))
     });
+
+    it('the main part of the result should be clickable',async () => {
+        await processSearch(searchedWord,mockContainer)
+
+        expect(ResultsUI.addElements).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
+            onclick: expect.anything()
+        }))
+    })
 
     it("should show an error if the network doesn't work",async () => {
         when(Network.get).calledWith(expect.anything())
@@ -155,13 +162,20 @@ describe('processSearch',() => {
         }))
     })
 
-    describe('when clicking the result element',() => {
+    describe('when clicking the expandDiv of the result element',() => {
         const result = {
             title: resultList.results[0].title,
             path: resultList.results[0].path,
             text: `content ${searchedWord} of the page`
         };
         const expectedHtml = `content <mark>${searchedWord}</mark> of the page`;
+
+        async function simulateClickOnResultExpandDiv() {
+            const { expandDiv: expandDivClickFunc } = getOnclickPropertiesOfResult();
+            const event = { currentTarget: mockedExpandDiv }
+            await expandDivClickFunc(event);
+            ResultsUI.isExpanded.mockReturnValue(!ResultsUI.isExpanded())
+        }
 
         beforeEach(() => {
             when(Network.get).calledWith(`/${resultList.results[0].path}`)
@@ -177,7 +191,7 @@ describe('processSearch',() => {
             expect(Network.get).toHaveBeenNthCalledWith(2,"/" + resultList.results[0].path);
         });
 
-        it('expands that expandDiv and formats the content of the result',async () => {
+        it('expands the expandDiv and formats the content of the result',async () => {
             await processSearch(searchedWord,mockContainer)
 
             await simulateClickOnResultExpandDiv();
@@ -277,6 +291,21 @@ describe('processSearch',() => {
                 type: ResultsUI.messageType.ERROR
             }))
         })
-    });
+    })
+
+    describe('when clicking the main part of the result element',() => {
+        function simulateClickOnResult() {
+            const { main: onClickFunc } = getOnclickPropertiesOfResult();
+            onClickFunc();
+        }
+
+        it('should redirect to the page of the result',async () => {
+            await processSearch(searchedWord,mockContainer)
+
+            simulateClickOnResult()
+
+            expect(Browser.assignUrl).toHaveBeenCalledWith(resultList.results[0].link)
+        })
+    })
 });
 
