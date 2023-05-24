@@ -13,6 +13,7 @@ jest.mock('../EL.js',() => {
         span: jest.fn(),
         img: jest.fn(),
         a: jest.fn(),
+        button: jest.fn()
     }
 });
 
@@ -20,9 +21,11 @@ describe('addElements',() => {
 
     const mockedDiv = 'mockedDiv'
     const mockedImg = 'mockedDiv'
+    const mockedButton = 'mockedButton'
+    const mockedAnchor = 'mockedAnchor'
     const mockContainer = { appendChild: jest.fn() }
     const resultTitle = 'test result title'
-    const onclickExpandDiv = () => { }
+    const onclickExpandDiv = jest.fn()
     const link = '/testLink.html'
 
     beforeEach(() => {
@@ -30,6 +33,8 @@ describe('addElements',() => {
 
         EL.div.mockReturnValue(mockedDiv)
         EL.img.mockReturnValue(mockedImg)
+        EL.button.mockReturnValue(mockedButton)
+        EL.a.mockReturnValue(mockedAnchor)
     });
 
 
@@ -75,50 +80,63 @@ describe('addElements',() => {
     })
 
     describe('the main part of the result',() => {
+        it('should be clickable',() => {
+            addElements(mockContainer,{ resultTitle,onclickExpandDiv,link })
+
+            expect(EL.a).toHaveBeenCalledWith(expect.objectContaining({
+                href: link
+            }))
+            expect(EL.div).toHaveBeenCalledWith(expect.objectContaining({
+                className: MAIN_DIV_CLASS_NAME,
+                els: [mockedAnchor]
+            }))
+        })
         it('contains specified title',async () => {
             const testSpan = 'test-span'
             EL.span.mockReturnValue(testSpan)
 
             addElements(mockContainer,{ resultTitle,onclickExpandDiv,link })
 
-            expect(EL.div).toHaveBeenCalledWith(expect.objectContaining({
-                className: MAIN_DIV_CLASS_NAME,
-                els: [testSpan],
-            }))
             expect(EL.span).toHaveBeenCalledWith(expect.objectContaining({
                 innerText: resultTitle
             }))
-        })
-        it('should be clickable',() => {
-            addElements(mockContainer,{ resultTitle,onclickExpandDiv,link })
-
             expect(EL.a).toHaveBeenCalledWith(expect.objectContaining({
-                els: [mockedDiv],
-                href: link
+                els: [testSpan]
+            }))
+            expect(EL.div).toHaveBeenCalledWith(expect.objectContaining({
+                className: MAIN_DIV_CLASS_NAME,
+                els: [mockedAnchor],
             }))
         })
     })
 
 
     describe('the expandDiv',() => {
+        it('should be clickable',() => {
+            addElements(mockContainer,{ resultTitle,onclickExpandDiv,link })
+
+            expect(EL.button).toHaveBeenCalledTimes(1)
+            expect(EL.button).toHaveBeenCalledWith(expect.objectContaining({
+                onclick: expect.anything()
+            }))
+            expect(EL.div).toHaveBeenCalledWith(expect.objectContaining({
+                className: EXPAND_DIV_CLASS_NAME,
+                els: [mockedButton]
+            }))
+        });
         it('has an image',() => {
             addElements(mockContainer,{ resultTitle,onclickExpandDiv,link })
 
             expect(EL.img).toHaveBeenCalledTimes(1)
-            expect(EL.div).toHaveBeenCalledWith(expect.objectContaining({
-                className: EXPAND_DIV_CLASS_NAME,
+            expect(EL.button).toHaveBeenCalledWith(expect.objectContaining({
                 els: [mockedImg]
             }))
-        });
-
-        it('should be clickable',async () => {
-            addElements(mockContainer,{ resultTitle,onclickExpandDiv,link })
-
             expect(EL.div).toHaveBeenCalledWith(expect.objectContaining({
                 className: EXPAND_DIV_CLASS_NAME,
-                onclick: onclickExpandDiv
+                els: [mockedButton]
             }))
         });
+
     })
 
 });
@@ -132,3 +150,6 @@ describe('clear',() => {
         expect(div.replaceChildren).toHaveBeenCalledWith()
     });
 })
+
+// TODO to test populateExpandWithImage
+// TODO to test populateExpandWith

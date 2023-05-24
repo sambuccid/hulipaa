@@ -61,6 +61,4 @@ And the results will have 2 sections
 When the user hovers with the mouse on either of the 2 sections
 Then the mouse pointer should be have the "clicking" style
 And the color of the sections will have a quick animation showing a slightly brighter colour
-- mouse pointer of expand element
-  - maybe done with <a> element
 - css for colour animation

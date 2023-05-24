@@ -164,8 +164,7 @@ describe('processSearch',() => {
 
         async function simulateClickOnResultExpandDiv() {
             const expandDivClickFunc = getOnclickPropertyOfExpandResult();
-            const event = { currentTarget: mockedExpandDiv }
-            await expandDivClickFunc(event);
+            await expandDivClickFunc(mockedExpandDiv);
             ResultsUI.isExpanded.mockReturnValue(!ResultsUI.isExpanded())
         }
 

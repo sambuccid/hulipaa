@@ -29,9 +29,7 @@ export async function processSearch(query,resultContainer) {
         onclickExpandDiv: onClickExpandDiv,
         link: firstResult.link
     })
-    async function onClickExpandDiv(event) {
-        // Is important to reference the result element from the event, because otherwise we might create a memory leak
-        const expandDiv = event.currentTarget;
+    async function onClickExpandDiv(expandDiv) {
         await onResultExpandClick(firstResult,expandDiv,query,resultContainer);
     }
 }

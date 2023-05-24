@@ -25,41 +25,34 @@ export function addElements(div,{ resultTitle,onclickExpandDiv,link,type }) {
             })]
     } else {
         resultContent = [
-            EL.a({
+
+            EL.div({
                 els: [
-                    EL.div({
+                    EL.a({
                         els: [
                             EL.span({
                                 innerText: resultTitle
-                            })],
+                            }),
+                        ],
+                        href: link,
                         style: {
-                            flex: '6 6 0px',
-                            paddingBottom: '2px',
-                            minHeight: '30px'
-                        },
-                        className: MAIN_DIV_CLASS_NAME
-                    })
-                ],
-                href: link,
+                            color: 'inherit',
+                            textDecoration: 'inherit',
+                            display: 'inline-block',
+                            height: '100%',
+                            width: '100%',
+                        }
+                    })],
                 style: {
-                    color: 'inherit',
-                    textDecoration: 'inherit'
-                }
-            }),
-            EL.div({
-                els: [
-                    createImageExpandDiv()
-                ],
-                onclick: onclickExpandDiv,
-                style: {
-                    flex: '4 4 0px',
-                    backgroundColor: 'lightblue',
-                    paddingTop: '2px',
+                    flex: '6 6 0px',
                     paddingBottom: '2px',
-                    overflow: 'auto',
-                    minHeight: '20px'
+                    minHeight: '30px'
                 },
-                className: EXPAND_DIV_CLASS_NAME
+                className: MAIN_DIV_CLASS_NAME
+            }),
+            makePopulateExpandDiv({
+                content: createImageExpandDiv(),
+                onclick: onclickExpandDiv
             })
         ]
     }
@@ -83,13 +76,49 @@ export function addElements(div,{ resultTitle,onclickExpandDiv,link,type }) {
     return { element: element }
 }
 
-export function populateExpandWithImage({ expandDiv }) {
-    clear(expandDiv)
-    const img = createImageExpandDiv()
-    expandDiv.appendChild(img)
+function makePopulateExpandDiv({ content,existingExpandDiv,onclick }) {
+    // Populate existing div
+    if (existingExpandDiv) {
+        const button = existingExpandDiv.firstChild
+        clear(button)
+        button.appendChild(content)
+        return
+    }
+    // Create new div
+    return EL.div({
+        els: [
+            EL.button({
+                els: [
+                    content
+                ],
+                onclick: async (event) => {
+                    await onclick(event.currentTarget.parentElement)
+                },
+                style: {
+                    cursor: 'pointer',
+                    border: 'none',
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: 'inherit',
+                    padding: '0',
+                    margin: '0',
+                    font: 'inherit',
+                }
+            })
+        ],
+        style: {
+            flex: '4 4 0px',
+            backgroundColor: 'lightblue',
+            paddingTop: '2px',
+            paddingBottom: '2px',
+            overflow: 'auto',
+            minHeight: '20px',
+        },
+        className: EXPAND_DIV_CLASS_NAME
+    })
 }
 
-export function createImageExpandDiv() {
+function createImageExpandDiv() {
     return EL.img({
         innerText: "Expand",
         src: "../frontend/images/arrow_down_icon.svg",
@@ -100,9 +129,15 @@ export function createImageExpandDiv() {
     })
 }
 
-export function populateExpandWith({ expandDiv,htmlText,text }) {
-    clear(expandDiv)
+export function populateExpandWithImage({ expandDiv }) {
+    const img = createImageExpandDiv()
+    makePopulateExpandDiv({
+        existingExpandDiv: expandDiv,
+        content: img
+    })
+}
 
+export function populateExpandWith({ expandDiv,htmlText,text }) {
     let span
     if (htmlText) {
         span = EL.span({
@@ -113,7 +148,10 @@ export function populateExpandWith({ expandDiv,htmlText,text }) {
             innerText: test
         })
     }
-    expandDiv.appendChild(span)
+    makePopulateExpandDiv({
+        existingExpandDiv: expandDiv,
+        content: span
+    })
 }
 
 export function clear(div) {
