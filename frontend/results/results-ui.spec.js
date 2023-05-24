@@ -12,6 +12,7 @@ jest.mock('../EL.js',() => {
         div: jest.fn(),
         span: jest.fn(),
         img: jest.fn(),
+        a: jest.fn(),
     }
 });
 
@@ -22,7 +23,7 @@ describe('addElements',() => {
     const mockContainer = { appendChild: jest.fn() }
     const resultTitle = 'test result title'
     const onclickExpandDiv = () => { }
-    const onclick = () => { }
+    const link = '/testLink.html'
 
     beforeEach(() => {
         jest.clearAllMocks();
@@ -33,7 +34,7 @@ describe('addElements',() => {
 
 
     it('creates an element in the container div',() => {
-        addElements(mockContainer,{ resultTitle,onclickExpandDiv,onclick })
+        addElements(mockContainer,{ resultTitle,onclickExpandDiv,link })
 
         expect(EL.div).toHaveBeenCalled()
 
@@ -42,7 +43,7 @@ describe('addElements',() => {
     });
 
     it('the result element contains 2 other elements',() => {
-        addElements(mockContainer,{ resultTitle,onclickExpandDiv,onclick })
+        addElements(mockContainer,{ resultTitle,onclickExpandDiv,link })
 
         expect(EL.div).toHaveBeenCalledTimes(3)
     });
@@ -78,7 +79,7 @@ describe('addElements',() => {
             const testSpan = 'test-span'
             EL.span.mockReturnValue(testSpan)
 
-            addElements(mockContainer,{ resultTitle,onclickExpandDiv,onclick })
+            addElements(mockContainer,{ resultTitle,onclickExpandDiv,link })
 
             expect(EL.div).toHaveBeenCalledWith(expect.objectContaining({
                 className: MAIN_DIV_CLASS_NAME,
@@ -89,11 +90,11 @@ describe('addElements',() => {
             }))
         })
         it('should be clickable',() => {
-            addElements(mockContainer,{ resultTitle,onclickExpandDiv,onclick })
+            addElements(mockContainer,{ resultTitle,onclickExpandDiv,link })
 
-            expect(EL.div).toHaveBeenCalledWith(expect.objectContaining({
-                className: MAIN_DIV_CLASS_NAME,
-                onclick: onclick
+            expect(EL.a).toHaveBeenCalledWith(expect.objectContaining({
+                els: [mockedDiv],
+                href: link
             }))
         })
     })
@@ -101,7 +102,7 @@ describe('addElements',() => {
 
     describe('the expandDiv',() => {
         it('has an image',() => {
-            addElements(mockContainer,{ resultTitle,onclickExpandDiv,onclick })
+            addElements(mockContainer,{ resultTitle,onclickExpandDiv,link })
 
             expect(EL.img).toHaveBeenCalledTimes(1)
             expect(EL.div).toHaveBeenCalledWith(expect.objectContaining({
@@ -111,7 +112,7 @@ describe('addElements',() => {
         });
 
         it('should be clickable',async () => {
-            addElements(mockContainer,{ resultTitle,onclickExpandDiv,onclick })
+            addElements(mockContainer,{ resultTitle,onclickExpandDiv,link })
 
             expect(EL.div).toHaveBeenCalledWith(expect.objectContaining({
                 className: EXPAND_DIV_CLASS_NAME,

@@ -5,7 +5,6 @@ import {
     normaliseAndLowecase
 } from '../helpers.js'
 import { loadResult } from '../service.js'
-import { assignUrl } from '../browser.js'
 import * as ResultsUI from './results-ui.js'
 import { showSearchMessage,manageExceptionUI } from '../resultsContainer/resultsContainer.js'
 
@@ -30,10 +29,6 @@ export async function onResultExpandClick(indexedResult,expandDiv,searchedWord,r
         ResultsUI.populateExpandWithImage({ expandDiv })
         ResultsUI.collapse({ expandDiv })
     }
-}
-
-export function onResultClick(indexedResult) {
-    assignUrl(indexedResult.link)
 }
 
 const N_CHARS_CUT_TEXT = 20

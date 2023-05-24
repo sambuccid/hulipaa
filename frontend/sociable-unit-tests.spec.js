@@ -1,15 +1,10 @@
 import { processSearch } from './general.js'
 import * as Network from './network.js'
-import * as Browser from './browser.js'
 import * as ResultsUI from './results/results-ui.js'
 import { when,resetAllWhenMocks } from 'jest-when'
 
 jest.mock('./network.js',() => {
     return { get: jest.fn(),NetworkError: class { } }
-});
-
-jest.mock('./browser.js',() => {
-    return { assignUrl: jest.fn() }
 });
 
 jest.mock('./results/results-ui.js',() => {
@@ -26,13 +21,10 @@ jest.mock('./results/results-ui.js',() => {
     }
 })
 
-function getOnclickPropertiesOfResult() {
+function getOnclickPropertyOfExpandResult() {
     const correctCallParameters = ResultsUI.addElements.mock.lastCall
     const secondParameter = correctCallParameters[1]
-    return {
-        main: secondParameter.onclick,
-        expandDiv: secondParameter.onclickExpandDiv
-    }
+    return secondParameter.onclickExpandDiv
 }
 
 describe('processSearch',() => {
@@ -106,11 +98,11 @@ describe('processSearch',() => {
         }))
     });
 
-    it('the main part of the result should be clickable',async () => {
+    it('the main part of the result should open the result link',async () => {
         await processSearch(searchedWord,mockContainer)
 
         expect(ResultsUI.addElements).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
-            onclick: expect.anything()
+            link: resultList.results[0].link
         }))
     })
 
@@ -171,7 +163,7 @@ describe('processSearch',() => {
         const expectedHtml = `content <mark>${searchedWord}</mark> of the page`;
 
         async function simulateClickOnResultExpandDiv() {
-            const { expandDiv: expandDivClickFunc } = getOnclickPropertiesOfResult();
+            const expandDivClickFunc = getOnclickPropertyOfExpandResult();
             const event = { currentTarget: mockedExpandDiv }
             await expandDivClickFunc(event);
             ResultsUI.isExpanded.mockReturnValue(!ResultsUI.isExpanded())
@@ -290,21 +282,6 @@ describe('processSearch',() => {
                 resultTitle: "There has been an error, the result couldn't be found",
                 type: ResultsUI.messageType.ERROR
             }))
-        })
-    })
-
-    describe('when clicking the main part of the result element',() => {
-        function simulateClickOnResult() {
-            const { main: onClickFunc } = getOnclickPropertiesOfResult();
-            onClickFunc();
-        }
-
-        it('should redirect to the page of the result',async () => {
-            await processSearch(searchedWord,mockContainer)
-
-            simulateClickOnResult()
-
-            expect(Browser.assignUrl).toHaveBeenCalledWith(resultList.results[0].link)
         })
     })
 });

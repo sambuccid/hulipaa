@@ -9,7 +9,7 @@ export const messageType = {
     ERROR: 'error',
     MESSAGE: 'message'
 }
-export function addElements(div,{ resultTitle,onclickExpandDiv,onclick,type }) {
+export function addElements(div,{ resultTitle,onclickExpandDiv,link,type }) {
     let backgroundColor = "white"
     if (type === messageType.ERROR) {
         backgroundColor = ERROR_COLOR
@@ -25,18 +25,26 @@ export function addElements(div,{ resultTitle,onclickExpandDiv,onclick,type }) {
             })]
     } else {
         resultContent = [
-            EL.div({
+            EL.a({
                 els: [
-                    EL.span({
-                        innerText: resultTitle
-                    })],
-                onclick: onclick,
+                    EL.div({
+                        els: [
+                            EL.span({
+                                innerText: resultTitle
+                            })],
+                        style: {
+                            flex: '6 6 0px',
+                            paddingBottom: '2px',
+                            minHeight: '30px'
+                        },
+                        className: MAIN_DIV_CLASS_NAME
+                    })
+                ],
+                href: link,
                 style: {
-                    flex: '6 6 0px',
-                    paddingBottom: '2px',
-                    minHeight: '30px'
-                },
-                className: MAIN_DIV_CLASS_NAME
+                    color: 'inherit',
+                    textDecoration: 'inherit'
+                }
             }),
             EL.div({
                 els: [

@@ -53,7 +53,7 @@ Then it will be redirected to the page using the `link` property of the result
 ### AC6[done]
 Ensure error messages are not shown with the expand div
 
-### AC7
+### AC7[in progress]
 (Spike/Story timeboxed)
 Given the visitor search for a string
 And it gets some results
@@ -61,3 +61,6 @@ And the results will have 2 sections
 When the user hovers with the mouse on either of the 2 sections
 Then the mouse pointer should be have the "clicking" style
 And the color of the sections will have a quick animation showing a slightly brighter colour
+- mouse pointer of expand element
+  - maybe done with <a> element
+- css for colour animation
