@@ -53,7 +53,7 @@ Then it will be redirected to the page using the `link` property of the result
 ### AC6[done]
 Ensure error messages are not shown with the expand div
 
-### AC7[in progress]
+### AC7[done]
 (Spike/Story timeboxed)
 Given the visitor search for a string
 And it gets some results
@@ -61,4 +61,13 @@ And the results will have 2 sections
 When the user hovers with the mouse on either of the 2 sections
 Then the mouse pointer should be have the "clicking" style
 And the color of the sections will have a quick animation showing a slightly brighter colour
-- css for colour animation
+#### Results:
+Done the mouse pointer style
+But for the change of colour it might take a bit longer cause we can't use the `:hover` selector with inline css,
+so we might need to:
+- create a [CSSStyleSheet](https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet)
+- then set the css on it with [replaceSync](https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/replaceSync)
+- the attach it to the document with something like `document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet]`
+But this will create a new stylesheet each time.
+So the solution would be to create an interface with a mechanism where keep a list of css rules that we already set and when we call the interface with a rule already there we don't add it again, but when we call it with a rule not yet added we use the [insertRule](https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/insertRule) function to add the new rule.
+This is perfectly possible and it will add a good clean way of using a stylesheet from the JS code, but of course takes some time to implement and possibly test.

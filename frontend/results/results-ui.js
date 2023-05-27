@@ -25,7 +25,6 @@ export function addElements(div,{ resultTitle,onclickExpandDiv,link,type }) {
             })]
     } else {
         resultContent = [
-
             EL.div({
                 els: [
                     EL.a({
