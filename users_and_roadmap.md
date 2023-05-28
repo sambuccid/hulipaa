@@ -49,7 +49,7 @@ As a visitor of the website
 I want to be able to open the page that contains the result
 so that I view it
 
-### Parse input files
+### Parse input pages
 As the creator of the website
 I want to be able to define a way of parsing the input data
 So that the content of the data can be used to generate the results
