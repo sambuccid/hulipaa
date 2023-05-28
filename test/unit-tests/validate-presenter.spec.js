@@ -1,18 +1,39 @@
-const { parser,presenter } = require('../../src/index')
+const { validateInputData,presenter } = require('../../src/index')
 const jp = require('jsonpath')
 
-describe('parser',() => {
-    it('parse the data as json string',() => {
-        // Given
-        const data = '{"title":"helloooo","text":"hey here there are some texts", "path":"aaa.txt"}';
-        // When
-        const result = parser(data)
-        // Then
-        expect(result).toEqual({
-            title: "helloooo",
-            text: "hey here there are some texts",
-            path: 'aaa.txt'
-        })
+describe('validateInputData',() => {
+    it('validates that the parsed page contains the title',() => {
+        const data = {
+            path: 'path.js',
+            text: 'asasdads'
+        }
+
+        expect(() => validateInputData(data)).toThrow()
+    });
+    it('validates that the parsed page contains a path',() => {
+        const data = {
+            title: 'page',
+            text: 'asasdads'
+        }
+
+        expect(() => validateInputData(data)).toThrow()
+    });
+    it('validates that the parsed page contains the text',() => {
+        const data = {
+            title: 'page',
+            path: 'path.js'
+        }
+
+        expect(() => validateInputData(data)).toThrow()
+    });
+    it('validates that the text in the parsed page is not empty',() => {
+        const data = {
+            title: 'page',
+            path: 'path.js',
+            text: ''
+        }
+
+        expect(() => validateInputData(data)).toThrow()
     });
 });
 

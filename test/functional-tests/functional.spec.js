@@ -7,6 +7,7 @@ const {
     TEST_INPUT_FOLDER,
     TEST_OUTPUT_FOLDER
 } = require('../test_helpers/test_helpers.js')
+const { basename } = require('path');
 
 
 describe('Generation of search results',() => {
@@ -14,18 +15,16 @@ describe('Generation of search results',() => {
         setUpTestFolder()
 
         // Given I have a file
-        const page = JSON.stringify({
-            title: "page1",
-            path: "justATestPath.json",
-            text: `random text with testword`
-        })
+        const page = `page1
+            random text with testword
+        `
         const searchedWord = 'random'
 
         const testFileName = "testFile.json"
         createInputTestFile(testFileName,page)
 
         // When I run the generate utility searching for an hardcoded word
-        buildIndex(TEST_INPUT_FOLDER,TEST_OUTPUT_FOLDER,(fileName,filePath) => {
+        buildIndex(TEST_INPUT_FOLDER,TEST_OUTPUT_FOLDER,parseTestPage,(fileName,filePath) => {
             return `link_${fileName}_${filePath}.html`
         })
 
@@ -38,7 +37,7 @@ describe('Generation of search results',() => {
         const expectedOutputFile = {
             results: [{
                 title: "page1",
-                path: "../justATestPath.json",
+                path: "../testFile.json",
                 numberOfMatches: 1,
                 link: `link_${testFileName}_${TEST_INPUT_FOLDER}.html`
             }]
@@ -50,16 +49,14 @@ describe('Generation of search results',() => {
         setUpTestFolder()
 
         // Given I have a file with 4 words
-        const page = JSON.stringify({
-            title: "page1",
-            path: "justATestPath.json",
-            text: `random text with testword`
-        })
+        const page = `page1
+            random text with testword
+        `
 
         createInputTestFile("testFile.json",page)
 
         // When I run the generate utility searching for an hardcoded word
-        buildIndex(TEST_INPUT_FOLDER,TEST_OUTPUT_FOLDER,() => 'test.html')
+        buildIndex(TEST_INPUT_FOLDER,TEST_OUTPUT_FOLDER,parseTestPage,() => 'test.html')
 
         // 4 files get generated in json
         const outputFiles = getFileListInOutputFolder()
@@ -73,7 +70,7 @@ describe('Generation of search results',() => {
         const expectedOutputFile = {
             results: [{
                 title: "page1",
-                path: "../justATestPath.json",
+                path: "../testFile.json",
                 numberOfMatches: 1,
                 link: 'test.html'
             }]
@@ -88,16 +85,14 @@ describe('Generation of search results',() => {
         setUpTestFolder()
 
         // Given I have a file with 4 times the same words
-        const page = JSON.stringify({
-            title: "page1",
-            path: "justATestPath.json",
-            text: `word word,word. ,word`
-        })
+        const page = `page1
+            word word,word. ,word
+        `
 
         createInputTestFile("testFile.json",page)
 
         // When I run the generate utility searching for an hardcoded word
-        buildIndex(TEST_INPUT_FOLDER,TEST_OUTPUT_FOLDER,() => 'test.html')
+        buildIndex(TEST_INPUT_FOLDER,TEST_OUTPUT_FOLDER,parseTestPage,() => 'test.html')
 
         // just 1 file get generated
         const outputFiles = getFileListInOutputFolder()
@@ -108,7 +103,7 @@ describe('Generation of search results',() => {
         const expectedOutputFile = {
             results: [{
                 title: "page1",
-                path: "../justATestPath.json",
+                path: "../testFile.json",
                 numberOfMatches: 4,
                 link: 'test.html'
             }]
@@ -118,4 +113,14 @@ describe('Generation of search results',() => {
             expect(JSON.parse(outputFileContent)).toEqual(expectedOutputFile)
         }
     });
+
+    function parseTestPage(pageContent,pagePath) {
+        const pageLines = pageContent.split(/\r?\n|\r|\n/g);
+        const title = pageLines.shift()
+        return {
+            title: title,
+            path: basename(pagePath),
+            text: pageLines.reduce((finalText,line) => finalText + '\n' + line,'')
+        }
+    }
 });

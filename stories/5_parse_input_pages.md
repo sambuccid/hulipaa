@@ -3,7 +3,7 @@ As the creator of the website
 I want to be able to define a way of parsing the input data
 So that the content of the data can be used to generate the results
 
-### AC1
+### AC1[done]
 (Creator website)
 Given the creator of the website creates a function that accepts the file content of the page and returns a json object with:
 - Title: The title of the page that will be shown in the results
@@ -12,10 +12,6 @@ Given the creator of the website creates a function that accepts the file conten
 When they call the `buildIndex` function to start the generation of the results
 And they pass in the function
 Then the results will be generated correctly
-- Change the functional tests of the backend to use the new imput format
-- Accept the new function in the `buildIndex` function
-- Update the `/index.js` to pass a basic function
-- The parser function could become just validator
 
 ### AC2
 Change how the script is initialised in the UI, having an initialisation function instead of calling it when the document loads

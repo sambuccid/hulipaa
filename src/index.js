@@ -4,9 +4,7 @@ const path = require('path');
 const generateResultMap = require('./generateResultMap.js')
 const { normaliseAndLowecase } = require('./helper.js')
 
-const searchedWord = "testword"
-
-function buildIndex(inputFolder,outputFolder,getLinkPage) {
+function buildIndex(inputFolder,outputFolder,parsePage,getLinkPage) {
     //make directory
     if (fs.existsSync(outputFolder)) {
         fs.rmSync(outputFolder,{ recursive: true });
@@ -14,26 +12,22 @@ function buildIndex(inputFolder,outputFolder,getLinkPage) {
     fs.mkdirSync(outputFolder);
 
     // get data
-    const dataFiles = fs.readdirSync(inputFolder)
-    const dataFile = fs.readFileSync(path.join(inputFolder,dataFiles[0]),'utf8')
-    const content = parser(dataFile)
-    const link = getLinkPage(dataFiles[0],inputFolder)
-    content.link = link
+    const pageFileNames = fs.readdirSync(inputFolder)
+    const pageFileName = pageFileNames[0]
+    const pageFullPath = path.join(inputFolder,pageFileName)
+    const pageContent = fs.readFileSync(pageFullPath,'utf8')
+    const pageDetails = parsePage(pageContent,pageFullPath)
+    validateInputData(pageDetails)
+    pageDetails.link = getLinkPage(pageFileName,inputFolder)
 
     //use case
-    const resultMap = generateResultMap(content)
+    const resultMap = generateResultMap(pageDetails)
 
     const files = presenter(resultMap);
 
     for (let file of files) {
         fs.writeFileSync(path.join(outputFolder,file.fileName),file.content)
     }
-}
-
-function parser(data) {
-    const parsedData = JSON.parse(data)
-    validateInputData(parsedData)
-    return parsedData
 }
 
 function validateInputData(data) {
@@ -80,4 +74,4 @@ function presenter(resultMap) {
     return filesArray
 }
 
-module.exports = { buildIndex,parser,presenter };
+module.exports = { buildIndex,validateInputData,presenter };
