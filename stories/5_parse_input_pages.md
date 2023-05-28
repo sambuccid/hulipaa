@@ -13,7 +13,7 @@ When they call the `buildIndex` function to start the generation of the results
 And they pass in the function
 Then the results will be generated correctly
 
-### AC2
+### AC2[done]
 Change how the script is initialised in the UI, having an initialisation function instead of calling it when the document loads
 
 ### AC3

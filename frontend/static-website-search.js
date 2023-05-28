@@ -2,7 +2,7 @@ import * as SearchBarUI from './searchbar/searchbar-ui.js'
 import * as ResultsContainer from './resultsContainer/resultsContainer.js'
 import { processSearch } from './general.js'
 
-window.addEventListener('DOMContentLoaded',() => {
+function SWS() {
     const searchDivs = document.getElementsByClassName(SearchBarUI.CLASS_NAME)
 
     for (let i = 0; i < searchDivs.length; i++) {
@@ -17,5 +17,6 @@ window.addEventListener('DOMContentLoaded',() => {
             processSearch(query,resultContainer)
         }
     }
+}
 
-});
+window['SWS'] = SWS
