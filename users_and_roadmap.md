@@ -44,7 +44,7 @@ Should be able to end to end test it
 #### ~~show results~~
 
 
-### Open result
+### ~~Open result~~
 As a visitor of the website
 I want to be able to open the page that contains the result
 so that I view it
