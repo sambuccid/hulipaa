@@ -2,7 +2,7 @@
 // all the things that don't have their own module yet
 import { search,loadResult } from './service.js'
 import * as ResultsUI from './results/results-ui.js'
-import { onResultClick } from './results/results.js'
+import { onResultExpandClick } from './results/results.js'
 import { showSearchMessage,manageExceptionUI } from './resultsContainer/resultsContainer.js'
 import { normaliseAndLowecase } from './helpers.js'
 
@@ -26,11 +26,10 @@ export async function processSearch(query,resultContainer) {
 
     ResultsUI.addElements(resultContainer,{
         resultTitle: firstResult.title,
-        onclick: onClick
+        onclickExpandDiv: onClickExpandDiv,
+        link: firstResult.link
     })
-    async function onClick(event) {
-        // Is important to reference the result element from the event, because otherwise we might create a memory leak
-        const resultElement = event.currentTarget;
-        await onResultClick(firstResult,resultElement,query,resultContainer);
+    async function onClickExpandDiv(expandDiv) {
+        await onResultExpandClick(firstResult,expandDiv,query,resultContainer);
     }
 }

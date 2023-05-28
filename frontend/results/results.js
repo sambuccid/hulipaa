@@ -8,8 +8,8 @@ import { loadResult } from '../service.js'
 import * as ResultsUI from './results-ui.js'
 import { showSearchMessage,manageExceptionUI } from '../resultsContainer/resultsContainer.js'
 
-export async function onResultClick(indexedResult,resultDiv,searchedWord,resultContainer) {
-    if (!ResultsUI.isExpanded({ resultDiv })) {
+export async function onResultExpandClick(indexedResult,expandDiv,searchedWord,resultContainer) {
+    if (!ResultsUI.isExpanded({ expandDiv })) {
         const { result,error } = await manageExceptionUI(resultContainer,async () =>
             await loadResult(indexedResult.path)
         )
@@ -23,11 +23,11 @@ export async function onResultClick(indexedResult,resultDiv,searchedWord,resultC
             return;
         }
         const formattedText = formatTextForResult(result.text,searchedWord)
-        ResultsUI.populateWith({ resultDiv,htmlText: formattedText })
-        ResultsUI.expand({ resultDiv })
+        ResultsUI.populateExpandWith({ expandDiv,htmlText: formattedText })
+        ResultsUI.expand({ expandDiv })
     } else {
-        ResultsUI.populateWith({ resultDiv,text: indexedResult.title })
-        ResultsUI.collapse({ resultDiv })
+        ResultsUI.populateExpandWithImage({ expandDiv })
+        ResultsUI.collapse({ expandDiv })
     }
 }
 

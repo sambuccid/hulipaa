@@ -23,6 +23,7 @@ describe('presenter',() => {
                 results: [{
                     title: "helloooo",
                     path: "path.json",
+                    link: 'aa.html',
                     numberOfMatches: 1,
                 }]
             }
@@ -52,6 +53,7 @@ describe('presenter',() => {
                 results: [{
                     title: "helloooo",
                     path: "path.json",
+                    link: 'aa.html',
                     numberOfMatches: 0,
                 }]
             }
@@ -68,6 +70,7 @@ describe('presenter',() => {
                 results: [{
                     title: "helloooo",
                     path: "path.json",
+                    link: 'aa.html',
                     numberOfMatches: 1,
                 }]
             },
@@ -75,6 +78,7 @@ describe('presenter',() => {
                 results: [{
                     title: "helloooo",
                     path: "path.json",
+                    link: 'aa.html',
                     numberOfMatches: 2,
                 }]
             },
@@ -82,6 +86,7 @@ describe('presenter',() => {
                 results: [{
                     title: "helloooo",
                     path: "path.json",
+                    link: 'aa.html',
                     numberOfMatches: 3,
                 }]
             }
@@ -98,6 +103,7 @@ describe('presenter',() => {
                 results: [{
                     title: "helloooo",
                     path: "path.json",
+                    link: 'aa.html',
                     numberOfMatches: 1,
                 }]
             }
@@ -116,6 +122,7 @@ describe('presenter',() => {
                 results: [{
                     title: "helloooo",
                     path: "path.json",
+                    link: 'aa.html',
                     numberOfMatches: 1,
                 }]
             }
@@ -134,6 +141,7 @@ describe('presenter',() => {
                 results: [{
                     title: "helloooo",
                     path: "path.json",
+                    link: 'aa.html',
                     numberOfMatches: 1,
                 }]
             },
@@ -141,6 +149,7 @@ describe('presenter',() => {
                 results: [{
                     title: "helloooo",
                     path: "path.json",
+                    link: 'aa.html',
                     numberOfMatches: 0,
                 }]
             },
@@ -148,6 +157,7 @@ describe('presenter',() => {
                 results: [{
                     title: "helloooo",
                     path: "path.json",
+                    link: 'aa.html',
                     numberOfMatches: 3,
                 }]
             }
@@ -167,6 +177,7 @@ describe('presenter using jsonpath',() => {
             results: [{
                 title: "helloooo",
                 path: "path.json",
+                link: 'aa.html',
                 numberOfMatches: 1,
             }]
         }

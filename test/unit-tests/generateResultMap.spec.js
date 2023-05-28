@@ -10,7 +10,8 @@ describe('generateResultMap',() => {
         const inputData = {
             title: "aaaaa",
             path: "pages/page1/aa.json",
-            text: wordTest
+            text: wordTest,
+            link: "aa.html"
         }
         it('returns a map of the results',() => {
             // Given
@@ -30,6 +31,7 @@ describe('generateResultMap',() => {
                 expect(result).toHaveProperty("title")
                 expect(result).toHaveProperty("path")
                 expect(result).toHaveProperty("numberOfMatches")
+                expect(result).toHaveProperty("link")
             })
         });
         it('extracts the title',() => {
@@ -53,7 +55,8 @@ describe('generateResultMap',() => {
         const inputData = {
             title: "aaaaa",
             path: "pages/page1/aa.json",
-            text: `${searchedWord} test with the word ${searchedWord} repeased 3 times ${searchedWord}`
+            text: `${searchedWord} test with the word ${searchedWord} repeased 3 times ${searchedWord}`,
+            link: 'aa.html'
         }
         // When
         const res = generateResultMap(inputData);
@@ -65,7 +68,8 @@ describe('generateResultMap',() => {
         const inputData = {
             title: "aaaaa",
             path: "pages/page1/aa.json",
-            text: `word1 word2 word3`
+            text: `word1 word2 word3`,
+            link: 'aa.html'
         }
         // When
         const res = generateResultMap(inputData);
@@ -79,7 +83,8 @@ describe('generateResultMap',() => {
         const inputData = {
             title: "aaaaa",
             path: "pages/page1/aa.json",
-            text: `w word2.word3,word4/word5+wÖrd6-word7(word8"word9")word10`
+            text: `w word2.word3,word4/word5+wÖrd6-word7(word8"word9")word10`,
+            link: 'aa.html'
         }
         // When
         const res = generateResultMap(inputData);

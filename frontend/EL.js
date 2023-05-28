@@ -16,7 +16,10 @@ const EL = {
         return EL._createElement("div",options)
     },
     span: function (options) {
-        return EL._createElement("span",options);
+        return EL._createElement("span",options)
+    },
+    a: function (options) {
+        return EL._createElement('a',options)
     },
     _createElement: function (name,options) {
         const element = document.createElement(name);

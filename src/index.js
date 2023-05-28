@@ -6,7 +6,7 @@ const { normaliseAndLowecase } = require('./helper.js')
 
 const searchedWord = "testword"
 
-function buildIndex(inputFolder,outputFolder) {
+function buildIndex(inputFolder,outputFolder,getLinkPage) {
     //make directory
     if (fs.existsSync(outputFolder)) {
         fs.rmSync(outputFolder,{ recursive: true });
@@ -17,9 +17,11 @@ function buildIndex(inputFolder,outputFolder) {
     const dataFiles = fs.readdirSync(inputFolder)
     const dataFile = fs.readFileSync(path.join(inputFolder,dataFiles[0]),'utf8')
     const content = parser(dataFile)
+    const link = getLinkPage(dataFiles[0],inputFolder)
+    content.link = link
 
     //use case
-    const resultMap = generateResultMap(content,searchedWord)
+    const resultMap = generateResultMap(content)
 
     const files = presenter(resultMap);
 

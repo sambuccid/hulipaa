@@ -44,12 +44,15 @@ Should be able to end to end test it
 #### ~~show results~~
 
 
-### Open result
+### ~~Open result~~
 As a visitor of the website
 I want to be able to open the page that contains the result
 so that I view it
-(Decide a way to store/generate the link to the page to show)
-(this will probably should be able to be customised heavily)
+
+### Parse input files
+As the creator of the website
+I want to be able to define a way of parsing the input data
+So that the content of the data can be used to generate the results
 
 ### results for all words in all files
 As a visitor of the website
@@ -108,6 +111,11 @@ private informations
 
 ### when showing results the code should escape html
 If the pages are in html or contain html, we should not render it in the results
+
+### Use regex to define link for each page
+It is possible to use a regex and a substitution string to cover most scenarios to generate the link of a page
+FOr now we just ask to pass a function to `buildIndex`, but for most cases it might be overkill.
+We did a spike in the "open result" story(AC2) and we should have already all the necessary tools, there are also some examples of useful regexes in the story
 
 ### visually appealing
 Need to provide the default configuration for the front end with a generic, neutral but visually appealing theme/style

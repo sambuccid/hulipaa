@@ -1,33 +1,73 @@
 import EL from '../EL.js'
 
-const EXPANDED_DATA_ATTRIBUTE = 'data-expanded'
+export const EXPAND_DIV_CLASS_NAME = 'expand-div'
+export const MAIN_DIV_CLASS_NAME = 'open-div'
+const EXPANDED_CLASS_NAME = 'expanded'
 const ERROR_COLOR = '#ff7640'
 const MESSAGE_COLOR = '#ffd24d'
 export const messageType = {
     ERROR: 'error',
     MESSAGE: 'message'
 }
-export function addElements(div,{ resultTitle,onclick,type }) {
+export function addElements(div,{ resultTitle,onclickExpandDiv,link,type }) {
     let backgroundColor = "white"
     if (type === messageType.ERROR) {
         backgroundColor = ERROR_COLOR
     } else if (type === messageType.MESSAGE) {
         backgroundColor = MESSAGE_COLOR
     }
-    const element = EL.div({
-        els: [
+
+    let resultContent
+    if (type != null) {
+        resultContent = [
             EL.span({
                 innerText: resultTitle
+            })]
+    } else {
+        resultContent = [
+            EL.div({
+                els: [
+                    EL.a({
+                        els: [
+                            EL.span({
+                                innerText: resultTitle
+                            }),
+                        ],
+                        href: link,
+                        style: {
+                            color: 'inherit',
+                            textDecoration: 'inherit',
+                            display: 'inline-block',
+                            height: '100%',
+                            width: '100%',
+                        }
+                    })],
+                style: {
+                    flex: '6 6 0px',
+                    paddingBottom: '2px',
+                    minHeight: '30px'
+                },
+                className: MAIN_DIV_CLASS_NAME
+            }),
+            makePopulateExpandDiv({
+                content: createImageExpandDiv(),
+                onclick: onclickExpandDiv
             })
-        ],
-        onclick: onclick,
+        ]
+    }
 
+    const element = EL.div({
+        els: resultContent,
         style: {
             backgroundColor,
             borderRadius: "10px",
-            padding: "10px",
+            paddingTop: '3px',
+            paddingBottom: '0px',
             textAlign: "center",
-            border: "gray solid 1px"
+            border: "gray solid 1px",
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column'
         }
     })
 
@@ -35,32 +75,101 @@ export function addElements(div,{ resultTitle,onclick,type }) {
     return { element: element }
 }
 
-
-export function populateWith({ resultDiv,htmlText,text }) {
-    let span = resultDiv.getElementsByTagName('span');
-    span = span[0];
-    if (htmlText) {
-        span.innerHTML = htmlText;
-    } else if (text) {
-        span.innerText = text;
+function makePopulateExpandDiv({ content,existingExpandDiv,onclick }) {
+    // Populate existing div
+    if (existingExpandDiv) {
+        const button = existingExpandDiv.firstChild
+        clear(button)
+        button.appendChild(content)
+        return
     }
+    // Create new div
+    return EL.div({
+        els: [
+            EL.button({
+                els: [
+                    content
+                ],
+                onclick: async (event) => {
+                    await onclick(event.currentTarget.parentElement)
+                },
+                style: {
+                    cursor: 'pointer',
+                    border: 'none',
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: 'inherit',
+                    padding: '0',
+                    margin: '0',
+                    font: 'inherit',
+                }
+            })
+        ],
+        style: {
+            flex: '4 4 0px',
+            backgroundColor: 'lightblue',
+            paddingTop: '2px',
+            paddingBottom: '2px',
+            overflow: 'auto',
+            minHeight: '20px',
+        },
+        className: EXPAND_DIV_CLASS_NAME
+    })
+}
+
+function createImageExpandDiv() {
+    return EL.img({
+        innerText: "Expand",
+        src: "../frontend/images/arrow_down_icon.svg",
+        style: {
+            width: 'auto',
+            height: '100%'
+        }
+    })
+}
+
+export function populateExpandWithImage({ expandDiv }) {
+    const img = createImageExpandDiv()
+    makePopulateExpandDiv({
+        existingExpandDiv: expandDiv,
+        content: img
+    })
+}
+
+export function populateExpandWith({ expandDiv,htmlText,text }) {
+    let span
+    if (htmlText) {
+        span = EL.span({
+            innerHTML: htmlText
+        })
+    } else if (text) {
+        span = EL.span({
+            innerText: test
+        })
+    }
+    makePopulateExpandDiv({
+        existingExpandDiv: expandDiv,
+        content: span
+    })
 }
 
 export function clear(div) {
     div.replaceChildren()
 }
 
-export function isExpanded({ resultDiv }) {
-    if (resultDiv.getAttribute(EXPANDED_DATA_ATTRIBUTE))
+export function isExpanded({ expandDiv }) {
+    if (expandDiv.classList.contains(EXPANDED_CLASS_NAME))
         return true
     else
         return false
 }
 
-export function expand({ resultDiv }) {
-    resultDiv.setAttribute(EXPANDED_DATA_ATTRIBUTE,"expanded")
+export function expand({ expandDiv }) {
+    expandDiv.classList.add(EXPANDED_CLASS_NAME)
+    expandDiv.style.flexBasis = 'auto'
 }
 
-export function collapse({ resultDiv }) {
-    resultDiv.removeAttribute(EXPANDED_DATA_ATTRIBUTE)
+export function collapse({ expandDiv }) {
+    expandDiv.classList.remove(EXPANDED_CLASS_NAME)
+    expandDiv.style.flexBasis = '0px'
 }
