@@ -25,10 +25,5 @@ export async function loadResult(resultPath) {
     if (!result.ok) {
         throw new NetworkError("Call has returned failure error code")
     }
-    return await result.json()
-    //return {
-    // "title": "test title",
-    // "path": "testpath.json",
-    // "text": "content of the page"
-    // };
+    return await result.text()
 }

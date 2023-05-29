@@ -9,7 +9,16 @@
     <script type="module" src="../frontend/static-website-search.js"></script>
     <script type="text/javascript">
         window.addEventListener('DOMContentLoaded',() => {
-            SWS()
+            SWS({ parsePage })
+
+            // First line is title of page and the rest is the content
+            function parsePage(pageContent) {
+                const pageLines = pageContent.split(/\r?\n|\r|\n/g);
+                const title = pageLines.shift()
+                return {
+                    text: pageLines.reduce((finalText,line) => finalText + '\n' + line,'')
+                }
+            }
         });
     </script>
 </header>

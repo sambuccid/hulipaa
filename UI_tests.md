@@ -26,3 +26,6 @@ So instead we have this file wehere we have the tests to manually run to check t
 
 ## User story 3
 - Having an accented letter in either the result file or the searchbar should let everything work as expected
+
+## User story 5
+- When loading the preview of the result, if the parse function is not valid or it throws an expection an error message will be shown

@@ -1,12 +1,12 @@
 // A generic module that contains
 // all the things that don't have their own module yet
-import { search,loadResult } from './service.js'
+import { search } from './service.js'
 import * as ResultsUI from './results/results-ui.js'
 import { onResultExpandClick } from './results/results.js'
 import { showSearchMessage,manageExceptionUI } from './resultsContainer/resultsContainer.js'
 import { normaliseAndLowecase } from './helpers.js'
 
-export async function processSearch(query,resultContainer) {
+export async function processSearch(query,resultContainer,SWSOptions) {
     ResultsUI.clear(resultContainer)
     const normalisedQuery = normaliseAndLowecase(query)
 
@@ -30,6 +30,6 @@ export async function processSearch(query,resultContainer) {
         link: firstResult.link
     })
     async function onClickExpandDiv(expandDiv) {
-        await onResultExpandClick(firstResult,expandDiv,query,resultContainer);
+        await onResultExpandClick(firstResult,expandDiv,query,resultContainer,SWSOptions);
     }
 }
