@@ -8,7 +8,7 @@ import { loadResult } from '../service.js'
 import * as ResultsUI from './results-ui.js'
 import { showSearchMessage,manageExceptionUI } from '../resultsContainer/resultsContainer.js'
 
-export async function onResultExpandClick(indexedResult,expandDiv,searchedWord,resultContainer) {
+export async function onResultExpandClick(indexedResult,expandDiv,searchedWord,resultContainer,SWSOptions) {
     if (!ResultsUI.isExpanded({ expandDiv })) {
         const { result,error } = await manageExceptionUI(resultContainer,async () =>
             await loadResult(indexedResult.path)
@@ -22,13 +22,33 @@ export async function onResultExpandClick(indexedResult,expandDiv,searchedWord,r
                 ResultsUI.messageType.ERROR)
             return;
         }
-        const formattedText = formatTextForResult(result.text,searchedWord)
+
+        const resultDetails = parseResult(result,resultContainer,SWSOptions)
+        if (!resultDetails) return // There has been an error, already managed by parseResult
+
+        const formattedText = formatTextForResult(resultDetails.text,searchedWord)
         ResultsUI.populateExpandWith({ expandDiv,htmlText: formattedText })
         ResultsUI.expand({ expandDiv })
     } else {
         ResultsUI.populateExpandWithImage({ expandDiv })
         ResultsUI.collapse({ expandDiv })
     }
+}
+
+function parseResult(result,resultContainer,SWSOptions) {
+    let resultDetails
+    try {
+        resultDetails = SWSOptions.parsePage(result)
+    } catch (e) { }
+    if (resultDetails?.text == null || resultDetails?.text === "") {
+        showSearchMessage(
+            resultContainer,
+            "There has been an error parsing the page",
+            ResultsUI.messageType.ERROR)
+        return;
+    }
+
+    return resultDetails
 }
 
 const N_CHARS_CUT_TEXT = 20

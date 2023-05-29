@@ -27,6 +27,10 @@ function getOnclickPropertyOfExpandResult() {
     return secondParameter.onclickExpandDiv
 }
 
+const SWSOptions = {
+    parsePage: jest.fn()
+}
+
 describe('processSearch',() => {
     const mockContainer = {}
     const mockedExpandDiv = '<div>test-expanded-div</div>'
@@ -52,7 +56,7 @@ describe('processSearch',() => {
     });
 
     it("calls the backend to get the result",async () => {
-        await processSearch(searchedWord,mockContainer)
+        await processSearch(searchedWord,mockContainer,SWSOptions)
 
         expect(Network.get).toHaveBeenCalled();
         expect(Network.get).toHaveBeenCalledWith("/search/" + searchedWord + ".json");
@@ -61,7 +65,7 @@ describe('processSearch',() => {
     it("normalise and removes accents from the searched word before calling the backend",async () => {
         const typedWord = "wordñij"
         const expectedWord = "wordnij"
-        await processSearch(typedWord,mockContainer)
+        await processSearch(typedWord,mockContainer,SWSOptions)
 
         expect(Network.get).toHaveBeenCalled();
         expect(Network.get).toHaveBeenCalledWith("/search/" + expectedWord + ".json");
@@ -70,14 +74,14 @@ describe('processSearch',() => {
     it("transform the searched word to lower case before calling the backend",async () => {
         const typedWord = "CAPITALCASEword"
         const expectedWord = "capitalcaseword"
-        await processSearch(typedWord,mockContainer)
+        await processSearch(typedWord,mockContainer,SWSOptions)
 
         expect(Network.get).toHaveBeenCalled();
         expect(Network.get).toHaveBeenCalledWith("/search/" + expectedWord + ".json");
     });
 
     it('the element contains the title of the page',async () => {
-        await processSearch(searchedWord,mockContainer)
+        await processSearch(searchedWord,mockContainer,SWSOptions)
 
         expect(ResultsUI.addElements).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
             resultTitle: resultList.results[0].title
@@ -85,13 +89,13 @@ describe('processSearch',() => {
     });
 
     it('empties the old results before adding the new results',async () => {
-        await processSearch(searchedWord,mockContainer)
+        await processSearch(searchedWord,mockContainer,SWSOptions)
 
         expect(ResultsUI.clear).toHaveBeenCalledWith(mockContainer)
     });
 
     it('there should be the expand element that should be clickable',async () => {
-        await processSearch(searchedWord,mockContainer)
+        await processSearch(searchedWord,mockContainer,SWSOptions)
 
         expect(ResultsUI.addElements).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
             onclickExpandDiv: expect.anything()
@@ -99,7 +103,7 @@ describe('processSearch',() => {
     });
 
     it('the main part of the result should open the result link',async () => {
-        await processSearch(searchedWord,mockContainer)
+        await processSearch(searchedWord,mockContainer,SWSOptions)
 
         expect(ResultsUI.addElements).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
             link: resultList.results[0].link
@@ -110,7 +114,7 @@ describe('processSearch',() => {
         when(Network.get).calledWith(expect.anything())
             .mockRejectedValue()
 
-        await processSearch(searchedWord,mockContainer)
+        await processSearch(searchedWord,mockContainer,SWSOptions)
 
         // Removes old elements
         expect(ResultsUI.clear).toHaveBeenCalledWith(mockContainer)
@@ -126,7 +130,7 @@ describe('processSearch',() => {
         when(Network.get).calledWith(expect.anything())
             .mockResolvedValue({ ok: false,status: 500 })
 
-        await processSearch(searchedWord,mockContainer)
+        await processSearch(searchedWord,mockContainer,SWSOptions)
 
         // Removes old elements
         expect(ResultsUI.clear).toHaveBeenCalledWith(mockContainer)
@@ -142,7 +146,7 @@ describe('processSearch',() => {
         when(Network.get).calledWith(expect.anything())
             .mockResolvedValue({ ok: false,status: 404 })
 
-        await processSearch(searchedWord,mockContainer)
+        await processSearch(searchedWord,mockContainer,SWSOptions)
 
         // Removes old elements
         expect(ResultsUI.clear).toHaveBeenCalledWith(mockContainer)
@@ -155,7 +159,8 @@ describe('processSearch',() => {
     })
 
     describe('when clicking the expandDiv of the result element',() => {
-        const result = {
+        const result = 'some content of the result'
+        const parsedResult = {
             title: resultList.results[0].title,
             path: resultList.results[0].path,
             text: `content ${searchedWord} of the page`
@@ -170,11 +175,12 @@ describe('processSearch',() => {
 
         beforeEach(() => {
             when(Network.get).calledWith(`/${resultList.results[0].path}`)
-                .mockResolvedValue({ ok: true,json: jest.fn().mockResolvedValue(result) })
+                .mockResolvedValue({ ok: true,text: jest.fn().mockResolvedValue(result) })
+            SWSOptions.parsePage.mockReturnValue(parsedResult)
         });
 
         it("calls the backend to get the content of the result",async () => {
-            await processSearch(searchedWord,mockContainer)
+            await processSearch(searchedWord,mockContainer,SWSOptions)
 
             await simulateClickOnResultExpandDiv();
 
@@ -183,7 +189,7 @@ describe('processSearch',() => {
         });
 
         it('expands the expandDiv and formats the content of the result',async () => {
-            await processSearch(searchedWord,mockContainer)
+            await processSearch(searchedWord,mockContainer,SWSOptions)
 
             await simulateClickOnResultExpandDiv();
 
@@ -198,7 +204,7 @@ describe('processSearch',() => {
         });
 
         it("when clicking the result twice it goes back showing the down arrow image",async () => {
-            await processSearch(searchedWord,mockContainer)
+            await processSearch(searchedWord,mockContainer,SWSOptions)
 
             await simulateClickOnResultExpandDiv();
             await simulateClickOnResultExpandDiv();
@@ -211,7 +217,7 @@ describe('processSearch',() => {
         });
 
         it("when clicking the result 3 times it shows the content of the result",async () => {
-            await processSearch(searchedWord,mockContainer)
+            await processSearch(searchedWord,mockContainer,SWSOptions)
 
             await simulateClickOnResultExpandDiv();
             await simulateClickOnResultExpandDiv();
@@ -233,7 +239,7 @@ describe('processSearch',() => {
             when(Network.get).calledWith(`/${resultList.results[0].path}`)
                 .mockRejectedValue()
 
-            await processSearch(searchedWord,mockContainer)
+            await processSearch(searchedWord,mockContainer,SWSOptions)
 
             await simulateClickOnResultExpandDiv();
 
@@ -251,7 +257,7 @@ describe('processSearch',() => {
             when(Network.get).calledWith(`/${resultList.results[0].path}`)
                 .mockResolvedValue({ ok: false,status: 500 })
 
-            await processSearch(searchedWord,mockContainer)
+            await processSearch(searchedWord,mockContainer,SWSOptions)
 
             await simulateClickOnResultExpandDiv();
 
@@ -269,7 +275,7 @@ describe('processSearch',() => {
             when(Network.get).calledWith(`/${resultList.results[0].path}`)
                 .mockResolvedValue({ ok: false,status: 404 })
 
-            await processSearch(searchedWord,mockContainer)
+            await processSearch(searchedWord,mockContainer,SWSOptions)
 
             await simulateClickOnResultExpandDiv();
 
