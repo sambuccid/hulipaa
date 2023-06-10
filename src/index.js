@@ -1,8 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-//TODO rename generateResultMap to populate
-const generateResultMap = require('./generateResultMap.js')
+const populateResultMap = require('./populateResultMap.js')
 const { normaliseAndLowecase } = require('./helper.js')
 
 function buildIndex(inputFolder,outputFolder,parsePage,getLinkPage) {
@@ -23,7 +22,7 @@ function buildIndex(inputFolder,outputFolder,parsePage,getLinkPage) {
         pageDetails.link = getLinkPage(pageFileName,inputFolder)
 
         // find results
-        generateResultMap(pageDetails,resultMap)
+        populateResultMap(pageDetails,resultMap)
     }
 
     const files = presenter(resultMap);

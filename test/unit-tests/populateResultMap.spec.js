@@ -1,9 +1,9 @@
-const generateResultMap = require('../../src/generateResultMap')
+const populateResultMap = require('../../src/populateResultMap')
 
-describe('generateResultMap',() => {
+describe('populateResultMap',() => {
     it('with no parameter provided returns error',() => {
         // When / Then
-        expect(generateResultMap).toThrow()
+        expect(populateResultMap).toThrow()
     });
     describe('file with 1 word',() => {
         const wordTest = "wordInFile"
@@ -17,7 +17,7 @@ describe('generateResultMap',() => {
             // Given
             // When
             const res = {}
-            generateResultMap(inputData,res);
+            populateResultMap(inputData,res);
             // Then
             expect(res).toHaveProperty(wordTest)
         })
@@ -25,7 +25,7 @@ describe('generateResultMap',() => {
             // Given
             // When
             const res = {}
-            generateResultMap(inputData,res);
+            populateResultMap(inputData,res);
             // Then
             expect(res[wordTest]).toHaveProperty("results")
             expect(res[wordTest].results.length).toBeGreaterThan(0)
@@ -40,7 +40,7 @@ describe('generateResultMap',() => {
             // Given
             // When
             const res = {}
-            generateResultMap(inputData,res);
+            populateResultMap(inputData,res);
             // Then
             expect(res[wordTest].results[0].title).toEqual(inputData.title)
         });
@@ -48,7 +48,7 @@ describe('generateResultMap',() => {
             // Given
             // When
             const res = {}
-            generateResultMap(inputData,res);
+            populateResultMap(inputData,res);
             // Then
             expect(res[wordTest].results[0].path).toEqual("../" + inputData.path)
         });
@@ -64,7 +64,7 @@ describe('generateResultMap',() => {
         }
         // When
         const res = {}
-        generateResultMap(inputData,res);
+        populateResultMap(inputData,res);
         // Then
         expect(res[searchedWord].results[0].numberOfMatches).toEqual(3)
     });
@@ -78,7 +78,7 @@ describe('generateResultMap',() => {
         }
         // When
         const res = {}
-        generateResultMap(inputData,res);
+        populateResultMap(inputData,res);
         // Then
         expect(res).toHaveProperty('word1')
         expect(res).toHaveProperty('word2')
@@ -94,7 +94,7 @@ describe('generateResultMap',() => {
         }
         // When
         const res = {}
-        generateResultMap(inputData,res);
+        populateResultMap(inputData,res);
         // Then
         const expectedResults = ["w",'word2','word3','word4','word5','wÖrd6','word7','word8','word9',"word10"]
         expect(Object.keys(res).length).toBe(10)
@@ -118,8 +118,8 @@ describe('generateResultMap',() => {
         }
         // When
         const resultMap = {}
-        generateResultMap(inputData1,resultMap);
-        generateResultMap(inputData2,resultMap);
+        populateResultMap(inputData1,resultMap);
+        populateResultMap(inputData2,resultMap);
         // Then
         //has results from both files
         const expectedResults = ['word1','word2','word3','word4','word5']

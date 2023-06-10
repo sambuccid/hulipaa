@@ -1,4 +1,4 @@
-function generateResultMap(pageData,resultMap) {
+function populateResultMap(pageData,resultMap) {
   if (!pageData) {
     throw new Error("parameter missing")
   }
@@ -46,4 +46,4 @@ function adjustPath(oldPath) {
   return "../" + oldPath
 }
 
-module.exports = generateResultMap;
+module.exports = populateResultMap;

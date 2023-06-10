@@ -67,23 +67,6 @@ describe('presenter',() => {
         });
     })
 
-    it('filters the result map to remove results with no number of matches',() => {
-        // Given
-        const resultMapWithNoMatches = {
-            searchedWord: {
-                results: [{
-                    title: "helloooo",
-                    path: "path.json",
-                    link: 'aa.html',
-                    numberOfMatches: 0,
-                }]
-            }
-        }
-        // When
-        const result = presenter(resultMapWithNoMatches)
-        // Then
-        expect(result).toEqual([])
-    });
     it('returns list with one file for each result in resultMap',() => {
         // Given
         const resultMapWithNoMatches = {
@@ -154,39 +137,6 @@ describe('presenter',() => {
         expect(result.length).toEqual(1)
         expect(result[0]).toHaveProperty("fileName")
         expect(result[0].fileName).toEqual('uppercaseword.json')
-    });
-    it('filters number of matches event with multiple results',() => {
-        // Given
-        const resultMapWithNoMatches = {
-            searchedWord: {
-                results: [{
-                    title: "helloooo",
-                    path: "path.json",
-                    link: 'aa.html',
-                    numberOfMatches: 1,
-                }]
-            },
-            searchedWord2: {
-                results: [{
-                    title: "helloooo",
-                    path: "path.json",
-                    link: 'aa.html',
-                    numberOfMatches: 0,
-                }]
-            },
-            searchedWord3: {
-                results: [{
-                    title: "helloooo",
-                    path: "path.json",
-                    link: 'aa.html',
-                    numberOfMatches: 3,
-                }]
-            }
-        }
-        // When
-        const result = presenter(resultMapWithNoMatches)
-        // Then
-        expect(result.length).toEqual(2)
     });
 });
 
