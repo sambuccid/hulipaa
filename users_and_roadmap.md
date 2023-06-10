@@ -101,6 +101,9 @@ This is the version of the library that we think is enough useful, easy to use a
 
 ### auto completition
 
+### possibility to pass in an array of paths of the pages to scan
+So that it becomes more extensible and there is a way to use the library without having to accomodate many use cases where the pages are in sub-folders, in different folders etc.
+
 ### fully integrated with 11ty(spike)
 Need to see how much work would be needed to integrate it as a 11ty plugin
 this involves it working with all the type of data(json, MD and so on) seamlessly

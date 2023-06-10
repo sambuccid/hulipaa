@@ -13,6 +13,7 @@ function buildIndex(inputFolder,outputFolder,parsePage,getLinkPage) {
 
     // get data
     const pageFileNames = fs.readdirSync(inputFolder)
+    // TODO iterate over pageFileNames
     const pageFileName = pageFileNames[0]
     const pageFullPath = path.join(inputFolder,pageFileName)
     const pageContent = fs.readFileSync(pageFullPath,'utf8')
@@ -55,6 +56,7 @@ function presenter(resultMap) {
         }
     ))
 
+    //TODO remove
     const validResults = resultArray.filter(
         (result) => result?.resultInfos?.results?.[0]?.numberOfMatches > 0)
 

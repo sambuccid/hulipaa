@@ -20,6 +20,8 @@ function generateResultMap(pageData) {
         }]
       }
     } else {
+      //TODO check if it's the same page or not
+      // if not add a result to the results array
       results[searchedWord].results[0].numberOfMatches++
     }
 
