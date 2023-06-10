@@ -1,5 +1,8 @@
-function generateResultMap(pageData) {
+function generateResultMap(pageData,resultMap) {
   if (!pageData) {
+    throw new Error("parameter missing")
+  }
+  if (!resultMap) {
     throw new Error("parameter missing")
   }
 
@@ -24,9 +27,19 @@ function generateResultMap(pageData) {
       // if not add a result to the results array
       results[searchedWord].results[0].numberOfMatches++
     }
-
   }
-  return results;
+
+  mergeResultMaps(resultMap,results)
+}
+
+function mergeResultMaps(resultMap,currentResults) {
+  for (let searchedWord in currentResults) {
+    if (resultMap[searchedWord] == null) {
+      resultMap[searchedWord] = currentResults[searchedWord]
+    } else {
+      resultMap[searchedWord].results.push(...currentResults[searchedWord].results)
+    }
+  }
 }
 
 function adjustPath(oldPath) {

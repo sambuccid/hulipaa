@@ -16,14 +16,16 @@ describe('generateResultMap',() => {
         it('returns a map of the results',() => {
             // Given
             // When
-            const res = generateResultMap(inputData);
+            const res = {}
+            generateResultMap(inputData,res);
             // Then
             expect(res).toHaveProperty(wordTest)
         })
         it('all results match the defined format',() => {
             // Given
             // When
-            const res = generateResultMap(inputData);
+            const res = {}
+            generateResultMap(inputData,res);
             // Then
             expect(res[wordTest]).toHaveProperty("results")
             expect(res[wordTest].results.length).toBeGreaterThan(0)
@@ -37,14 +39,16 @@ describe('generateResultMap',() => {
         it('extracts the title',() => {
             // Given
             // When
-            const res = generateResultMap(inputData);
+            const res = {}
+            generateResultMap(inputData,res);
             // Then
             expect(res[wordTest].results[0].title).toEqual(inputData.title)
         });
         it('returns the path of the data reachable fom the ui',() => {
             // Given
             // When
-            const res = generateResultMap(inputData);
+            const res = {}
+            generateResultMap(inputData,res);
             // Then
             expect(res[wordTest].results[0].path).toEqual("../" + inputData.path)
         });
@@ -59,7 +63,8 @@ describe('generateResultMap',() => {
             link: 'aa.html'
         }
         // When
-        const res = generateResultMap(inputData);
+        const res = {}
+        generateResultMap(inputData,res);
         // Then
         expect(res[searchedWord].results[0].numberOfMatches).toEqual(3)
     });
@@ -72,7 +77,8 @@ describe('generateResultMap',() => {
             link: 'aa.html'
         }
         // When
-        const res = generateResultMap(inputData);
+        const res = {}
+        generateResultMap(inputData,res);
         // Then
         expect(res).toHaveProperty('word1')
         expect(res).toHaveProperty('word2')
@@ -87,12 +93,47 @@ describe('generateResultMap',() => {
             link: 'aa.html'
         }
         // When
-        const res = generateResultMap(inputData);
+        const res = {}
+        generateResultMap(inputData,res);
         // Then
         const expectedResults = ["w",'word2','word3','word4','word5','wÖrd6','word7','word8','word9',"word10"]
         expect(Object.keys(res).length).toBe(10)
         for (let expectedWord of expectedResults) {
             expect(res).toHaveProperty(expectedWord)
         }
+    });
+    it('populates results from different files',() => {
+        // Given
+        const inputData1 = {
+            title: "page1",
+            path: "pages/page1.json",
+            text: `word1 word2 word3`,
+            link: 'page1.html'
+        }
+        const inputData2 = {
+            title: "page2",
+            path: "pages/page2.json",
+            text: `word1 word4 word5`,
+            link: 'page2.html'
+        }
+        // When
+        const resultMap = {}
+        generateResultMap(inputData1,resultMap);
+        generateResultMap(inputData2,resultMap);
+        // Then
+        //has results from both files
+        const expectedResults = ['word1','word2','word3','word4','word5']
+        expect(Object.keys(resultMap).length).toBe(5)
+        for (let expectedWord of expectedResults) {
+            expect(resultMap).toHaveProperty(expectedWord)
+        }
+        //found that word1 was in both pages
+        expect(resultMap.word1.results.length).toBe(2)
+        expect(resultMap.word1.results).toContainEqual(expect.objectContaining({
+            title: 'page1'
+        }))
+        expect(resultMap.word1.results).toContainEqual(expect.objectContaining({
+            title: 'page2'
+        }))
     });
 });
