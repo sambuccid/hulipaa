@@ -48,24 +48,36 @@ export function addElements(div,{ resultTitle,onclickExpandDiv,link }) {
     return { element: element }
 }
 
+export function getResultDiv({ expandDiv }) {
+    return expandDiv.parentElement
+}
+
 export function addMessage(div,{ message,type }) {
-    let backgroundColor = "white"
-    if (type === messageType.ERROR) {
-        backgroundColor = ERROR_COLOR
-    } else if (type === messageType.MESSAGE) {
-        backgroundColor = MESSAGE_COLOR
-    }
+    const { messageElements,color } = createMessage({ message,type })
 
-    const content = [
-        EL.span({
-            innerText: message
-        })
-    ]
-
-    const element = createMainResultDiv(content,backgroundColor)
+    const element = createMainResultDiv(messageElements,color)
 
     div.appendChild(element)
     return { element: element }
+}
+
+function createMessage({ message,type }) {
+    let color = "white"
+    if (type === messageType.ERROR) {
+        color = ERROR_COLOR
+    } else if (type === messageType.MESSAGE) {
+        color = MESSAGE_COLOR
+    }
+
+    return {
+        messageElements: [
+            EL.span({
+                innerText: message
+            })
+        ],
+        color
+    }
+
 }
 
 function createMainResultDiv(content,backgroundColor) {
@@ -162,6 +174,17 @@ export function populateExpandWith({ expandDiv,htmlText,text }) {
         existingExpandDiv: expandDiv,
         content: span
     })
+}
+
+export function substituteWithMessage(resultDiv,message,messageType) {
+    clear(resultDiv)
+
+    const { messageElements,color } = createMessage({ message,type: messageType })
+
+    for (const el of messageElements) {
+        resultDiv.appendChild(el)
+    }
+    resultDiv.style.backgroundColor = color
 }
 
 export function clear(div) {

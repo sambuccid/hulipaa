@@ -31,7 +31,7 @@ export async function processSearch(query,resultContainer,SWSOptions) {
     for (const result of sortedResults) {
         ResultsUI.addElements(resultContainer,{
             resultTitle: result.title,
-            onclickExpandDiv: onResultExpandClick.bind(null,result.path,query,resultContainer,SWSOptions),
+            onclickExpandDiv: onResultExpandClick.bind(null,result.title,result.path,query,resultContainer,SWSOptions),
             link: result.link
         })
     }

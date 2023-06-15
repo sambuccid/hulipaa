@@ -6,9 +6,11 @@ import {
 } from '../helpers.js'
 import { loadResult } from '../service.js'
 import * as ResultsUI from './results-ui.js'
-import { showSearchMessage,manageExceptionUI } from '../resultsContainer/resultsContainer.js'
+import {
+    manageExceptionUI
+} from '../resultsContainer/resultsContainer.js'
 
-export async function onResultExpandClick(resultPath,searchedWord,resultContainer,SWSOptions,expandDiv) {
+export async function onResultExpandClick(resultTitle,resultPath,searchedWord,resultContainer,SWSOptions,expandDiv) {
     if (!ResultsUI.isExpanded({ expandDiv })) {
         const { result,error } = await manageExceptionUI(resultContainer,async () =>
             await loadResult(resultPath)
@@ -16,15 +18,14 @@ export async function onResultExpandClick(resultPath,searchedWord,resultContaine
         if (error) return // There has been an error, already managed by manageExceptionUI
 
         if (result == null) {
-            // TODO probably show this just for current result
-            showSearchMessage(
-                resultContainer,
-                "There has been an error, the result couldn't be found",
+            ResultsUI.substituteWithMessage(
+                ResultsUI.getResultDiv({ expandDiv }),
+                `Error: The result for the ${resultTitle} page couldn't be found`,
                 ResultsUI.messageType.ERROR)
             return;
         }
 
-        const resultDetails = parseResult(result,resultContainer,SWSOptions)
+        const resultDetails = parseResult(result,resultTitle,expandDiv,SWSOptions)
         if (!resultDetails) return // There has been an error, already managed by parseResult
 
         const formattedText = formatTextForResult(resultDetails.text,searchedWord)
@@ -36,16 +37,15 @@ export async function onResultExpandClick(resultPath,searchedWord,resultContaine
     }
 }
 
-function parseResult(result,resultContainer,SWSOptions) {
+function parseResult(result,resultTitle,expandDiv,SWSOptions) {
     let resultDetails
     try {
         resultDetails = SWSOptions.parsePage(result)
     } catch (e) { }
     if (resultDetails?.text == null || resultDetails?.text === "") {
-        // TODO probably show this just for the current result
-        showSearchMessage(
-            resultContainer,
-            "There has been an error parsing the page",
+        ResultsUI.substituteWithMessage(
+            ResultsUI.getResultDiv({ expandDiv }),
+            `There has been an error parsing the ${resultTitle} page`,
             ResultsUI.messageType.ERROR)
         return;
     }

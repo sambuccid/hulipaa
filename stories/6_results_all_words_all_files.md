@@ -47,14 +47,12 @@ And I am on the search page
 When I search for the word
 I want the results to be clearly separated from one another
 
-#### AC4
+#### AC4[done]
 Given there are multiple pages with the same word
 And I am on the search page
 When I search for the word
 And I click on a result of a page that can't be found(404)
 I want to still be able to access all other results without running the search again
-- edge test case really, maybe to do with dev console
-
 
 TODO in UI:
 do not rely on results having always at least one object
