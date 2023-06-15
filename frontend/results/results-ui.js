@@ -9,7 +9,46 @@ export const messageType = {
     ERROR: 'error',
     MESSAGE: 'message'
 }
-export function addElements(div,{ resultTitle,onclickExpandDiv,link,type }) {
+export function addElements(div,{ resultTitle,onclickExpandDiv,link }) {
+    const resultContent = [
+        EL.div({
+            els: [
+                EL.a({
+                    els: [
+                        EL.span({
+                            innerText: resultTitle
+                        }),
+                    ],
+                    href: link,
+                    style: {
+                        color: 'inherit',
+                        textDecoration: 'inherit',
+                        display: 'inline-block',
+                        height: '100%',
+                        width: '100%',
+                    }
+                })],
+            style: {
+                flex: '6 6 0px',
+                paddingBottom: '2px',
+                minHeight: '30px'
+            },
+            className: MAIN_DIV_CLASS_NAME
+        }),
+        makePopulateExpandDiv({
+            content: createImageExpandDiv(),
+            onclick: onclickExpandDiv
+        })
+    ]
+
+    const backgroundColor = "white"
+    const element = createMainResultDiv(resultContent,backgroundColor)
+
+    div.appendChild(element)
+    return { element: element }
+}
+
+export function addMessage(div,{ message,type }) {
     let backgroundColor = "white"
     if (type === messageType.ERROR) {
         backgroundColor = ERROR_COLOR
@@ -17,47 +56,21 @@ export function addElements(div,{ resultTitle,onclickExpandDiv,link,type }) {
         backgroundColor = MESSAGE_COLOR
     }
 
-    let resultContent
-    if (type != null) {
-        resultContent = [
-            EL.span({
-                innerText: resultTitle
-            })]
-    } else {
-        resultContent = [
-            EL.div({
-                els: [
-                    EL.a({
-                        els: [
-                            EL.span({
-                                innerText: resultTitle
-                            }),
-                        ],
-                        href: link,
-                        style: {
-                            color: 'inherit',
-                            textDecoration: 'inherit',
-                            display: 'inline-block',
-                            height: '100%',
-                            width: '100%',
-                        }
-                    })],
-                style: {
-                    flex: '6 6 0px',
-                    paddingBottom: '2px',
-                    minHeight: '30px'
-                },
-                className: MAIN_DIV_CLASS_NAME
-            }),
-            makePopulateExpandDiv({
-                content: createImageExpandDiv(),
-                onclick: onclickExpandDiv
-            })
-        ]
-    }
+    const content = [
+        EL.span({
+            innerText: message
+        })
+    ]
 
-    const element = EL.div({
-        els: resultContent,
+    const element = createMainResultDiv(content,backgroundColor)
+
+    div.appendChild(element)
+    return { element: element }
+}
+
+function createMainResultDiv(content,backgroundColor) {
+    return EL.div({
+        els: content,
         style: {
             backgroundColor,
             borderRadius: "10px",
@@ -71,9 +84,6 @@ export function addElements(div,{ resultTitle,onclickExpandDiv,link,type }) {
             flexDirection: 'column'
         }
     })
-
-    div.appendChild(element)
-    return { element: element }
 }
 
 function makePopulateExpandDiv({ content,existingExpandDiv,onclick }) {
