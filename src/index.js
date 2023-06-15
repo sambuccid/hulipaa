@@ -2,7 +2,6 @@ const fs = require('fs');
 const path = require('path');
 
 const populateResultMap = require('./populateResultMap.js')
-const { normaliseAndLowecase } = require('./helper.js')
 
 function buildIndex(inputFolder,outputFolder,parsePage,getLinkPage) {
     //make directory
@@ -57,12 +56,7 @@ function presenter(resultMap) {
         }
     ))
 
-    const normalisedResults = resultArray.map(res => ({
-        ...res,
-        resultWord: normaliseAndLowecase(res.resultWord)
-    }))
-
-    const filesArray = normalisedResults.map((result) => (
+    const filesArray = resultArray.map((result) => (
         {
             fileName: `${result.resultWord}.json`,
             content: JSON.stringify(result.resultInfos)

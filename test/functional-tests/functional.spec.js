@@ -120,7 +120,7 @@ describe('Generation of search results',() => {
 
         // Given I have a file with 4 times the same words
         const page1 = `page1
-            word1 word2
+            WÖRD1 word2
         `
 
         const page2 = `page2

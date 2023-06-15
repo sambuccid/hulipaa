@@ -1,3 +1,5 @@
+const { normaliseAndLowecase } = require('./helper.js')
+
 function populateResultMap(pageData,resultMap) {
   if (!pageData) {
     throw new Error("parameter missing")
@@ -8,11 +10,12 @@ function populateResultMap(pageData,resultMap) {
 
   const symbolsRegexp = new RegExp('[A-Za-zÀ-ÖØ-öø-ÿ0-9]+','g')
 
-  const wordsInFile = [...pageData.text.matchAll(symbolsRegexp)]
+  const normalisedPageContent = normaliseAndLowecase(pageData.text)
+
+  const wordsInFile = [...normalisedPageContent.matchAll(symbolsRegexp)]
 
   const results = {}
   for (let searchedWord of wordsInFile) {
-
     if (results[searchedWord] == null) {
       results[searchedWord] = {
         results: [{
@@ -23,8 +26,6 @@ function populateResultMap(pageData,resultMap) {
         }]
       }
     } else {
-      //TODO check if it's the same page or not
-      // if not add a result to the results array
       results[searchedWord].results[0].numberOfMatches++
     }
   }
