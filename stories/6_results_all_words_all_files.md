@@ -33,7 +33,6 @@ When I search for the word
 I want to see multiple results, one for each page
 And it should be possible to expand each result independently
 And it should be possible to open each page
-- test case, search for a word with multiple results and check they expand and open
 
 #### AC2
 Given there are multiple pages with the same word
@@ -60,5 +59,4 @@ I want to still be able to access all other results without running the search a
 
 TODO in UI:
 do not rely on results having always at least one object
-
-add all test cases
+investigate problem with "this" word

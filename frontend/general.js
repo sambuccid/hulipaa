@@ -10,29 +10,23 @@ export async function processSearch(query,resultContainer,SWSOptions) {
     ResultsUI.clear(resultContainer)
     const normalisedQuery = normaliseAndLowecase(query)
 
-    const { result,error } = await manageExceptionUI(resultContainer,async () =>
+    const { result: queryResult,error } = await manageExceptionUI(resultContainer,async () =>
         await search(normalisedQuery)
     )
     if (error) return // There has been an error, already managed by manageExceptionUI
 
-    if (result.results.length == 0) {
+    if (queryResult.results.length == 0) {
         showSearchMessage(
             resultContainer,
             "No results were found for your search",
             ResultsUI.messageType.MESSAGE)
         return;
     }
-    // TODO get all results
-    const firstResult = result.results[0]
-
-    ResultsUI.addElements(resultContainer,{
-        resultTitle: firstResult.title,
-        //TODO add minsing of result.path in here instead pf using closures
-        onclickExpandDiv: onClickExpandDiv,
-        link: firstResult.link
-    })
-    async function onClickExpandDiv(expandDiv) {
-        // TODO pass just result path in
-        await onResultExpandClick(firstResult,expandDiv,query,resultContainer,SWSOptions);
+    for (const result of queryResult.results) {
+        ResultsUI.addElements(resultContainer,{
+            resultTitle: result.title,
+            onclickExpandDiv: onResultExpandClick.bind(null,result.path,query,resultContainer,SWSOptions),
+            link: result.link
+        })
     }
 }

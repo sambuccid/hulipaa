@@ -29,3 +29,8 @@ So instead we have this file wehere we have the tests to manually run to check t
 
 ## User story 5
 - When loading the preview of the result, if the parse function is not valid or it throws an expection an error message will be shown
+
+## User story 6
+This is about having multiple results, searching for words like: this,repeatedword,page1,page2
+- Multiple results are shown, each result expands and collapses independently and we can open them
+

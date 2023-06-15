@@ -8,10 +8,10 @@ import { loadResult } from '../service.js'
 import * as ResultsUI from './results-ui.js'
 import { showSearchMessage,manageExceptionUI } from '../resultsContainer/resultsContainer.js'
 
-export async function onResultExpandClick(indexedResult,expandDiv,searchedWord,resultContainer,SWSOptions) {
+export async function onResultExpandClick(resultPath,searchedWord,resultContainer,SWSOptions,expandDiv) {
     if (!ResultsUI.isExpanded({ expandDiv })) {
         const { result,error } = await manageExceptionUI(resultContainer,async () =>
-            await loadResult(indexedResult.path)
+            await loadResult(resultPath)
         )
         if (error) return // There has been an error, already managed by manageExceptionUI
 
