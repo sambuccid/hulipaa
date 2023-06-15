@@ -12,10 +12,12 @@ jest.mock('./results/results-ui.js',() => {
     return {
         addElements: jest.fn(),
         addMessage: jest.fn(),
+        substituteWithMessage: jest.fn(),
         clear: jest.fn(),
         isExpanded: jest.fn(),
         expand: jest.fn(),
         collapse: jest.fn(),
+        getResultDiv: jest.fn(),
         populateExpandWith: jest.fn(),
         populateExpandWithImage: jest.fn(),
         messageType: actualModule.messageType
@@ -35,6 +37,7 @@ const SWSOptions = {
 describe('processSearch',() => {
     const mockContainer = {}
     const mockedExpandDiv = '<div>test-expanded-div</div>'
+    const mockedResultDiv = '<div>test-result-div</div>'
     const searchedWord = "searchedword"
 
     const resultList = {
@@ -53,6 +56,7 @@ describe('processSearch',() => {
         when(Network.get).calledWith(`/search/${searchedWord}.json`)
             .mockResolvedValue({ ok: true,json: jest.fn().mockResolvedValue(resultList) })
 
+        ResultsUI.getResultDiv.mockReturnValue(mockedResultDiv)
         ResultsUI.isExpanded.mockReturnValue(false)
     });
 
@@ -284,10 +288,11 @@ describe('processSearch',() => {
             expect(ResultsUI.clear).toHaveBeenCalledWith(mockContainer)
 
             // Adds new element with correct message and error style
-            expect(ResultsUI.addMessage).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
-                message: "There has been an error, the result couldn't be found",
-                type: ResultsUI.messageType.ERROR
-            }))
+            expect(ResultsUI.substituteWithMessage).toHaveBeenCalledWith(
+                mockedResultDiv,
+                `Error: The result for the ${resultList.results[0].title} page couldn't be found`,
+                ResultsUI.messageType.ERROR
+            )
         })
     })
 });
