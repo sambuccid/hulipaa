@@ -16,6 +16,7 @@ export async function onResultExpandClick(indexedResult,expandDiv,searchedWord,r
         if (error) return // There has been an error, already managed by manageExceptionUI
 
         if (result == null) {
+            // TODO probably show this just for current result
             showSearchMessage(
                 resultContainer,
                 "There has been an error, the result couldn't be found",
@@ -41,6 +42,7 @@ function parseResult(result,resultContainer,SWSOptions) {
         resultDetails = SWSOptions.parsePage(result)
     } catch (e) { }
     if (resultDetails?.text == null || resultDetails?.text === "") {
+        // TODO probably show this just for the current result
         showSearchMessage(
             resultContainer,
             "There has been an error parsing the page",

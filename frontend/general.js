@@ -22,14 +22,17 @@ export async function processSearch(query,resultContainer,SWSOptions) {
             ResultsUI.messageType.MESSAGE)
         return;
     }
+    // TODO get all results
     const firstResult = result.results[0]
 
     ResultsUI.addElements(resultContainer,{
         resultTitle: firstResult.title,
+        //TODO add minsing of result.path in here instead pf using closures
         onclickExpandDiv: onClickExpandDiv,
         link: firstResult.link
     })
     async function onClickExpandDiv(expandDiv) {
+        // TODO pass just result path in
         await onResultExpandClick(firstResult,expandDiv,query,resultContainer,SWSOptions);
     }
 }

@@ -60,23 +60,10 @@ I want to be able to use the searchbar to see all the occurrences of any word in
 So that I can find the topic I want
 
 Should be able to end to end manually test it
-#### generate results
-- expand the program so that we can search for all the files
-(no need to think about empty results)
+#### ~~generate results~~
+
 #### show results
-As a visitor of the website
-I want to be able to see the results of my search
-So that i can use them
-(
-AC-N
-Given I am on the search page
-When I enter and run the search
-I want the results to be clearly separated from one another
-AC-N
-Given I have searched for something on the search page
-When I click on a result of a page that can't be found(404)
-I want to still be able to access all other results without running the search again
-)
+
 
 ### search multiple words
 As a visitor of the website
