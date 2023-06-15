@@ -65,6 +65,7 @@ export function addElements(div,{ resultTitle,onclickExpandDiv,link,type }) {
             paddingBottom: '0px',
             textAlign: "center",
             border: "gray solid 1px",
+            marginBottom: "15px",
             overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column'

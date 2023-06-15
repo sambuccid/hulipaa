@@ -41,7 +41,7 @@ When I am on the search page and search for the word
 And the results are shown
 I want that the page with more occurrences is shown first
 
-#### AC3
+#### AC3[done]
 Given there are multiple pages with the same word
 And I am on the search page
 When I search for the word
