@@ -26,7 +26,7 @@ As a visitor of the website
 I want to be able to see the results of my search
 So that i can use them
 
-#### AC1
+#### AC1[done]
 Given there are multiple pages with the same word
 And I am on the search page
 When I search for the word
@@ -34,13 +34,12 @@ I want to see multiple results, one for each page
 And it should be possible to expand each result independently
 And it should be possible to open each page
 
-#### AC2
+#### AC2[done]
 Given there are multiple pages with the same word
 And one of the pages contain that word more times that the other
 When I am on the search page and search for the word
 And the results are shown
 I want that the page with more occurrences is shown first
-- test case with maybe the name of the page or something, something clear that is more related
 
 #### AC3
 Given there are multiple pages with the same word

@@ -22,7 +22,13 @@ export async function processSearch(query,resultContainer,SWSOptions) {
             ResultsUI.messageType.MESSAGE)
         return;
     }
-    for (const result of queryResult.results) {
+
+    // Sort based on numberOfMatches, the higher number goes first
+    const sortedResults = [...queryResult.results].sort((res1,res2) => {
+        return res2.numberOfMatches - res1.numberOfMatches
+    })
+
+    for (const result of sortedResults) {
         ResultsUI.addElements(resultContainer,{
             resultTitle: result.title,
             onclickExpandDiv: onResultExpandClick.bind(null,result.path,query,resultContainer,SWSOptions),

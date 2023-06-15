@@ -33,4 +33,4 @@ So instead we have this file wehere we have the tests to manually run to check t
 ## User story 6
 This is about having multiple results, searching for words like: this,repeatedword,page1,page2
 - Multiple results are shown, each result expands and collapses independently and we can open them
-
+- Searching for a word like `page1` or `page2` check taht the results are ordered based on the number of occurrences of the word in the page
