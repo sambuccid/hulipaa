@@ -54,7 +54,7 @@ As the creator of the website
 I want to be able to define a way of parsing the input data
 So that the content of the data can be used to generate the results
 
-### results for all words in all files
+### ~~results for all words in all files~~
 As a visitor of the website
 I want to be able to use the searchbar to see all the occurrences of any word in a list of pages
 So that I can find the topic I want
@@ -62,7 +62,7 @@ So that I can find the topic I want
 Should be able to end to end manually test it
 #### ~~generate results~~
 
-#### show results
+#### ~~show results~~
 
 
 ### search multiple words
