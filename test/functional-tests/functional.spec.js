@@ -114,6 +114,53 @@ describe('Generation of search results',() => {
         }
     });
 
+
+    it('creates results for all the input files present',() => {
+        setUpTestFolder()
+
+        // Given I have a file with 4 times the same words
+        const page1 = `page1
+            WÖRD1 word2
+        `
+
+        const page2 = `page2
+            word1 word3
+        `
+
+        createInputTestFile("testFile1.json",page1)
+        createInputTestFile("testFile2.json",page2)
+
+        // When I run the generate utility searching for an hardcoded word
+        buildIndex(TEST_INPUT_FOLDER,TEST_OUTPUT_FOLDER,parseTestPage,(fileName) => fileName + '.html')
+
+        // Then it generates results from both files
+        const outputFiles = getFileListInOutputFolder()
+        expect(outputFiles.length).toEqual(3)
+        expect(outputFiles).toContain('word1.json')
+        expect(outputFiles).toContain('word2.json')
+        expect(outputFiles).toContain('word3.json')
+
+        // And the  common words in both files reference both files
+        const expectedCommonWordOutputFile = {
+            results: [
+                {
+                    title: "page1",
+                    path: "../testFile1.json",
+                    numberOfMatches: 1,
+                    link: 'testFile1.json.html'
+                },{
+                    title: "page2",
+                    path: "../testFile2.json",
+                    numberOfMatches: 1,
+                    link: 'testFile2.json.html'
+                }
+            ]
+        }
+
+        const commonWordOutputFileContent = readOutputFile('word1.json')
+        expect(JSON.parse(commonWordOutputFileContent)).toEqual(expectedCommonWordOutputFile)
+    });
+
     function parseTestPage(pageContent,pagePath) {
         const pageLines = pageContent.split(/\r?\n|\r|\n/g);
         const title = pageLines.shift()

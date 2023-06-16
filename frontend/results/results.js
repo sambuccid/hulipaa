@@ -6,24 +6,26 @@ import {
 } from '../helpers.js'
 import { loadResult } from '../service.js'
 import * as ResultsUI from './results-ui.js'
-import { showSearchMessage,manageExceptionUI } from '../resultsContainer/resultsContainer.js'
+import {
+    manageExceptionUI
+} from '../resultsContainer/resultsContainer.js'
 
-export async function onResultExpandClick(indexedResult,expandDiv,searchedWord,resultContainer,SWSOptions) {
+export async function onResultExpandClick(resultTitle,resultPath,searchedWord,resultContainer,SWSOptions,expandDiv) {
     if (!ResultsUI.isExpanded({ expandDiv })) {
         const { result,error } = await manageExceptionUI(resultContainer,async () =>
-            await loadResult(indexedResult.path)
+            await loadResult(resultPath)
         )
         if (error) return // There has been an error, already managed by manageExceptionUI
 
         if (result == null) {
-            showSearchMessage(
-                resultContainer,
-                "There has been an error, the result couldn't be found",
+            ResultsUI.substituteWithMessage(
+                ResultsUI.getResultDiv({ expandDiv }),
+                `Error: The result for the ${resultTitle} page couldn't be found`,
                 ResultsUI.messageType.ERROR)
             return;
         }
 
-        const resultDetails = parseResult(result,resultContainer,SWSOptions)
+        const resultDetails = parseResult(result,resultTitle,expandDiv,SWSOptions)
         if (!resultDetails) return // There has been an error, already managed by parseResult
 
         const formattedText = formatTextForResult(resultDetails.text,searchedWord)
@@ -35,15 +37,15 @@ export async function onResultExpandClick(indexedResult,expandDiv,searchedWord,r
     }
 }
 
-function parseResult(result,resultContainer,SWSOptions) {
+function parseResult(result,resultTitle,expandDiv,SWSOptions) {
     let resultDetails
     try {
         resultDetails = SWSOptions.parsePage(result)
     } catch (e) { }
     if (resultDetails?.text == null || resultDetails?.text === "") {
-        showSearchMessage(
-            resultContainer,
-            "There has been an error parsing the page",
+        ResultsUI.substituteWithMessage(
+            ResultsUI.getResultDiv({ expandDiv }),
+            `There has been an error parsing the ${resultTitle} page`,
             ResultsUI.messageType.ERROR)
         return;
     }

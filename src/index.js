@@ -1,8 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const generateResultMap = require('./generateResultMap.js')
-const { normaliseAndLowecase } = require('./helper.js')
+const populateResultMap = require('./populateResultMap.js')
 
 function buildIndex(inputFolder,outputFolder,parsePage,getLinkPage) {
     //make directory
@@ -11,17 +10,19 @@ function buildIndex(inputFolder,outputFolder,parsePage,getLinkPage) {
     }
     fs.mkdirSync(outputFolder);
 
-    // get data
     const pageFileNames = fs.readdirSync(inputFolder)
-    const pageFileName = pageFileNames[0]
-    const pageFullPath = path.join(inputFolder,pageFileName)
-    const pageContent = fs.readFileSync(pageFullPath,'utf8')
-    const pageDetails = parsePage(pageContent,pageFullPath)
-    validateInputData(pageDetails)
-    pageDetails.link = getLinkPage(pageFileName,inputFolder)
+    const resultMap = {}
+    for (let pageFileName of pageFileNames) {
+        // get data
+        const pageFullPath = path.join(inputFolder,pageFileName)
+        const pageContent = fs.readFileSync(pageFullPath,'utf8')
+        const pageDetails = parsePage(pageContent,pageFullPath)
+        validateInputData(pageDetails)
+        pageDetails.link = getLinkPage(pageFileName,inputFolder)
 
-    //use case
-    const resultMap = generateResultMap(pageDetails)
+        // find results
+        populateResultMap(pageDetails,resultMap)
+    }
 
     const files = presenter(resultMap);
 
@@ -55,16 +56,7 @@ function presenter(resultMap) {
         }
     ))
 
-    const validResults = resultArray.filter(
-        (result) => result?.resultInfos?.results?.[0]?.numberOfMatches > 0)
-
-
-    const normalisedValidResults = validResults.map(res => ({
-        ...res,
-        resultWord: normaliseAndLowecase(res.resultWord)
-    }))
-
-    const filesArray = normalisedValidResults.map((result) => (
+    const filesArray = resultArray.map((result) => (
         {
             fileName: `${result.resultWord}.json`,
             content: JSON.stringify(result.resultInfos)

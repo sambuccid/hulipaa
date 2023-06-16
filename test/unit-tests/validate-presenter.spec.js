@@ -40,7 +40,7 @@ describe('validateInputData',() => {
 describe('presenter',() => {
     describe('when run with valid input',() => {
         const resultMap = {
-            searchedWord: {
+            searchedword: {
                 results: [{
                     title: "helloooo",
                     path: "path.json",
@@ -63,27 +63,10 @@ describe('presenter',() => {
         })
         it('returns the content of the file as json string',() => {
             expect(result[0]).toHaveProperty("content")
-            expect(result[0].content).toEqual(JSON.stringify(resultMap.searchedWord))
+            expect(result[0].content).toEqual(JSON.stringify(resultMap.searchedword))
         });
     })
 
-    it('filters the result map to remove results with no number of matches',() => {
-        // Given
-        const resultMapWithNoMatches = {
-            searchedWord: {
-                results: [{
-                    title: "helloooo",
-                    path: "path.json",
-                    link: 'aa.html',
-                    numberOfMatches: 0,
-                }]
-            }
-        }
-        // When
-        const result = presenter(resultMapWithNoMatches)
-        // Then
-        expect(result).toEqual([])
-    });
     it('returns list with one file for each result in resultMap',() => {
         // Given
         const resultMapWithNoMatches = {
@@ -117,77 +100,6 @@ describe('presenter',() => {
         // Then
         expect(result.length).toEqual(3)
     });
-    it('normalises results by transforming carachters to normal string without accents',() => {
-        // Given
-        const resultMap = {
-            wordﬀandñ: {
-                results: [{
-                    title: "helloooo",
-                    path: "path.json",
-                    link: 'aa.html',
-                    numberOfMatches: 1,
-                }]
-            }
-        }
-        // When
-        const result = presenter(resultMap)
-        // Then
-        expect(result.length).toEqual(1)
-        expect(result[0]).toHaveProperty("fileName")
-        expect(result[0].fileName).toEqual('wordffandn.json')
-    });
-    it('converts the words in lower case',() => {
-        // Given
-        const resultMap = {
-            UPPERCASEword: {
-                results: [{
-                    title: "helloooo",
-                    path: "path.json",
-                    link: 'aa.html',
-                    numberOfMatches: 1,
-                }]
-            }
-        }
-        // When
-        const result = presenter(resultMap)
-        // Then
-        expect(result.length).toEqual(1)
-        expect(result[0]).toHaveProperty("fileName")
-        expect(result[0].fileName).toEqual('uppercaseword.json')
-    });
-    it('filters number of matches event with multiple results',() => {
-        // Given
-        const resultMapWithNoMatches = {
-            searchedWord: {
-                results: [{
-                    title: "helloooo",
-                    path: "path.json",
-                    link: 'aa.html',
-                    numberOfMatches: 1,
-                }]
-            },
-            searchedWord2: {
-                results: [{
-                    title: "helloooo",
-                    path: "path.json",
-                    link: 'aa.html',
-                    numberOfMatches: 0,
-                }]
-            },
-            searchedWord3: {
-                results: [{
-                    title: "helloooo",
-                    path: "path.json",
-                    link: 'aa.html',
-                    numberOfMatches: 3,
-                }]
-            }
-        }
-        // When
-        const result = presenter(resultMapWithNoMatches)
-        // Then
-        expect(result.length).toEqual(2)
-    });
 });
 
 
@@ -207,7 +119,7 @@ describe('presenter using jsonpath',() => {
 
     test.each([
         ['returns list','$',r => r.length == 1],
-        ['file name created',{ testWord: '$.word' },r => r[0].fileName == 'testword.json'],
+        ['file name created',{ testword: '$.word' },r => r[0].fileName == 'testword.json'],
         ['json content','$',r => r[0].content == JSON.stringify(defaultInput.word)],
         // ['filters no matches',['$..numberOfMatches',0],r => r.length == 0]
     ])('%s',(_desc,objectModifier,testResult) => {

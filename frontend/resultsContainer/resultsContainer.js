@@ -13,8 +13,8 @@ export function initResultContainer(searchDiv) {
 
 export function showSearchMessage(resultContainer,message,messageType) {
     ResultsUI.clear(resultContainer)
-    ResultsUI.addElements(resultContainer,{
-        resultTitle: message,
+    ResultsUI.addMessage(resultContainer,{
+        message,
         type: messageType
     })
 }

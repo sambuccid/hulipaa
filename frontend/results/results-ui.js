@@ -9,55 +9,80 @@ export const messageType = {
     ERROR: 'error',
     MESSAGE: 'message'
 }
-export function addElements(div,{ resultTitle,onclickExpandDiv,link,type }) {
-    let backgroundColor = "white"
+export function addElements(div,{ resultTitle,onclickExpandDiv,link }) {
+    const resultContent = [
+        EL.div({
+            els: [
+                EL.a({
+                    els: [
+                        EL.span({
+                            innerText: resultTitle
+                        }),
+                    ],
+                    href: link,
+                    style: {
+                        color: 'inherit',
+                        textDecoration: 'inherit',
+                        display: 'inline-block',
+                        height: '100%',
+                        width: '100%',
+                    }
+                })],
+            style: {
+                flex: '6 6 0px',
+                paddingBottom: '2px',
+                minHeight: '30px'
+            },
+            className: MAIN_DIV_CLASS_NAME
+        }),
+        makePopulateExpandDiv({
+            content: createImageExpandDiv(),
+            onclick: onclickExpandDiv
+        })
+    ]
+
+    const backgroundColor = "white"
+    const element = createMainResultDiv(resultContent,backgroundColor)
+
+    div.appendChild(element)
+    return { element: element }
+}
+
+export function getResultDiv({ expandDiv }) {
+    return expandDiv.parentElement
+}
+
+export function addMessage(div,{ message,type }) {
+    const { messageElements,color } = createMessage({ message,type })
+
+    const element = createMainResultDiv(messageElements,color)
+
+    div.appendChild(element)
+    return { element: element }
+}
+
+function createMessage({ message,type }) {
+    let color = "white"
     if (type === messageType.ERROR) {
-        backgroundColor = ERROR_COLOR
+        color = ERROR_COLOR
     } else if (type === messageType.MESSAGE) {
-        backgroundColor = MESSAGE_COLOR
+        color = MESSAGE_COLOR
     }
 
-    let resultContent
-    if (type != null) {
-        resultContent = [
+    return {
+        messageElements: [
             EL.span({
-                innerText: resultTitle
-            })]
-    } else {
-        resultContent = [
-            EL.div({
-                els: [
-                    EL.a({
-                        els: [
-                            EL.span({
-                                innerText: resultTitle
-                            }),
-                        ],
-                        href: link,
-                        style: {
-                            color: 'inherit',
-                            textDecoration: 'inherit',
-                            display: 'inline-block',
-                            height: '100%',
-                            width: '100%',
-                        }
-                    })],
-                style: {
-                    flex: '6 6 0px',
-                    paddingBottom: '2px',
-                    minHeight: '30px'
-                },
-                className: MAIN_DIV_CLASS_NAME
-            }),
-            makePopulateExpandDiv({
-                content: createImageExpandDiv(),
-                onclick: onclickExpandDiv
+                innerText: message
             })
-        ]
+        ],
+        color
     }
 
-    const element = EL.div({
-        els: resultContent,
+}
+
+function createMainResultDiv(content,backgroundColor) {
+    return EL.div({
+        els: content,
         style: {
             backgroundColor,
             borderRadius: "10px",
@@ -65,14 +90,12 @@ export function addElements(div,{ resultTitle,onclickExpandDiv,link,type }) {
             paddingBottom: '0px',
             textAlign: "center",
             border: "gray solid 1px",
+            marginBottom: "15px",
             overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column'
         }
     })
-
-    div.appendChild(element)
-    return { element: element }
 }
 
 function makePopulateExpandDiv({ content,existingExpandDiv,onclick }) {
@@ -151,6 +174,17 @@ export function populateExpandWith({ expandDiv,htmlText,text }) {
         existingExpandDiv: expandDiv,
         content: span
     })
+}
+
+export function substituteWithMessage(resultDiv,message,messageType) {
+    clear(resultDiv)
+
+    const { messageElements,color } = createMessage({ message,type: messageType })
+
+    for (const el of messageElements) {
+        resultDiv.appendChild(el)
+    }
+    resultDiv.style.backgroundColor = color
 }
 
 export function clear(div) {

@@ -54,29 +54,16 @@ As the creator of the website
 I want to be able to define a way of parsing the input data
 So that the content of the data can be used to generate the results
 
-### results for all words in all files
+### ~~results for all words in all files~~
 As a visitor of the website
 I want to be able to use the searchbar to see all the occurrences of any word in a list of pages
 So that I can find the topic I want
 
 Should be able to end to end manually test it
-#### generate results
-- expand the program so that we can search for all the files
-(no need to think about empty results)
-#### show results
-As a visitor of the website
-I want to be able to see the results of my search
-So that i can use them
-(
-AC-N
-Given I am on the search page
-When I enter and run the search
-I want the results to be clearly separated from one another
-AC-N
-Given I have searched for something on the search page
-When I click on a result of a page that can't be found(404)
-I want to still be able to access all other results without running the search again
-)
+#### ~~generate results~~
+
+#### ~~show results~~
+
 
 ### search multiple words
 As a visitor of the website
@@ -100,6 +87,9 @@ This is the version of the library that we think is enough useful, easy to use a
 ## user/tech stories(incomplete)
 
 ### auto completition
+
+### possibility to pass in an array of paths of the pages to scan
+So that it becomes more extensible and there is a way to use the library without having to accomodate many use cases where the pages are in sub-folders, in different folders etc.
 
 ### fully integrated with 11ty(spike)
 Need to see how much work would be needed to integrate it as a 11ty plugin

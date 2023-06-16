@@ -11,10 +11,13 @@ jest.mock('./results/results-ui.js',() => {
     const actualModule = jest.requireActual('./results/results-ui.js');
     return {
         addElements: jest.fn(),
+        addMessage: jest.fn(),
+        substituteWithMessage: jest.fn(),
         clear: jest.fn(),
         isExpanded: jest.fn(),
         expand: jest.fn(),
         collapse: jest.fn(),
+        getResultDiv: jest.fn(),
         populateExpandWith: jest.fn(),
         populateExpandWithImage: jest.fn(),
         messageType: actualModule.messageType
@@ -34,6 +37,7 @@ const SWSOptions = {
 describe('processSearch',() => {
     const mockContainer = {}
     const mockedExpandDiv = '<div>test-expanded-div</div>'
+    const mockedResultDiv = '<div>test-result-div</div>'
     const searchedWord = "searchedword"
 
     const resultList = {
@@ -52,6 +56,7 @@ describe('processSearch',() => {
         when(Network.get).calledWith(`/search/${searchedWord}.json`)
             .mockResolvedValue({ ok: true,json: jest.fn().mockResolvedValue(resultList) })
 
+        ResultsUI.getResultDiv.mockReturnValue(mockedResultDiv)
         ResultsUI.isExpanded.mockReturnValue(false)
     });
 
@@ -120,8 +125,8 @@ describe('processSearch',() => {
         expect(ResultsUI.clear).toHaveBeenCalledWith(mockContainer)
 
         // Adds new element with correct message and error style
-        expect(ResultsUI.addElements).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
-            resultTitle: 'Experienced a network issue, please try again',
+        expect(ResultsUI.addMessage).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
+            message: 'Experienced a network issue, please try again',
             type: ResultsUI.messageType.ERROR
         }))
     })
@@ -136,8 +141,8 @@ describe('processSearch',() => {
         expect(ResultsUI.clear).toHaveBeenCalledWith(mockContainer)
 
         // Adds new element with correct message and error style
-        expect(ResultsUI.addElements).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
-            resultTitle: 'There has been an issue, please try again',
+        expect(ResultsUI.addMessage).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
+            message: 'There has been an issue, please try again',
             type: ResultsUI.messageType.ERROR
         }))
     })
@@ -152,8 +157,8 @@ describe('processSearch',() => {
         expect(ResultsUI.clear).toHaveBeenCalledWith(mockContainer)
 
         // Adds new element with correct message and message style
-        expect(ResultsUI.addElements).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
-            resultTitle: 'No results were found for your search',
+        expect(ResultsUI.addMessage).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
+            message: 'No results were found for your search',
             type: ResultsUI.messageType.MESSAGE
         }))
     })
@@ -247,8 +252,8 @@ describe('processSearch',() => {
             expect(ResultsUI.clear).toHaveBeenCalledWith(mockContainer)
 
             // Adds new element with correct message and error style
-            expect(ResultsUI.addElements).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
-                resultTitle: 'Experienced a network issue, please try again',
+            expect(ResultsUI.addMessage).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
+                message: 'Experienced a network issue, please try again',
                 type: ResultsUI.messageType.ERROR
             }))
         })
@@ -265,8 +270,8 @@ describe('processSearch',() => {
             expect(ResultsUI.clear).toHaveBeenCalledWith(mockContainer)
 
             // Adds new element with correct message and error style
-            expect(ResultsUI.addElements).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
-                resultTitle: 'There has been an issue, please try again',
+            expect(ResultsUI.addMessage).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
+                message: 'There has been an issue, please try again',
                 type: ResultsUI.messageType.ERROR
             }))
         })
@@ -283,10 +288,11 @@ describe('processSearch',() => {
             expect(ResultsUI.clear).toHaveBeenCalledWith(mockContainer)
 
             // Adds new element with correct message and error style
-            expect(ResultsUI.addElements).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
-                resultTitle: "There has been an error, the result couldn't be found",
-                type: ResultsUI.messageType.ERROR
-            }))
+            expect(ResultsUI.substituteWithMessage).toHaveBeenCalledWith(
+                mockedResultDiv,
+                `Error: The result for the ${resultList.results[0].title} page couldn't be found`,
+                ResultsUI.messageType.ERROR
+            )
         })
     })
 });
