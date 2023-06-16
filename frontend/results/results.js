@@ -10,7 +10,7 @@ import {
     manageExceptionUI
 } from '../resultsContainer/resultsContainer.js'
 
-export async function onResultExpandClick(resultTitle,resultPath,searchedWord,resultContainer,SWSOptions,expandDiv) {
+export async function onResultExpandClick(resultTitle,resultPath,searchedWords,resultContainer,SWSOptions,expandDiv) {
     if (!ResultsUI.isExpanded({ expandDiv })) {
         const { result,error } = await manageExceptionUI(resultContainer,async () =>
             await loadResult(resultPath)
@@ -28,7 +28,7 @@ export async function onResultExpandClick(resultTitle,resultPath,searchedWord,re
         const resultDetails = parseResult(result,resultTitle,expandDiv,SWSOptions)
         if (!resultDetails) return // There has been an error, already managed by parseResult
 
-        const formattedText = formatTextForResult(resultDetails.text,searchedWord)
+        const formattedText = formatTextForResult(resultDetails.text,searchedWords)
         ResultsUI.populateExpandWith({ expandDiv,htmlText: formattedText })
         ResultsUI.expand({ expandDiv })
     } else {
@@ -54,9 +54,10 @@ function parseResult(result,resultTitle,expandDiv,SWSOptions) {
 }
 
 const N_CHARS_CUT_TEXT = 20
-export function formatTextForResult(text,searchedWord) {
-    const normalisedSearchedWord = normaliseAndLowecase(searchedWord)
+export function formatTextForResult(text,searchedWords) {
+    const normalisedSearchedWords = searchedWords.map((word) => normaliseAndLowecase(word))
 
+    const normalisedSearchedWord = normalisedSearchedWords[0]
     //find all lines containig result
     const separateLines = text.split(/\r?\n|\r|\n/g);
     const allLinesWithSearchedWord = separateLines.filter((line) => {

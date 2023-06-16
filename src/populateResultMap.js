@@ -1,4 +1,4 @@
-const { normaliseAndLowecase } = require('./helper.js')
+const { normaliseAndLowecase,splitTextInWords } = require('./helper.js')
 
 function populateResultMap(pageData,resultMap) {
   if (!pageData) {
@@ -8,11 +8,9 @@ function populateResultMap(pageData,resultMap) {
     throw new Error("parameter missing")
   }
 
-  const symbolsRegexp = new RegExp('[A-Za-zÀ-ÖØ-öø-ÿ0-9]+','g')
-
   const normalisedPageContent = normaliseAndLowecase(pageData.text)
 
-  const wordsInFile = [...normalisedPageContent.matchAll(symbolsRegexp)]
+  const wordsInFile = splitTextInWords(normalisedPageContent)
 
   const results = {}
   for (let searchedWord of wordsInFile) {

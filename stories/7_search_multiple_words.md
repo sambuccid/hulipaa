@@ -4,7 +4,7 @@ I want to be able to use the searchbar typing multiple words
 So that I can find more relevant results
 (I want the results to be ordered by relevance)
 
-### AC1
+### AC1[done]
 Given I enter N words in the searchbox
 When I search
 I want to see the results for all the words

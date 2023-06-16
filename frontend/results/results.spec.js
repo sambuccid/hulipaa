@@ -26,7 +26,7 @@ describe('formatTextForResult',() => {
             `... after the normal <mark>${searchedWord}</mark> a`]
     ])('generates right content for result, when input %s',
         async (_desc,resultText,expectedResult) => {
-            const generatedContent = formatTextForResult(resultText,searchedWord)
+            const generatedContent = formatTextForResult(resultText,[searchedWord])
 
             expect(generatedContent).toBe(expectedResult)
         });
@@ -38,7 +38,7 @@ describe('formatTextForResult',() => {
         // in theory there should be a space between the word and the </mark>, but it's a bug with the normalisation and it's not realy worth spending too much time to solve it
         const expectedResult = `some text <mark>${wordInText} </mark>some text`
 
-        const generatedContent = formatTextForResult(resultText,searchingWord)
+        const generatedContent = formatTextForResult(resultText,[searchingWord])
 
         expect(generatedContent).toBe(expectedResult)
     });
@@ -49,7 +49,7 @@ describe('formatTextForResult',() => {
         const resultText = `some text ${wordInText} some text`
         const expectedResult = `some text <mark>${wordInText}</mark> some text`
 
-        const generatedContent = formatTextForResult(resultText,searchingWord)
+        const generatedContent = formatTextForResult(resultText,[searchingWord])
 
         expect(generatedContent).toBe(expectedResult)
     });
@@ -65,7 +65,7 @@ describe('formatTextForResult',() => {
             `... is another result <mark>${searchedWord}</mark><br>` +
             `<mark>${searchedWord}</mark> last line with ...`
 
-        const generatedContent = formatTextForResult(resultText,searchedWord)
+        const generatedContent = formatTextForResult(resultText,[searchedWord])
 
         expect(generatedContent).toBe(expectedResult)
     });

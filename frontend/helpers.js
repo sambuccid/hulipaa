@@ -31,8 +31,15 @@ export function shortenText({ from,to,text }) {
     return text
 }
 
+// !!THERE IS EXACLTY THE SAME FUNCTION IN BACK-END AND THEY NEED TO STAY THE SAME!!
 export function splitTextInWords(text) {
     return [...text.matchAll(getRegexFindWholeWord())].flat()
+}
+function getRegexFindWholeWord() {
+    return new RegExp('[A-Za-zÀ-ÖØ-öø-ÿ0-9]+','g')
+}
+function getRegexCharPartOfWord() {
+    return new RegExp('[A-Za-zÀ-ÖØ-öø-ÿ0-9]')
 }
 
 export function findIndexOfWholeWord(word,text) {
@@ -84,11 +91,4 @@ function isCharPartOfWord(char) {
     }
 
     return false
-}
-
-const getRegexCharPartOfWord = () => {
-    return new RegExp('[A-Za-zÀ-ÖØ-öø-ÿ0-9]')
-}
-const getRegexFindWholeWord = () => {
-    return new RegExp('[A-Za-zÀ-ÖØ-öø-ÿ0-9]+','g')
 }
