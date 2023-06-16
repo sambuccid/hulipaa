@@ -18,12 +18,9 @@ export async function processSearch(query,resultContainer,SWSOptions) {
     const { result: allQueriesResults,error } = await manageExceptionUI(resultContainer,() => Promise.all(backEndCalls))
     if (error) return // There has been an error, already managed by manageExceptionUI
 
-    // TODO needs somehow to group the results together
-    const allResults = allQueriesResults.map((queryResult) => queryResult.results).reduce((resAccumulator,results) => {
-        return resAccumulator.concat(results)
-    },[])
+    const finalResults = processQueryResults(allQueriesResults)
 
-    if (allResults.length == 0) {
+    if (finalResults.length == 0) {
         showSearchMessage(
             resultContainer,
             "No results were found for your search",
@@ -31,16 +28,38 @@ export async function processSearch(query,resultContainer,SWSOptions) {
         return;
     }
 
-    // Sort based on numberOfMatches, the higher number goes first
-    const sortedResults = [...allResults].sort((res1,res2) => {
-        return res2.numberOfMatches - res1.numberOfMatches
-    })
-
-    for (const result of sortedResults) {
+    for (const result of finalResults) {
         ResultsUI.addElements(resultContainer,{
             resultTitle: result.title,
             onclickExpandDiv: onResultExpandClick.bind(null,result.title,result.path,searchedWords,resultContainer,SWSOptions),
             link: result.link
         })
     }
+}
+
+function processQueryResults(allQueriesResults) {
+    // Results aggregated by page
+    const pagesMap = new Map()
+    for (const queriesResults of allQueriesResults) {
+        for (const result of queriesResults.results) {
+            if (!pagesMap.has(result.path)) {
+                pagesMap.set(result.path,[])
+            }
+            pagesMap.get(result.path).push(result)
+        }
+    }
+    // An array of results, one for each page, the results for each page aggregated by summing numberOfMatches
+    const allPageResults = Array.from(pagesMap,([_pagePath,resultsOfPage]) => {
+        const reducedPageResult = resultsOfPage.reduce((finalRes,res) => {
+            finalRes.numberOfMatches += res.numberOfMatches
+            return finalRes
+        })
+        return reducedPageResult
+    })
+
+    // Sort based on totla numberOfMatches, the higher number goes first
+    const sortedPageResults = [...allPageResults].sort((res1,res2) => {
+        return res2.numberOfMatches - res1.numberOfMatches
+    })
+    return sortedPageResults
 }

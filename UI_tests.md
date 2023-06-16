@@ -39,3 +39,4 @@ This is about having multiple results, searching for words like: this,repeatedwo
 ## User story 7
 When the user searched for multiple words
 - Results for all the words are shown(try searching for wordJustOnPage1 and wordJustOnPage2 and then them together)
+- Searching for words mentioned in all pages it will sort the results based on the number of total occurrences of all the words on each page
