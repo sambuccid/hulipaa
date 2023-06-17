@@ -22,9 +22,9 @@ Given I search for multiple words
 When the results are displayed
 I want that the same page is not repeated multiple times
 
-### AC4
+### AC4[done]
 Given I search for multiple words
 And the results are loaded
 When I expand 1 result
-I want to have highlighted all the words searched words
-And I want to see the section where those words are present the most (If it's not too difficult to do)
+I want to have highlighted all the searched words
+And I want to see the section where those words are present the most

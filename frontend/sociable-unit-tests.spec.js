@@ -168,9 +168,9 @@ describe('processSearch',() => {
         const parsedResult = {
             title: resultList.results[0].title,
             path: resultList.results[0].path,
-            text: `content ${searchedWord} of the page`
+            text: `content ${searchedWord} of page`
         };
-        const expectedHtml = `content <mark>${searchedWord}</mark> of the page`;
+        const expectedHtml = `content <mark>${searchedWord}</mark> of page`;
 
         async function simulateClickOnResultExpandDiv() {
             const expandDivClickFunc = getOnclickPropertyOfExpandResult();
