@@ -4,18 +4,23 @@ import { search } from './service.js'
 import * as ResultsUI from './results/results-ui.js'
 import { onResultExpandClick } from './results/results.js'
 import { showSearchMessage,manageExceptionUI } from './resultsContainer/resultsContainer.js'
-import { normaliseAndLowecase } from './helpers.js'
+import { normaliseAndLowecase,splitTextInWords } from './helpers.js'
 
 export async function processSearch(query,resultContainer,SWSOptions) {
     ResultsUI.clear(resultContainer)
     const normalisedQuery = normaliseAndLowecase(query)
 
-    const { result: queryResult,error } = await manageExceptionUI(resultContainer,async () =>
-        await search(normalisedQuery)
-    )
+    const searchedWords = splitTextInWords(normalisedQuery)
+
+    const backEndCalls = searchedWords.map(async (word) => {
+        return await search(word)
+    })
+    const { result: allQueriesResults,error } = await manageExceptionUI(resultContainer,() => Promise.all(backEndCalls))
     if (error) return // There has been an error, already managed by manageExceptionUI
 
-    if (queryResult.results.length == 0) {
+    const finalResults = processQueryResults(allQueriesResults)
+
+    if (finalResults.length == 0) {
         showSearchMessage(
             resultContainer,
             "No results were found for your search",
@@ -23,16 +28,38 @@ export async function processSearch(query,resultContainer,SWSOptions) {
         return;
     }
 
-    // Sort based on numberOfMatches, the higher number goes first
-    const sortedResults = [...queryResult.results].sort((res1,res2) => {
-        return res2.numberOfMatches - res1.numberOfMatches
-    })
-
-    for (const result of sortedResults) {
+    for (const result of finalResults) {
         ResultsUI.addElements(resultContainer,{
             resultTitle: result.title,
-            onclickExpandDiv: onResultExpandClick.bind(null,result.title,result.path,query,resultContainer,SWSOptions),
+            onclickExpandDiv: onResultExpandClick.bind(null,result.title,result.path,searchedWords,resultContainer,SWSOptions),
             link: result.link
         })
     }
+}
+
+function processQueryResults(allQueriesResults) {
+    // Results aggregated by page
+    const pagesMap = new Map()
+    for (const queriesResults of allQueriesResults) {
+        for (const result of queriesResults.results) {
+            if (!pagesMap.has(result.path)) {
+                pagesMap.set(result.path,[])
+            }
+            pagesMap.get(result.path).push(result)
+        }
+    }
+    // An array of results, one for each page, the results for each page aggregated by summing numberOfMatches
+    const allPageResults = Array.from(pagesMap,([_pagePath,resultsOfPage]) => {
+        const reducedPageResult = resultsOfPage.reduce((finalRes,res) => {
+            finalRes.numberOfMatches += res.numberOfMatches
+            return finalRes
+        })
+        return reducedPageResult
+    })
+
+    // Sort based on totla numberOfMatches, the higher number goes first
+    const sortedPageResults = [...allPageResults].sort((res1,res2) => {
+        return res2.numberOfMatches - res1.numberOfMatches
+    })
+    return sortedPageResults
 }

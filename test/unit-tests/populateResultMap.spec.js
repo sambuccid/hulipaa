@@ -89,7 +89,7 @@ describe('populateResultMap',() => {
         const inputData = {
             title: "aaaaa",
             path: "pages/page1/aa.json",
-            text: `w word2.word3,word4/word5+wÖrd6-word7(word8"word9")word10`,
+            text: `w word2.word3,word4/word5+wÖrd6=word7(word8"word9")word10`,
             link: 'aa.html'
         }
         // When
