@@ -65,7 +65,7 @@ Should be able to end to end manually test it
 #### ~~show results~~
 
 
-### search multiple words
+### ~~search multiple words~~
 As a visitor of the website
 I want to be able to use the searchbar typing multiple words
 So that I can find more relevant results
