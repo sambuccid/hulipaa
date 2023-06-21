@@ -1,7 +1,7 @@
 # UI Manual Tests
 This file has a list of the manual tests to run to check that the UI works correctly, they cover most of the feature, but some of the hidden features are not listed here, for a complete list of them read the user stories.
 
-We decided that unit tests for the front end take too long to write and for a project this small don't really provide much value.
+I decided that unit tests for the front end take too long to write and for a project this small don't really provide much value.
 So instead we have this file wehere we have the tests to manually run to check that the UI works correctly.
 
 ## User story 1
@@ -31,12 +31,12 @@ So instead we have this file wehere we have the tests to manually run to check t
 - When loading the preview of the result, if the parse function is not valid or it throws an expection an error message will be shown
 
 ## User story 6
-This is about having multiple results, searching for words like: this,repeatedword,page1,page2
+This is about having multiple results, searching for words repeated in multiple pages
 - Multiple results are shown, each result expands and collapses independently and we can open them
-- Searching for a word like `page1` or `page2` check that the results are ordered based on the number of occurrences of the word in the page
+- Searching for a word present more in one page than the other, check that the results are ordered based on the number of occurrences of the word in the page
 - When there is an error with a result(due to 404 or parsing) just the single result should be affected and the other results should still be accessible
 
 ## User story 7
 When the user searched for multiple words
-- Results for all the words are shown(try searching for wordJustOnPage1 and wordJustOnPage2 and then them together)
+- Results for all the words are shown
 - Searching for words mentioned in all pages it will sort the results based on the number of total occurrences of all the words on each page

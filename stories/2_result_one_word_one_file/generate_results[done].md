@@ -5,14 +5,13 @@ I want to start by being able to generate the results for a specific word in a s
 So that I can start flashing out the algorithm
   (the results will have the format of {results: [{title:"", path:"", numberOfMatches:0}])
 
-[done]
-AC1
+
+### AC1 [done]
 Given I have a file
 When I run the generate utility searching for an hardcoded word
 A file gets generated in json
 
-[done]
-AC2
+### AC2 [done]
 Given I have a file
 When I run the generate utility searching for an hardcoded word
 I get the file with the title of the page
@@ -20,26 +19,21 @@ I get the file with the title of the page
 [done]
 **We need to start adding some tests around use case, parser and presenter**
 
-[done]
-AC3
+### AC3 [done]
 Given I have a file
 When I run the generate utility searching for an hardcoded word
 I get the file with the path of the data of the page, reachable by the UI
 
-[done]
-AC4
+### AC4 [done]
 Given I have a file
 When I run the generate utility searching for an hardcoded word
 I get the file with the number of occurrences of the word
 
-[done]
-AC5
+### AC5 [done]
 The code needs to support easily changing the format of the song data
 
-[done]
-AC6
+### AC6 [done]
 The tests should be easy to write
 
-[done]
-AC7
+### AC7 [done]
 The tests should be quick to run and not be flaky

@@ -54,6 +54,7 @@ function parseResult(result,resultTitle,expandDiv,SWSOptions) {
 
 const N_CHARS_CUT_TEXT = 10
 const N_CHARS__WHERE_FIND_WORDS = 30
+// This function needs a big refactor, mainly extracting out function from it and testing them independently
 export function formatTextForResult(text,searchedWords) {
     const normalisedSearchedWords = searchedWords.map((word) => normaliseAndLowecase(word))
 

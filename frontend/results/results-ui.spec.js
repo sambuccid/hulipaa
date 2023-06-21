@@ -159,6 +159,3 @@ describe('clear',() => {
         expect(div.replaceChildren).toHaveBeenCalledWith()
     });
 })
-
-// TODO to test populateExpandWithImage
-// TODO to test populateExpandWith

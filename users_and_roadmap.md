@@ -12,14 +12,14 @@ I value
 # MVP
 The Minimal Viable Product consists of:
 - a static results generator
--- that accepts a folder full of json files
--- accepts a parser function for the files
--- generates files containing the results
+  - that accepts a folder full of json files
+  - accepts a parser function for the files
+  - generates files containing the results
 - a front-end library
--- that can be imported easily
--- tht allows to search for a word
--- that can show results with highlighting
--- it doesn't need to be customisable for now
+  - that can be imported easily
+  - tht allows to search for a word
+  - that can show results with highlighting
+  - it doesn't need to be customisable for now
 
 ## user/tech stories for MVP(incomplete)
 ### ~~search bar~~
