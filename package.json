@@ -1,24 +1,12 @@
 {
-  "name": "static-website-search",
-  "version": "1.0.0",
+  "name": "hulipaa-repo",
+  "version": "0.1.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "jest --testPathIgnorePatterns=\"test/functional-tests\"",
-    "custom-regex-test": "jest",
-    "functional-test": "jest \"test/functional-tests\"",
     "serve": "live-server",
-    "generate": "node index.js .input search"
+    "generate": "node manual_testing/index.js manual_testing/.input manual_testing/search"
   },
   "author": "sambuccid",
   "license": "ISC",
-  "devDependencies": {
-    "@babel/cli": "^7.19.3",
-    "@babel/core": "^7.20.2",
-    "@babel/preset-env": "^7.20.2",
-    "babel-jest": "^29.3.1",
-    "jest": "^29.1.2",
-    "jest-when": "^3.5.2",
-    "jsonpath": "^1.1.1"
-  }
+  "devDependencies": {}
 }

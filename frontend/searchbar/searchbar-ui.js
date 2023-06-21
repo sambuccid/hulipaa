@@ -12,7 +12,8 @@ export function addElements(searchDiv,{ onSubmit }) {
                 els: [
                     EL.img({
                         innerText: "Search",
-                        src: "../frontend/images/glass_magnifier_icon.svg",
+                        // TODO use CDN url
+                        src: "../../frontend/images/glass_magnifier_icon.svg",
                         width: 30,
                         height: 30
                     })

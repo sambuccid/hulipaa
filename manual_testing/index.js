@@ -1,4 +1,4 @@
-const { buildIndex } = require('./src/index.js')
+const { buildIndex } = require('../generate_results/src/index.js')
 const { basename,join } = require('path');
 
 const inputDir = process.argv[2];
@@ -9,7 +9,7 @@ if (!inputDir || !outputDir) {
 }
 
 buildIndex(inputDir,outputDir,parsePage,(fileName,filePath) => {
-    return `../${filePath}/${fileName}`
+    return `../../${filePath}/${fileName}`
 });
 
 // First line is title of page and the rest is the content
@@ -18,7 +18,7 @@ function parsePage(pageContent,pagePath) {
     const title = pageLines.shift()
     return {
         title: title,
-        path: join('.input',basename(pagePath)),
+        path: join('manual_testing','.input',basename(pagePath)),
         text: pageLines.reduce((finalText,line) => finalText + '\n' + line,'')
     }
 }

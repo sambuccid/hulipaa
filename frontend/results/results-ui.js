@@ -143,7 +143,8 @@ function makePopulateExpandDiv({ content,existingExpandDiv,onclick }) {
 function createImageExpandDiv() {
     return EL.img({
         innerText: "Expand",
-        src: "../frontend/images/arrow_down_icon.svg",
+        // TODO use CDN url
+        src: "../../frontend/images/arrow_down_icon.svg",
         style: {
             width: 'auto',
             height: '100%'
