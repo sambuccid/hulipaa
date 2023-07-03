@@ -2,10 +2,10 @@ import * as SearchBarUI from './searchbar/searchbar-ui.js'
 import * as ResultsContainer from './resultsContainer/resultsContainer.js'
 import { processSearch } from './general.js'
 
-function SWS(options) {
-    validateSWSOptions(options)
-    const SWSOptions = { ...options }
-    Object.freeze(SWSOptions);
+function Hulipaa(options) {
+    validateHulipaaOpt(options)
+    const HulipaaOpt = { ...options }
+    Object.freeze(HulipaaOpt);
 
     const searchDivs = document.getElementsByClassName(SearchBarUI.CLASS_NAME)
 
@@ -18,14 +18,14 @@ function SWS(options) {
 
         function onSearch(query) {
             const resultContainer = ResultsContainer.initResultContainer(searchDiv)
-            processSearch(query,resultContainer,SWSOptions)
+            processSearch(query,resultContainer,HulipaaOpt)
         }
     }
 }
-function validateSWSOptions(options) {
+function validateHulipaaOpt(options) {
     if (options.parsePage == null) {
         throw "The `parsePage` option is mandatory, a function to parse the content of a page"
     }
 }
 
-window['SWS'] = SWS
+window['Hulipaa'] = Hulipaa

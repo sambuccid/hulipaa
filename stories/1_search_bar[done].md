@@ -4,7 +4,7 @@ I want to be able to place the searchbar in my website
 So that the user can see it
 
 ### AC1 [done]
-In order to use the searchbar I should add a html tag like `<div class="sws_searchbar" />`
+In order to use the searchbar I should add a html tag like `<div class="hulipaa_searchbar" />`
 
 ### AC2 [done]
 Given I added a searchbar successfully

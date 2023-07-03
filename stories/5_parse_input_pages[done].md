@@ -19,16 +19,16 @@ Change how the script is initialised in the UI, having an initialisation functio
 Given the creator of the website creates a function that accepts the file content of the page and returns a json object with:
 - Text: A string with the content of the page where to search for the words
 (Similar function as previous AC)
-When they call the SWS initialisation function in the UI and pass the function created
+When they call the Hulipaa initialisation function in the UI and pass the function created
 Then the UI should work as expected being able to use the function to get the text of the result
 
 ### AC4[done]
 Given the creator of the website creates a function that accepts the file content of the page and tries to return the details of the page
-And they call the SWS initialisation function in the UI and pass the function created
+And they call the Hulipaa initialisation function in the UI and pass the function created
 When they expand the result in the UI, if there is an error in the function
 Then the UI should show the error and should keep working
 
 ### AC5[done]
 Given the creator of the website doesn't create a function to parse the data
-When they call the SWS initialisation function in the UI
+When they call the Hulipaa initialisation function in the UI
 Then an expection will be thrown specifying the the `parsePage` option is mandatory

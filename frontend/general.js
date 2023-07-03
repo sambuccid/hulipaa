@@ -6,14 +6,14 @@ import { onResultExpandClick } from './results/results.js'
 import { showSearchMessage,manageExceptionUI } from './resultsContainer/resultsContainer.js'
 import { normaliseAndLowecase,splitTextInWords } from './helpers.js'
 
-export async function processSearch(query,resultContainer,SWSOptions) {
+export async function processSearch(query,resultContainer,HulipaaOpt) {
     ResultsUI.clear(resultContainer)
     const normalisedQuery = normaliseAndLowecase(query)
 
     const searchedWords = splitTextInWords(normalisedQuery)
 
     const backEndCalls = searchedWords.map(async (word) => {
-        return await search(word)
+        return await search(word,HulipaaOpt)
     })
     const { result: allQueriesResults,error } = await manageExceptionUI(resultContainer,() => Promise.all(backEndCalls))
     if (error) return // There has been an error, already managed by manageExceptionUI
@@ -31,7 +31,7 @@ export async function processSearch(query,resultContainer,SWSOptions) {
     for (const result of finalResults) {
         ResultsUI.addElements(resultContainer,{
             resultTitle: result.title,
-            onclickExpandDiv: onResultExpandClick.bind(null,result.title,result.path,searchedWords,resultContainer,SWSOptions),
+            onclickExpandDiv: onResultExpandClick.bind(null,result.title,result.path,searchedWords,resultContainer,HulipaaOpt),
             link: result.link
         })
     }
