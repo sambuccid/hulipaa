@@ -2,4 +2,4 @@ node_modules
 .output
 .input
 .testing
-search/*
+manual_testing/search/*
