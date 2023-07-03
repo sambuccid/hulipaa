@@ -31,7 +31,8 @@ function getOnclickPropertyOfExpandResult() {
 }
 
 const SWSOptions = {
-    parsePage: jest.fn()
+    parsePage: jest.fn(),
+    resultsPath: '/search'
 }
 
 describe('processSearch',() => {

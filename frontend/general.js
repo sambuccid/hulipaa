@@ -13,7 +13,7 @@ export async function processSearch(query,resultContainer,SWSOptions) {
     const searchedWords = splitTextInWords(normalisedQuery)
 
     const backEndCalls = searchedWords.map(async (word) => {
-        return await search(word)
+        return await search(word,SWSOptions)
     })
     const { result: allQueriesResults,error } = await manageExceptionUI(resultContainer,() => Promise.all(backEndCalls))
     if (error) return // There has been an error, already managed by manageExceptionUI

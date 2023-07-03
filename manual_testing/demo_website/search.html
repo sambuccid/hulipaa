@@ -9,7 +9,7 @@
     <script type="module" src="../../frontend/static-website-search.js"></script>
     <script type="text/javascript">
         window.addEventListener('DOMContentLoaded',() => {
-            SWS({ parsePage })
+            SWS({ parsePage,resultsPath: '../search' })
 
             // First line is title of page and the rest is the content
             function parsePage(pageContent) {
