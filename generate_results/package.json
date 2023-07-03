@@ -1,7 +1,7 @@
 {
   "name": "hulipaa",
   "version": "0.1.0",
-  "description": "",
+  "description": "Hulipaa is a simple search engine designed to be used in a static website.",
   "main": "src/index.js",
   "scripts": {
     "test": "jest --testPathIgnorePatterns=\"test/functional-tests\"",
