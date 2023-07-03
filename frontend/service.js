@@ -1,7 +1,7 @@
 import { get,NetworkError } from './network.js'
 
-export async function search(query,SWSOptions) {
-    const result = await get(`${SWSOptions.resultsPath}/${query}.json`);
+export async function search(query,HulipaaOpt) {
+    const result = await get(`${HulipaaOpt.resultsPath}/${query}.json`);
 
     if (result.status === 404) {
         return { results: [] }

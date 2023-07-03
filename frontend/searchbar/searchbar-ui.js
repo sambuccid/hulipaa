@@ -1,6 +1,6 @@
 import EL from '../EL.js'
 
-export const CLASS_NAME = "sws_searchbar"
+export const CLASS_NAME = "hulipaa_searchbar"
 
 export function addElements(searchDiv,{ onSubmit }) {
     const textarea = EL.input({ style: { 'flex-grow': "1",'min-width': '0px' } })

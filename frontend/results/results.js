@@ -9,7 +9,7 @@ import {
     manageExceptionUI
 } from '../resultsContainer/resultsContainer.js'
 
-export async function onResultExpandClick(resultTitle,resultPath,searchedWords,resultContainer,SWSOptions,expandDiv) {
+export async function onResultExpandClick(resultTitle,resultPath,searchedWords,resultContainer,HulipaaOpt,expandDiv) {
     if (!ResultsUI.isExpanded({ expandDiv })) {
         const { result,error } = await manageExceptionUI(resultContainer,async () =>
             await loadResult(resultPath)
@@ -24,7 +24,7 @@ export async function onResultExpandClick(resultTitle,resultPath,searchedWords,r
             return;
         }
 
-        const resultDetails = parseResult(result,resultTitle,expandDiv,SWSOptions)
+        const resultDetails = parseResult(result,resultTitle,expandDiv,HulipaaOpt)
         if (!resultDetails) return // There has been an error, already managed by parseResult
 
         const formattedText = formatTextForResult(resultDetails.text,searchedWords)
@@ -36,10 +36,10 @@ export async function onResultExpandClick(resultTitle,resultPath,searchedWords,r
     }
 }
 
-function parseResult(result,resultTitle,expandDiv,SWSOptions) {
+function parseResult(result,resultTitle,expandDiv,HulipaaOpt) {
     let resultDetails
     try {
-        resultDetails = SWSOptions.parsePage(result)
+        resultDetails = HulipaaOpt.parsePage(result)
     } catch (e) { }
     if (resultDetails?.text == null || resultDetails?.text === "") {
         ResultsUI.substituteWithMessage(

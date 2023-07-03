@@ -8,7 +8,7 @@ So that i can use them
 Given I am on the search page
 When I enter and run the search for the hardcoded word
 I want to see the results for that word
-- also should be possible to style the sws_searchbar element to decide how much space the searchbar is going to fill
+- also should be possible to style the hulipaa_searchbar element to decide how much space the searchbar is going to fill
 
 ### AC2 [done]
 Given I searched for the hardcoded word

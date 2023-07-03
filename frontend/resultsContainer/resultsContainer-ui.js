@@ -1,6 +1,6 @@
 import EL from '../EL.js'
 
-export const CLASS_NAME = "sws_results"
+export const CLASS_NAME = "hulipaa_results"
 
 export function addElements(searchDiv) {
     const resultsDiv = EL.div({
