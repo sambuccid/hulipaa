@@ -18,8 +18,7 @@ function parsePage(pageContent,pagePath) {
     const title = pageLines.shift()
     return {
         title: title,
-        //TODO i think this should use the inputDir parameter
-        path: join('manual_testing','.input',basename(pagePath)),
+        path: join(inputDir,basename(pagePath)),
         text: pageLines.reduce((finalText,line) => finalText + '\n' + line,'')
     }
 }

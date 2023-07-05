@@ -1,4 +1,5 @@
 import EL from '../EL.js'
+import { CDN_URL } from '../hulipaa.js'
 
 export const EXPAND_DIV_CLASS_NAME = 'expand-div'
 export const MAIN_DIV_CLASS_NAME = 'open-div'
@@ -143,8 +144,7 @@ function makePopulateExpandDiv({ content,existingExpandDiv,onclick }) {
 function createImageExpandDiv() {
     return EL.img({
         innerText: "Expand",
-        // TODO use CDN url
-        src: "../../frontend/images/arrow_down_icon.svg",
+        src: `${CDN_URL}/images/arrow_down_icon.svg`,
         style: {
             width: 'auto',
             height: '100%'

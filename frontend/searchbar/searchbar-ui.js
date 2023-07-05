@@ -1,4 +1,5 @@
 import EL from '../EL.js'
+import { CDN_URL } from '../hulipaa.js'
 
 export const CLASS_NAME = "hulipaa_searchbar"
 
@@ -12,8 +13,7 @@ export function addElements(searchDiv,{ onSubmit }) {
                 els: [
                     EL.img({
                         innerText: "Search",
-                        // TODO use CDN url
-                        src: "../../frontend/images/glass_magnifier_icon.svg",
+                        src: `${CDN_URL}/images/glass_magnifier_icon.svg`,
                         width: 30,
                         height: 30
                     })
