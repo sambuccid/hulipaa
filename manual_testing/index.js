@@ -7,9 +7,11 @@ if (!inputDir || !outputDir) {
     console.error("missing arguments");
     return 1;
 }
-
-Hulipaa(inputDir,outputDir,parsePage,(fileName,filePath) => {
-    return `../../${filePath}/${fileName}`
+Hulipaa({
+    inputFolder: inputDir,
+    outputFolder: outputDir,
+    parseData: parsePage,
+    generateLink: (fileName,filePath) => `../../${filePath}/${fileName}`
 });
 
 // First line is title of page and the rest is the content

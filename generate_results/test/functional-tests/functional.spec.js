@@ -24,8 +24,13 @@ describe('Generation of search results',() => {
         createInputTestFile(testFileName,page)
 
         // When I run the generate utility searching for an hardcoded word
-        Hulipaa(TEST_INPUT_FOLDER,TEST_OUTPUT_FOLDER,parseTestPage,(fileName,filePath) => {
-            return `link_${fileName}_${filePath}.html`
+        Hulipaa({
+            inputFolder: TEST_INPUT_FOLDER,
+            outputFolder: TEST_OUTPUT_FOLDER,
+            parseData: parseTestPage,
+            generateLink: (fileName,filePath) => {
+                return `link_${fileName}_${filePath}.html`
+            }
         })
 
         // A file gets generated in json
@@ -56,7 +61,12 @@ describe('Generation of search results',() => {
         createInputTestFile("testFile.json",page)
 
         // When I run the generate utility searching for an hardcoded word
-        Hulipaa(TEST_INPUT_FOLDER,TEST_OUTPUT_FOLDER,parseTestPage,() => 'test.html')
+        Hulipaa({
+            inputFolder: TEST_INPUT_FOLDER,
+            outputFolder: TEST_OUTPUT_FOLDER,
+            parseData: parseTestPage,
+            generateLink: () => 'test.html'
+        })
 
         // 4 files get generated in json
         const outputFiles = getFileListInOutputFolder()
@@ -92,7 +102,12 @@ describe('Generation of search results',() => {
         createInputTestFile("testFile.json",page)
 
         // When I run the generate utility searching for an hardcoded word
-        Hulipaa(TEST_INPUT_FOLDER,TEST_OUTPUT_FOLDER,parseTestPage,() => 'test.html')
+        Hulipaa({
+            inputFolder: TEST_INPUT_FOLDER,
+            outputFolder: TEST_OUTPUT_FOLDER,
+            parseData: parseTestPage,
+            generateLink: () => 'test.html'
+        })
 
         // just 1 file get generated
         const outputFiles = getFileListInOutputFolder()
@@ -131,7 +146,12 @@ describe('Generation of search results',() => {
         createInputTestFile("testFile2.json",page2)
 
         // When I run the generate utility searching for an hardcoded word
-        Hulipaa(TEST_INPUT_FOLDER,TEST_OUTPUT_FOLDER,parseTestPage,(fileName) => fileName + '.html')
+        Hulipaa({
+            inputFolder: TEST_INPUT_FOLDER,
+            outputFolder: TEST_OUTPUT_FOLDER,
+            parseData: parseTestPage,
+            generateLink: (fileName) => fileName + '.html'
+        })
 
         // Then it generates results from both files
         const outputFiles = getFileListInOutputFolder()
