@@ -1,4 +1,4 @@
-const { validateInputData,presenter } = require('../../src/index')
+const { validateInputData,presenter } = require('../../src/general.js')
 const jp = require('jsonpath')
 
 describe('validateInputData',() => {

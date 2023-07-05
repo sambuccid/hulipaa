@@ -10,7 +10,7 @@ So that the visitor can open the correct page
 ### AC1 [done]
 (Creator website)
 Given I have a function that given the path of the file with the page returns the relative uri of the page where the user needs to be redirected
-When I call the `buildIndex` function to start the generation of the results
+When I call the library's function to start the generation of the results
 And I pass in my uri generation function
 Then the generated results will contain the `link` property that is associated with the page
 

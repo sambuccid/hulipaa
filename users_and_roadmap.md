@@ -115,7 +115,7 @@ If the pages are in html or contain html, we should not render it in the results
 
 ### Use regex to define link for each page
 It is possible to use a regex and a substitution string to cover most scenarios to generate the link of a page
-FOr now we just ask to pass a function to `buildIndex`, but for most cases it might be overkill.
+For now we just ask to pass a function to the library, but for most cases it might be overkill.
 We did a spike in the "open result" story(AC2) and we should have already all the necessary tools, there are also some examples of useful regexes in the story
 
 ### visually appealing

@@ -1,4 +1,4 @@
-const { buildIndex } = require('../generate_results/src/index.js')
+const Hulipaa = require('../generate_results/src/index.js')
 const { basename,join } = require('path');
 
 const inputDir = process.argv[2];
@@ -8,7 +8,7 @@ if (!inputDir || !outputDir) {
     return 1;
 }
 
-buildIndex(inputDir,outputDir,parsePage,(fileName,filePath) => {
+Hulipaa(inputDir,outputDir,parsePage,(fileName,filePath) => {
     return `../../${filePath}/${fileName}`
 });
 
@@ -22,5 +22,3 @@ function parsePage(pageContent,pagePath) {
         text: pageLines.reduce((finalText,line) => finalText + '\n' + line,'')
     }
 }
-
-module.exports = { buildIndex };

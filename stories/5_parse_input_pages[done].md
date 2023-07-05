@@ -8,7 +8,7 @@ Given the creator of the website creates a function that accepts the file conten
 - Title: The title of the page that will be shown in the results
 - Path: The path to the page to be able to load the content in the UI
 - Text: A string with the content of the page where to search for the words
-When they call the `buildIndex` function to start the generation of the results
+When they call the library's function to start the generation of the results
 And they pass in the function
 Then the results will be generated correctly
 

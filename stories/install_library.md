@@ -17,14 +17,19 @@ Then I can start using the library
 
 ### AC3
 Given I have installed the library
-When I run the buildIndex function
+When I try to import the module in my code
+Then both CommonJS sytnax and ESM syntax is supported
+
+### AC4
+Given I have installed the library
+When I run the library's function
 Passing the input folder that contains the files
 And the output folder where the search results will be saved
 And a function that will parse the input files
 And a function that will specify the url of the pages 
 Then the results will be generated
 
-### AC4
+### AC5
 Update/create some documentation on how to use the library
 Eg.
 - install it

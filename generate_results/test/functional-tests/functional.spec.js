@@ -1,4 +1,4 @@
-const { buildIndex } = require('../../src/index.js')
+const Hulipaa = require('../../src/index.js')
 const {
     setUpTestFolder,
     createInputTestFile,
@@ -24,7 +24,7 @@ describe('Generation of search results',() => {
         createInputTestFile(testFileName,page)
 
         // When I run the generate utility searching for an hardcoded word
-        buildIndex(TEST_INPUT_FOLDER,TEST_OUTPUT_FOLDER,parseTestPage,(fileName,filePath) => {
+        Hulipaa(TEST_INPUT_FOLDER,TEST_OUTPUT_FOLDER,parseTestPage,(fileName,filePath) => {
             return `link_${fileName}_${filePath}.html`
         })
 
@@ -56,7 +56,7 @@ describe('Generation of search results',() => {
         createInputTestFile("testFile.json",page)
 
         // When I run the generate utility searching for an hardcoded word
-        buildIndex(TEST_INPUT_FOLDER,TEST_OUTPUT_FOLDER,parseTestPage,() => 'test.html')
+        Hulipaa(TEST_INPUT_FOLDER,TEST_OUTPUT_FOLDER,parseTestPage,() => 'test.html')
 
         // 4 files get generated in json
         const outputFiles = getFileListInOutputFolder()
@@ -92,7 +92,7 @@ describe('Generation of search results',() => {
         createInputTestFile("testFile.json",page)
 
         // When I run the generate utility searching for an hardcoded word
-        buildIndex(TEST_INPUT_FOLDER,TEST_OUTPUT_FOLDER,parseTestPage,() => 'test.html')
+        Hulipaa(TEST_INPUT_FOLDER,TEST_OUTPUT_FOLDER,parseTestPage,() => 'test.html')
 
         // just 1 file get generated
         const outputFiles = getFileListInOutputFolder()
@@ -131,7 +131,7 @@ describe('Generation of search results',() => {
         createInputTestFile("testFile2.json",page2)
 
         // When I run the generate utility searching for an hardcoded word
-        buildIndex(TEST_INPUT_FOLDER,TEST_OUTPUT_FOLDER,parseTestPage,(fileName) => fileName + '.html')
+        Hulipaa(TEST_INPUT_FOLDER,TEST_OUTPUT_FOLDER,parseTestPage,(fileName) => fileName + '.html')
 
         // Then it generates results from both files
         const outputFiles = getFileListInOutputFolder()
