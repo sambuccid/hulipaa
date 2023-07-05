@@ -2,12 +2,16 @@
   "name": "hulipaa-ui",
   "version": "0.1.0",
   "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sambuccid/hulipaa.git",
+    "directory": "frontend"
+  },
+  "homepage": "https://github.com/sambuccid/hulipaa",
   "main": "hulipaa.js",
   "scripts": {
     "test": "jest"
   },
-  "author": "sambuccid",
-  "license": "Apache-2.0",
   "devDependencies": {
     "@babel/cli": "^7.19.3",
     "@babel/core": "^7.20.2",
@@ -15,5 +19,13 @@
     "babel-jest": "^29.3.1",
     "jest": "^29.1.2",
     "jest-when": "^3.5.2"
-  }
+  },
+  "author": "sambuccid",
+  "license": "Apache-2.0",
+  "keywords": [
+    "hulipaa",
+    "static",
+    "search",
+    "searchbar"
+  ]
 }

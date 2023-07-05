@@ -71,11 +71,22 @@ I want to be able to use the searchbar typing multiple words
 So that I can find more relevant results
 (I want the results to be ordered by relevance)
 
-### empty results
+### ~~empty results~~
 As a visitor of the website
 If I search for a word that is not present in the page
 I want the page to still work
 And have a message telling me that there were no results
+
+### fix tech debt
+Address any tech debt that is left that needs to be fixed before releasing the library
+
+### paginate results
+As a visitor of the website
+If I search for a word that is contained in thousands of pages
+I want the results to be paginated
+So I can see the results more easily
+And The results page doesn't become too big
+
 
 ### install library
 with a manual test

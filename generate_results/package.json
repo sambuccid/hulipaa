@@ -2,17 +2,29 @@
   "name": "hulipaa",
   "version": "0.1.0",
   "description": "Hulipaa is a simple search engine designed to be used in a static website.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sambuccid/hulipaa.git",
+    "directory": "generate_results"
+  },
+  "homepage": "https://github.com/sambuccid/hulipaa",
   "main": "src/index.js",
   "scripts": {
     "test": "jest --testPathIgnorePatterns=\"test/functional-tests\"",
     "custom-regex-test": "jest",
     "functional-test": "jest \"test/functional-tests\""
   },
-  "author": "sambuccid",
-  "license": "Apache-2.0",
   "devDependencies": {
     "jest": "^29.1.2",
     "jest-when": "^3.5.2",
     "jsonpath": "^1.1.1"
-  }
+  },
+  "author": "sambuccid",
+  "license": "Apache-2.0",
+  "keywords": [
+    "hulipaa",
+    "static",
+    "search",
+    "searchbar"
+  ]
 }
