@@ -1,5 +1,5 @@
 import EL from '../EL.js'
-import { CDN_URL } from '../hulipaa.js'
+import { CDN_URL } from '../config.js'
 
 export const EXPAND_DIV_CLASS_NAME = 'expand-div'
 export const MAIN_DIV_CLASS_NAME = 'open-div'

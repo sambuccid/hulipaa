@@ -2,7 +2,6 @@ import * as SearchBarUI from './searchbar/searchbar-ui.js'
 import * as ResultsContainer from './resultsContainer/resultsContainer.js'
 import { processSearch } from './general.js'
 
-export const CDN_URL = '/frontend'
 function Hulipaa(options) {
     validateHulipaaOpt(options)
     const HulipaaOpt = { ...options }

@@ -1,5 +1,5 @@
 import EL from '../EL.js'
-import { CDN_URL } from '../hulipaa.js'
+import { CDN_URL } from '../config.js'
 
 export const CLASS_NAME = "hulipaa_searchbar"
 
