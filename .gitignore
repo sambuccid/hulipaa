@@ -3,3 +3,5 @@ node_modules
 .input
 .testing
 manual_testing/search/*
+
+frontend/dist

@@ -1,5 +1,5 @@
 import EL from '../EL.js'
-import { CDN_URL } from '../config.js'
+import arrowDownIcon from '../images/arrow_down_icon.svg'
 
 export const EXPAND_DIV_CLASS_NAME = 'expand-div'
 export const MAIN_DIV_CLASS_NAME = 'open-div'
@@ -144,7 +144,7 @@ function makePopulateExpandDiv({ content,existingExpandDiv,onclick }) {
 function createImageExpandDiv() {
     return EL.img({
         innerText: "Expand",
-        src: `${CDN_URL}/images/arrow_down_icon.svg`,
+        src: arrowDownIcon,
         style: {
             width: 'auto',
             height: '100%'

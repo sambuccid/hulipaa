@@ -1,5 +1,6 @@
 import EL from '../EL.js'
-import { CDN_URL } from '../config.js'
+import glassMagnifierIcon from '../images/glass_magnifier_icon.svg'
+
 
 export const CLASS_NAME = "hulipaa_searchbar"
 
@@ -13,7 +14,7 @@ export function addElements(searchDiv,{ onSubmit }) {
                 els: [
                     EL.img({
                         innerText: "Search",
-                        src: `${CDN_URL}/images/glass_magnifier_icon.svg`,
+                        src: glassMagnifierIcon,
                         width: 30,
                         height: 30
                     })
