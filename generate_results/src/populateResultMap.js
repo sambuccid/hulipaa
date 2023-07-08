@@ -18,8 +18,7 @@ function populateResultMap(pageData,resultMap) {
       results[searchedWord] = {
         results: [{
           title: pageData.title,
-          //TODO this needs to be removed as the provided path will need to be absolute
-          path: adjustPath(pageData.path),
+          path: pageData.path,
           link: pageData.link,
           numberOfMatches: 1,
         }]
@@ -40,11 +39,6 @@ function mergeResultMaps(resultMap,currentResults) {
       resultMap[searchedWord].results.push(...currentResults[searchedWord].results)
     }
   }
-}
-
-// TODO this needs to be removed
-function adjustPath(oldPath) {
-  return "../" + oldPath
 }
 
 module.exports = populateResultMap;

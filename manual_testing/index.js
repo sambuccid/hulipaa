@@ -20,7 +20,7 @@ function parsePage(pageContent,pagePath) {
     const title = pageLines.shift()
     return {
         title: title,
-        path: join(inputDir,basename(pagePath)),
+        path: "/" + join(inputDir,basename(pagePath)),
         text: pageLines.reduce((finalText,line) => finalText + '\n' + line,'')
     }
 }

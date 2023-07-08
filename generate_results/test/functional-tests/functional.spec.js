@@ -42,7 +42,7 @@ describe('Generation of search results',() => {
         const expectedOutputFile = {
             results: [{
                 title: "page1",
-                path: "../testFile.json",
+                path: "/testFile.json",
                 numberOfMatches: 1,
                 link: `link_${testFileName}_${TEST_INPUT_FOLDER}.html`
             }]
@@ -80,7 +80,7 @@ describe('Generation of search results',() => {
         const expectedOutputFile = {
             results: [{
                 title: "page1",
-                path: "../testFile.json",
+                path: "/testFile.json",
                 numberOfMatches: 1,
                 link: 'test.html'
             }]
@@ -118,7 +118,7 @@ describe('Generation of search results',() => {
         const expectedOutputFile = {
             results: [{
                 title: "page1",
-                path: "../testFile.json",
+                path: "/testFile.json",
                 numberOfMatches: 4,
                 link: 'test.html'
             }]
@@ -165,12 +165,12 @@ describe('Generation of search results',() => {
             results: [
                 {
                     title: "page1",
-                    path: "../testFile1.json",
+                    path: "/testFile1.json",
                     numberOfMatches: 1,
                     link: 'testFile1.json.html'
                 },{
                     title: "page2",
-                    path: "../testFile2.json",
+                    path: "/testFile2.json",
                     numberOfMatches: 1,
                     link: 'testFile2.json.html'
                 }
@@ -186,7 +186,7 @@ describe('Generation of search results',() => {
         const title = pageLines.shift()
         return {
             title: title,
-            path: basename(pagePath),
+            path: "/" + basename(pagePath),
             text: pageLines.reduce((finalText,line) => finalText + '\n' + line,'')
         }
     }

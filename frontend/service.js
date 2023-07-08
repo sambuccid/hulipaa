@@ -14,7 +14,7 @@ export async function search(query,HulipaaOpt) {
 }
 
 export async function loadResult(resultPath) {
-    const result = await get("/" + resultPath);
+    const result = await get(resultPath);
 
     if (result.status === 404) {
         return null

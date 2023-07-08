@@ -4,7 +4,7 @@ const jp = require('jsonpath')
 describe('validateInputData',() => {
     it('validates that the parsed page contains the title',() => {
         const data = {
-            path: 'path.js',
+            path: '/path.js',
             text: 'asasdads'
         }
 
@@ -21,7 +21,7 @@ describe('validateInputData',() => {
     it('validates that the parsed page contains the text',() => {
         const data = {
             title: 'page',
-            path: 'path.js'
+            path: '/path.js'
         }
 
         expect(() => validateInputData(data)).toThrow()
@@ -29,7 +29,7 @@ describe('validateInputData',() => {
     it('validates that the text in the parsed page is not empty',() => {
         const data = {
             title: 'page',
-            path: 'path.js',
+            path: '/path.js',
             text: ''
         }
 
@@ -43,7 +43,7 @@ describe('presenter',() => {
             searchedword: {
                 results: [{
                     title: "helloooo",
-                    path: "path.json",
+                    path: "/path.json",
                     link: 'aa.html',
                     numberOfMatches: 1,
                 }]
@@ -73,7 +73,7 @@ describe('presenter',() => {
             searchedWord: {
                 results: [{
                     title: "helloooo",
-                    path: "path.json",
+                    path: "/path.json",
                     link: 'aa.html',
                     numberOfMatches: 1,
                 }]
@@ -81,7 +81,7 @@ describe('presenter',() => {
             searchedWord2: {
                 results: [{
                     title: "helloooo",
-                    path: "path.json",
+                    path: "/path.json",
                     link: 'aa.html',
                     numberOfMatches: 2,
                 }]
@@ -89,7 +89,7 @@ describe('presenter',() => {
             searchedWord3: {
                 results: [{
                     title: "helloooo",
-                    path: "path.json",
+                    path: "/path.json",
                     link: 'aa.html',
                     numberOfMatches: 3,
                 }]
@@ -109,7 +109,7 @@ describe('presenter using jsonpath',() => {
         word: {
             results: [{
                 title: "helloooo",
-                path: "path.json",
+                path: "/path.json",
                 link: 'aa.html',
                 numberOfMatches: 1,
             }]

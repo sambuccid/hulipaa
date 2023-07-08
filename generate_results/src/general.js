@@ -36,7 +36,7 @@ function validateInputData(data) {
         throw "Input data is missng title"
     }
     if (isEmpty(data.path)) {
-        throw "Input data is missng path"
+        throw "Input data is missing path"
     }
     if (isEmpty(data.text)) {
         throw "Input data is missng text"

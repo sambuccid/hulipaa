@@ -44,7 +44,7 @@ describe('processSearch',() => {
     const resultList = {
         results: [{
             title: "a page1",
-            path: "page1.json",
+            path: "/page1.json",
             link: 'aa.html',
             numberOfMatches: 1
         }]
@@ -180,7 +180,7 @@ describe('processSearch',() => {
         }
 
         beforeEach(() => {
-            when(Network.get).calledWith(`/${resultList.results[0].path}`)
+            when(Network.get).calledWith(resultList.results[0].path)
                 .mockResolvedValue({ ok: true,text: jest.fn().mockResolvedValue(result) })
             HulipaaOpt.parsePage.mockReturnValue(parsedResult)
         });
@@ -191,7 +191,7 @@ describe('processSearch',() => {
             await simulateClickOnResultExpandDiv();
 
             expect(Network.get).toHaveBeenCalledTimes(2);
-            expect(Network.get).toHaveBeenNthCalledWith(2,"/" + resultList.results[0].path);
+            expect(Network.get).toHaveBeenNthCalledWith(2,resultList.results[0].path);
         });
 
         it('expands the expandDiv and formats the content of the result',async () => {
@@ -242,7 +242,7 @@ describe('processSearch',() => {
         });
 
         it("should show an error if the network doesn't work",async () => {
-            when(Network.get).calledWith(`/${resultList.results[0].path}`)
+            when(Network.get).calledWith(resultList.results[0].path)
                 .mockRejectedValue()
 
             await processSearch(searchedWord,mockContainer,HulipaaOpt)
@@ -260,7 +260,7 @@ describe('processSearch',() => {
         })
 
         it("should show an error if the result call has problems",async () => {
-            when(Network.get).calledWith(`/${resultList.results[0].path}`)
+            when(Network.get).calledWith(resultList.results[0].path)
                 .mockResolvedValue({ ok: false,status: 500 })
 
             await processSearch(searchedWord,mockContainer,HulipaaOpt)
@@ -278,7 +278,7 @@ describe('processSearch',() => {
         })
 
         it("should show a specific error if the result is not found",async () => {
-            when(Network.get).calledWith(`/${resultList.results[0].path}`)
+            when(Network.get).calledWith(resultList.results[0].path)
                 .mockResolvedValue({ ok: false,status: 404 })
 
             await processSearch(searchedWord,mockContainer,HulipaaOpt)

@@ -9,7 +9,7 @@ describe('populateResultMap',() => {
         const wordTest = "wordinfile"
         const inputData = {
             title: "aaaaa",
-            path: "pages/page1/aa.json",
+            path: "/pages/page1/aa.json",
             text: wordTest,
             link: "aa.html"
         }
@@ -44,13 +44,13 @@ describe('populateResultMap',() => {
             // Then
             expect(res[wordTest].results[0].title).toEqual(inputData.title)
         });
-        it('returns the path of the data reachable fom the ui',() => {
+        it('returns the path of the data configured',() => {
             // Given
             // When
             const res = {}
             populateResultMap(inputData,res);
             // Then
-            expect(res[wordTest].results[0].path).toEqual("../" + inputData.path)
+            expect(res[wordTest].results[0].path).toEqual(inputData.path)
         });
     })
     it('returns the number of occurrences of a word',() => {
@@ -58,7 +58,7 @@ describe('populateResultMap',() => {
         const searchedWord = "wordinfile"
         const inputData = {
             title: "aaaaa",
-            path: "pages/page1/aa.json",
+            path: "/pages/page1/aa.json",
             text: `${searchedWord} test with the word ${searchedWord} repeased 3 times ${searchedWord}`,
             link: 'aa.html'
         }
@@ -72,7 +72,7 @@ describe('populateResultMap',() => {
         // Given
         const inputData = {
             title: "aaaaa",
-            path: "pages/page1/aa.json",
+            path: "/pages/page1/aa.json",
             text: `word1 word2 word3`,
             link: 'aa.html'
         }
@@ -88,7 +88,7 @@ describe('populateResultMap',() => {
         // Given
         const inputData = {
             title: "aaaaa",
-            path: "pages/page1/aa.json",
+            path: "/pages/page1/aa.json",
             text: `w word2.word3,word4/word5+wÖrd6=word7(word8"word9")word10`,
             link: 'aa.html'
         }
@@ -106,13 +106,13 @@ describe('populateResultMap',() => {
         // Given
         const inputData1 = {
             title: "page1",
-            path: "pages/page1.json",
+            path: "/pages/page1.json",
             text: `word1 word2 word3`,
             link: 'page1.html'
         }
         const inputData2 = {
             title: "page2",
-            path: "pages/page2.json",
+            path: "/pages/page2.json",
             text: `word1 word4 word5`,
             link: 'page2.html'
         }
@@ -142,13 +142,13 @@ describe('populateResultMap',() => {
         // Given
         const inputData1 = {
             title: "page1",
-            path: "pages/page1.json",
+            path: "/pages/page1.json",
             text: `wordﬀandñ wordffandn`,
             link: 'page1.html'
         }
         const inputData2 = {
             title: "page2",
-            path: "pages/page2.json",
+            path: "/pages/page2.json",
             text: `wordffandn`,
             link: 'page2.html'
         }
@@ -171,13 +171,13 @@ describe('populateResultMap',() => {
         // Given
         const inputData1 = {
             title: "page1",
-            path: "pages/page1.json",
+            path: "/pages/page1.json",
             text: `Word word Word`,
             link: 'page1.html'
         }
         const inputData2 = {
             title: "page2",
-            path: "pages/page2.json",
+            path: "/pages/page2.json",
             text: `woRD WORD`,
             link: 'page2.html'
         }
