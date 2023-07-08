@@ -77,7 +77,7 @@ If I search for a word that is not present in the page
 I want the page to still work
 And have a message telling me that there were no results
 
-### fix tech debt
+### ~~fix tech debt~~
 Address any tech debt that is left that needs to be fixed before releasing the library
 
 ### paginate results
