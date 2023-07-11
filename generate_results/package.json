@@ -1,6 +1,6 @@
 {
   "name": "hulipaa",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Hulipaa is a simple search engine designed to be used in a static website.",
   "repository": {
     "type": "git",
@@ -21,6 +21,9 @@
   },
   "author": "sambuccid",
   "license": "Apache-2.0",
+  "engines": {
+    "node": "^18"
+  },
   "keywords": [
     "hulipaa",
     "static",
