@@ -9,19 +9,10 @@ I value
 - velocity to customise
 - extensibility and customizability
 
-# MVP
-The Minimal Viable Product consists of:
-- a static results generator
-  - that accepts a folder full of json files
-  - accepts a parser function for the files
-  - generates files containing the results
-- a front-end library
-  - that can be imported easily
-  - tht allows to search for a word
-  - that can show results with highlighting
-  - it doesn't need to be customisable for now
+# ~~MVP~~
+The MVP version of the library.
 
-## user/tech stories for MVP(incomplete)
+## ~~user/tech stories for MVP~~
 ### ~~search bar~~
 
 ### ~~results for one word in one file~~
@@ -29,7 +20,6 @@ As a visitor of the website
 I want to be able to use the searchbar to see all the occurrences of a hardcoded word in aspecific page
 So that I can find where the word is
 
-Should be able to end to end manually test with changing page
 #### ~~generate results~~
 #### ~~show results~~
 
@@ -38,7 +28,6 @@ As a visitor of the website
 I want to be able to use the searchbar to see all the occurrences of any word in aspecific page
 So that I can find the topic I want
 
-Should be able to end to end test it
 #### ~~generate results~~
 
 #### ~~show results~~
@@ -59,7 +48,6 @@ As a visitor of the website
 I want to be able to use the searchbar to see all the occurrences of any word in a list of pages
 So that I can find the topic I want
 
-Should be able to end to end manually test it
 #### ~~generate results~~
 
 #### ~~show results~~
@@ -80,6 +68,11 @@ And have a message telling me that there were no results
 ### ~~fix tech debt~~
 Address any tech debt that is left that needs to be fixed before releasing the library
 
+# Version 0.2.0
+This version of the library ensures the library can be used in a real life scenario and improves UI and Documentation.
+
+## User stories
+
 ### paginate results
 As a visitor of the website
 If I search for a word that is contained in thousands of pages
@@ -87,15 +80,25 @@ I want the results to be paginated
 So I can see the results more easily
 And The results page doesn't become too big
 
+### improve UI
+As a visitor of the website
+I want the UI to be simple but nice
 
 ### install library
-with a manual test
-* along all the other things test also if we can reach the path of the files
-(this might include using webpack or some other bundling)
+As the creator of the website
+I want to be able to import the library in both the back-end and the front-end
+So that I can use it
 
-# Version 0.0.1
-This is the version of the library that we think is enough useful, easy to use and configurable.
-## user/tech stories(incomplete)
+### improve documentation
+As the creator of the website
+I want to have clear instruction about the library
+So that I can decide if to use it, and know how to use it
+- also fix the formatting of markdowns, by adding to emtpy spaces at the end of the line to force a linebreak
+
+# Other versions
+Other stories that still need to be prioritised and assigned to a version.
+
+## User Stories
 
 ### auto completition
 
@@ -124,7 +127,6 @@ Need to provide the default configuration for the front end with a generic, neut
 ### basic frontend configuration
 It needs to be possible to configure basic style things on the front end like for example changing background and foreground colors
 
-# Other versions
-- use prettier
-- get some kind of spell checking on the code
-- configure path where to have results(/search/word.json)
+### use prettier
+
+### spell checking on the code

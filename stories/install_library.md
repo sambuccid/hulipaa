@@ -6,8 +6,8 @@ So that I can use it
 ### AC1
 Given I have a static website
 When I add an import on html of the front-end library like
-TODO change this to the actual CDN
-    `<script type="module" src="https://www.github.com/hulipaa/deployed/hulipaa.js"></script>`
+    `<script type="module" src="https://cdn.jsdelivr.net/npm/hulipaa-ui@0.1.1"></script>`
+And I initialise the library executing the `Hulipaa` function
 Then I have access to all the front-end functionalities the library offers
 
 ### AC2
