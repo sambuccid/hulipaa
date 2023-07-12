@@ -1,5 +1,6 @@
 import EL from '../EL.js'
 import arrowDownIcon from '../images/arrow_down_icon.svg'
+import { clearDiv } from '../ui-helpers.js'
 
 export const EXPAND_DIV_CLASS_NAME = 'expand-div'
 export const MAIN_DIV_CLASS_NAME = 'open-div'
@@ -189,7 +190,7 @@ export function substituteWithMessage(resultDiv,message,messageType) {
 }
 
 export function clear(div) {
-    div.replaceChildren()
+    clearDiv(div)
 }
 
 export function isExpanded({ expandDiv }) {

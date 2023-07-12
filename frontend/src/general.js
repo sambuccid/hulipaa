@@ -2,12 +2,17 @@
 // all the things that don't have their own module yet
 import { search } from './service.js'
 import * as ResultsUI from './results/results-ui.js'
+import * as PaginateButtonsContainerUI from './paginate/paginateButtonsContainer-ui.js'
+import { addPaginationButtons } from './paginate/paginateButtonsContainer.js'
 import { onResultExpandClick } from './results/results.js'
 import { showSearchMessage,manageExceptionUI } from './resultsContainer/resultsContainer.js'
 import { normaliseAndLowecase,splitTextInWords } from './helpers.js'
 
-export async function processSearch(query,resultContainer,HulipaaOpt) {
+const MAX_RESULTS_IN_PAGE = 15;
+export async function processSearch(query,resultContainer,paginateButtonsContainer,HulipaaOpt) {
     ResultsUI.clear(resultContainer)
+    PaginateButtonsContainerUI.clear(paginateButtonsContainer)
+
     const normalisedQuery = normaliseAndLowecase(query)
 
     const searchedWords = splitTextInWords(normalisedQuery)
@@ -28,13 +33,17 @@ export async function processSearch(query,resultContainer,HulipaaOpt) {
         return;
     }
 
-    for (const result of finalResults) {
+    const cappedResults = finalResults.slice(0,MAX_RESULTS_IN_PAGE);
+
+    for (const result of cappedResults) {
         ResultsUI.addElements(resultContainer,{
             resultTitle: result.title,
             onclickExpandDiv: onResultExpandClick.bind(null,result.title,result.path,searchedWords,resultContainer,HulipaaOpt),
             link: result.link
         })
     }
+
+    addPaginationButtons(paginateButtonsContainer,finalResults.length,MAX_RESULTS_IN_PAGE)
 }
 
 function processQueryResults(allQueriesResults) {

@@ -5,7 +5,7 @@ I want the results to be paginated
 So I can see the results more easily
 And The results page doesn't become too big
 
-### AC1
+### AC1[done]
 Given the word I search for is contained in more than 15 pages
 When I search for the word
 Then no more than 15 results are displayed

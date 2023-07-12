@@ -40,3 +40,8 @@ This is about having multiple results, searching for words repeated in multiple 
 When the user searched for multiple words
 - Results for all the words are shown
 - Searching for words mentioned in all pages it will sort the results based on the number of total occurrences of all the words on each page
+
+## User story 8
+When results are more than 15
+- results are limited to 15
+- there are pagination buttons to navigate through the list of results
