@@ -1,7 +1,7 @@
 import * as SearchBarUI from './searchbar/searchbar-ui.js'
 import * as ResultsContainer from './resultsContainer/resultsContainer.js'
 import * as PaginateButtonsContainer from './paginate/paginateButtonsContainer.js'
-import { processSearch } from './general.js'
+import { processSearch } from './search.js'
 
 function Hulipaa(options) {
     validateHulipaaOpt(options)

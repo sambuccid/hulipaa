@@ -48,3 +48,4 @@ When results are more than 15
 - the highlighted button represent the current loaded page
 - clicking on a pagination button it shows the results for that page
 - can't click on the pagination button for the current page
+- when an error occurs the pagination buttons are not displayed

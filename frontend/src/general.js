@@ -1,63 +1,34 @@
 // A generic module that contains
 // all the things that don't have their own module yet
-import { search } from './service.js'
 import * as ResultsUI from './results/results-ui.js'
-import { addPaginationButtons,openPaginatePage } from './paginate/paginateButtonsContainer.js'
-import { ResultLoader,showSearchMessage,manageExceptionUI } from './resultsContainer/resultsContainer.js'
-import { normaliseAndLowecase,splitTextInWords } from './helpers.js'
+import * as PaginateButtonsContainerUI from './paginate/paginateButtonsContainer-ui.js'
+import { NetworkError } from './network.js'
 
-const MAX_RESULTS_IN_PAGE = 15;
-export async function processSearch(query,resultContainer,paginateButtonsContainer,HulipaaOpt) {
-    const normalisedQuery = normaliseAndLowecase(query)
+export function clearAndShowSearchMessage(resultContainer,paginateButtonsContainer,message,messageType) {
+    ResultsUI.clear(resultContainer)
+    PaginateButtonsContainerUI.clear(paginateButtonsContainer)
 
-    const searchedWords = splitTextInWords(normalisedQuery)
-
-    const backEndCalls = searchedWords.map(async (word) => {
-        return await search(word,HulipaaOpt)
+    ResultsUI.addMessage(resultContainer,{
+        message,
+        type: messageType
     })
-    const { result: allQueriesResults,error } = await manageExceptionUI(resultContainer,() => Promise.all(backEndCalls))
-    if (error) return // There has been an error, already managed by manageExceptionUI
-
-    const finalResults = processQueryResults(allQueriesResults)
-
-    if (finalResults.length == 0) {
-        showSearchMessage(
-            resultContainer,
-            "No results were found for your search",
-            ResultsUI.messageType.MESSAGE)
-        return;
-    }
-
-    const resultLoader = new ResultLoader(searchedWords,resultContainer,HulipaaOpt)
-    //This needs to happen before openPaginatePage, otherwise when it tries to highlight a button it can't find it
-    addPaginationButtons(paginateButtonsContainer,finalResults,resultLoader,MAX_RESULTS_IN_PAGE,resultContainer)
-
-    openPaginatePage(0,finalResults,resultLoader,MAX_RESULTS_IN_PAGE,paginateButtonsContainer)
 }
 
-function processQueryResults(allQueriesResults) {
-    // Results aggregated by page
-    const pagesMap = new Map()
-    for (const queriesResults of allQueriesResults) {
-        for (const result of queriesResults.results) {
-            if (!pagesMap.has(result.path)) {
-                pagesMap.set(result.path,[])
-            }
-            pagesMap.get(result.path).push(result)
-        }
+export async function manageExceptionUI(resultContainer,paginateButtonsContainer,func) {
+    let result
+    try {
+        result = await func();
+    } catch (e) {
+        onError(resultContainer,paginateButtonsContainer,e)
+        return { error: true,result: null }
     }
-    // An array of results, one for each page, the results for each page aggregated by summing numberOfMatches
-    const allPageResults = Array.from(pagesMap,([_pagePath,resultsOfPage]) => {
-        const reducedPageResult = resultsOfPage.reduce((finalRes,res) => {
-            finalRes.numberOfMatches += res.numberOfMatches
-            return finalRes
-        })
-        return reducedPageResult
-    })
+    return { result }
+}
 
-    // Sort based on totla numberOfMatches, the higher number goes first
-    const sortedPageResults = [...allPageResults].sort((res1,res2) => {
-        return res2.numberOfMatches - res1.numberOfMatches
-    })
-    return sortedPageResults
+function onError(resultContainer,paginateButtonsContainer,error) {
+    let errorText = 'Experienced a network issue, please try again'
+    if (error instanceof NetworkError) {
+        errorText = 'There has been an issue, please try again'
+    }
+    clearAndShowSearchMessage(resultContainer,paginateButtonsContainer,errorText,ResultsUI.messageType.ERROR)
 }

@@ -27,12 +27,12 @@ And just one button can be highlighted at any point
 When I search for a word contained in more than 15 pages
 Then it shouldn't be possible to click on the pagination button for the current page
 
-### AC5
+### AC5[done]
 Given I' searched for a word
 When an error happens loading one of the results
 Then there shouldn't be any pagination buttons
 
-### AC5.1
+### AC5.1[done]
 Given I've searched for a word that found some results
 And the pagination buttons were displayed
 When I search for a different word with no results
