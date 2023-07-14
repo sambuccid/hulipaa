@@ -20,7 +20,6 @@ export function addElements(searchDiv,{ hidden }) {
 export function showContainer(paginateButtonsContainer) {
     paginateButtonsContainer.style.display = 'revert'
 }
-
 export function hideContainer(paginateButtonsContainer) {
     paginateButtonsContainer.style.display = 'none'
 }

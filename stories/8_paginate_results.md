@@ -44,7 +44,7 @@ Given the word I search for is contained in less than 15 pages
 When I search for the word
 Then there aren't any pagination buttons
 
-### AC7
+### AC7[done]
 Given the word I search for is contained in more than 15 pages
 When I search for the word
 Then there is a next-page-button shown

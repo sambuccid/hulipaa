@@ -50,3 +50,4 @@ When results are more than 15
 - can't click on the pagination button for the current page
 - when an error occurs the pagination buttons are not displayed
 - pagination buttons are not shown when there is just one page needed
+- next page button shown, it works and is hidden if we are in the last page

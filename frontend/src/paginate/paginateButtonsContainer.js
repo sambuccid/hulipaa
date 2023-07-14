@@ -20,7 +20,8 @@ export function refreshPaginationButtons(paginateButtonsContainer,allResults,res
     UI.showContainer(paginateButtonsContainer)
 
     const resultCount = allResults.length
-    const paginationCount = Math.floor((resultCount - 1) / maxResults) + 1
+    const paginationCount = getNumberOfPages(resultCount,maxResults)
+
     for (let i = 0; i < paginationCount; i++) {
         PaginateButtonUI.addElements(paginateButtonsContainer,{
             paginationNumber: i,
@@ -28,10 +29,23 @@ export function refreshPaginationButtons(paginateButtonsContainer,allResults,res
         })
     }
 
+    PaginateButtonUI.addNextPageButton(paginateButtonsContainer,{
+        onclick: moveToNextPage.bind(null,allResults,resultLoader,maxResults,paginateButtonsContainer)
+    })
+}
+
+function getNumberOfPages(resultCount,maxResults) {
+    return Math.floor((resultCount - 1) / maxResults) + 1
+}
+
+function moveToNextPage(allResults,resultLoader,maxResults,paginateButtonsContainer) {
+    const pageIdx = PaginateButtonUI.getCurrentButtonIdx(paginateButtonsContainer);
+    openPaginatePage(pageIdx + 1,allResults,resultLoader,maxResults,paginateButtonsContainer)
 }
 
 export function openPaginatePage(pageIndex,allResults,resultLoader,maxResults,paginateButtonsContainer) {
     highlightCurrentPaginateButton(pageIndex,paginateButtonsContainer)
+    updatePreviousNextButtons(pageIndex,allResults.length,maxResults,paginateButtonsContainer)
 
     const paginatedResults = getPaginatedResults(allResults,pageIndex,maxResults)
     resultLoader.loadResults(paginatedResults)
@@ -46,14 +60,28 @@ function getPaginatedResults(allResults,pageIndex,maxResults) {
 function highlightCurrentPaginateButton(pageIndex,paginateButtonsContainer) {
     const buttonIdx = pageIndex
 
-    const buttons = paginateButtonsContainer.getElementsByTagName("button");
+    const buttons = PaginateButtonUI.getAllPageButtons(paginateButtonsContainer)
     for (let button of buttons) {
         if (PaginateButtonUI.buttonIdxEqual(button,buttonIdx)) {
-            PaginateButtonUI.hightlighButton(button)
+            PaginateButtonUI.selectButton(button)
             PaginateButtonUI.disableButton(button)
         } else {
-            PaginateButtonUI.removeHightlightButton(button)
+            PaginateButtonUI.removeSelectionButton(button)
             PaginateButtonUI.enableButton(button)
         }
+    }
+}
+
+function updatePreviousNextButtons(pageIdx,resultCount,maxResults,paginateButtonsContainer) {
+    const nextPageButton = PaginateButtonUI.findNextPageButton(paginateButtonsContainer)
+    if (!nextPageButton)
+        return
+
+    const totalPages = getNumberOfPages(resultCount,maxResults)
+    const isLastPage = pageIdx >= totalPages - 1
+    if (isLastPage) {
+        PaginateButtonUI.hideButton(nextPageButton)
+    } else {
+        PaginateButtonUI.showButton(nextPageButton)
     }
 }
