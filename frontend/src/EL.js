@@ -26,10 +26,12 @@ const EL = {
 
         if (options) {
             // Extract special values from options
-            const children = options.els;
-            options.els = undefined;
-            const style = options.style;
-            options.style = undefined;
+            const children = options.els
+            delete options.els
+            const style = options.style
+            delete options.style
+            const dataset = options.dataset
+            delete options.dataset
 
 
             if (children) {
@@ -40,6 +42,10 @@ const EL = {
 
             for (const prop in options) {
                 element[prop] = options[prop];
+            }
+
+            for (const datasetProp in dataset) {
+                element.dataset[datasetProp] = dataset[datasetProp];
             }
 
             for (const styleProp in style) {

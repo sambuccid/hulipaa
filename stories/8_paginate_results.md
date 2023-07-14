@@ -17,7 +17,7 @@ And some pagination buttons are shown
 When I click on one of the buttons
 Then the results are updated showing the results for that page
 
-### AC3
+### AC3[done]
 When I search for a word contained in more than 15 pages
 Then the pagination button for the first page should be highlighted
 And changing page should highlight the other buttons

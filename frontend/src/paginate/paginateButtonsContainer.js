@@ -19,15 +19,16 @@ export function addPaginationButtons(paginateButtonsContainer,allResults,resultL
     for (let i = 0; i < paginationCount; i++) {
         PaginateButtonUI.addElements(paginateButtonsContainer,{
             paginationNumber: i,
-            onclick: loadPaginated.bind(null,i,allResults,resultLoader,maxResults,resultContainer)
+            onclick: openPaginatePage.bind(null,i,allResults,resultLoader,maxResults,paginateButtonsContainer)
         })
     }
 
 }
 
-export function loadPaginated(pageIndex,allResults,resultLoader,maxResults,resultContainer) {
-    const paginatedResults = getPaginatedResults(allResults,pageIndex,maxResults)
+export function openPaginatePage(pageIndex,allResults,resultLoader,maxResults,paginateButtonsContainer) {
+    highlightCurrentPaginateButton(pageIndex,paginateButtonsContainer)
 
+    const paginatedResults = getPaginatedResults(allResults,pageIndex,maxResults)
     resultLoader.loadResults(paginatedResults)
 }
 
@@ -35,4 +36,17 @@ function getPaginatedResults(allResults,pageIndex,maxResults) {
     const startIndex = maxResults * pageIndex
     const endIndex = startIndex + maxResults
     return allResults.slice(startIndex,endIndex)
+}
+
+function highlightCurrentPaginateButton(pageIndex,paginateButtonsContainer) {
+    const buttonIdx = pageIndex
+
+    const buttons = paginateButtonsContainer.getElementsByTagName("button");
+    for (let button of buttons) {
+        if (PaginateButtonUI.buttonIdxEqual(button,buttonIdx)) {
+            PaginateButtonUI.hightlighButton(button)
+        } else {
+            PaginateButtonUI.removeHightlightButton(button)
+        }
+    }
 }

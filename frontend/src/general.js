@@ -2,7 +2,7 @@
 // all the things that don't have their own module yet
 import { search } from './service.js'
 import * as ResultsUI from './results/results-ui.js'
-import { addPaginationButtons,loadPaginated } from './paginate/paginateButtonsContainer.js'
+import { addPaginationButtons,openPaginatePage } from './paginate/paginateButtonsContainer.js'
 import { ResultLoader,showSearchMessage,manageExceptionUI } from './resultsContainer/resultsContainer.js'
 import { normaliseAndLowecase,splitTextInWords } from './helpers.js'
 
@@ -29,9 +29,10 @@ export async function processSearch(query,resultContainer,paginateButtonsContain
     }
 
     const resultLoader = new ResultLoader(searchedWords,resultContainer,HulipaaOpt)
-    loadPaginated(0,finalResults,resultLoader,MAX_RESULTS_IN_PAGE,resultContainer)
-
+    //This needs to happen before openPaginatePage, otherwise when it tries to highlight a button it can't find it
     addPaginationButtons(paginateButtonsContainer,finalResults,resultLoader,MAX_RESULTS_IN_PAGE,resultContainer)
+
+    openPaginatePage(0,finalResults,resultLoader,MAX_RESULTS_IN_PAGE,paginateButtonsContainer)
 }
 
 function processQueryResults(allQueriesResults) {

@@ -45,4 +45,5 @@ When the user searched for multiple words
 When results are more than 15
 - results are limited to 15
 - there are pagination buttons to navigate through the list of results
+- the highlighted button represent the current loaded page
 - clicking on a lagination button it shows the results for that page
