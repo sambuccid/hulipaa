@@ -24,3 +24,10 @@ export function hightlighButton(button) {
 export function removeHightlightButton(button) {
     button.style.backgroundColor = 'revert'
 }
+
+export function disableButton(button) {
+    button.setAttribute("disabled","disabled");
+}
+export function enableButton(button) {
+    button.removeAttribute("disabled");
+}

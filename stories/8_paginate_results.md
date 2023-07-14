@@ -23,23 +23,35 @@ Then the pagination button for the first page should be highlighted
 And changing page should highlight the other buttons
 And just one button can be highlighted at any point
 
-### AC4
+### AC4[done]
 When I search for a word contained in more than 15 pages
 Then it shouldn't be possible to click on the pagination button for the current page
 
 ### AC5
+Given I' searched for a word
+When an error happens loading one of the results
+Then there shouldn't be any pagination buttons
+
+### AC5.1
+Given I've searched for a word that found some results
+And the pagination buttons were displayed
+When I search for a different word with no results
+And the no results message is displayed
+Then there shouldn't be any pagination buttons
+
+### AC6
 Given the word I search for is contained in less than 15 pages
 When I search for the word
 Then there aren't any pagination buttons
 
-### AC6
+### AC7
 Given the word I search for is contained in more than 15 pages
 When I search for the word
 Then there is a next-page-button shown
 And clicking on it will open the next page of results
 And the button will be hidden if we are in the last page
 
-### AC7
+### AC8
 Given the word I search for is contained in more than 15 pages
 When I search for the word
 And move to another page
@@ -47,7 +59,7 @@ Then there is a previous-page-button shown
 And clicking on it will open the previous page of results
 And the button will be hidden if we are in the first page
 
-### AC8
+### AC9
 Given the word I search for is contained in more than 15 pages
 And I search for the word
 When the pagination buttons are displayed

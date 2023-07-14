@@ -45,8 +45,10 @@ function highlightCurrentPaginateButton(pageIndex,paginateButtonsContainer) {
     for (let button of buttons) {
         if (PaginateButtonUI.buttonIdxEqual(button,buttonIdx)) {
             PaginateButtonUI.hightlighButton(button)
+            PaginateButtonUI.disableButton(button)
         } else {
             PaginateButtonUI.removeHightlightButton(button)
+            PaginateButtonUI.enableButton(button)
         }
     }
 }
