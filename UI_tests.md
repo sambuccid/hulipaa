@@ -49,3 +49,4 @@ When results are more than 15
 - clicking on a pagination button it shows the results for that page
 - can't click on the pagination button for the current page
 - when an error occurs the pagination buttons are not displayed
+- pagination buttons are not shown when there is just one page needed

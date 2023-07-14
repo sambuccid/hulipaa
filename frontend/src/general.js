@@ -7,6 +7,7 @@ import { NetworkError } from './network.js'
 export function clearAndShowSearchMessage(resultContainer,paginateButtonsContainer,message,messageType) {
     ResultsUI.clear(resultContainer)
     PaginateButtonsContainerUI.clear(paginateButtonsContainer)
+    PaginateButtonsContainerUI.hideContainer(paginateButtonsContainer)
 
     ResultsUI.addMessage(resultContainer,{
         message,

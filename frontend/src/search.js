@@ -1,6 +1,6 @@
 import { search } from './service.js'
 import * as ResultsUI from './results/results-ui.js'
-import { addPaginationButtons,openPaginatePage } from './paginate/paginateButtonsContainer.js'
+import { refreshPaginationButtons,openPaginatePage } from './paginate/paginateButtonsContainer.js'
 import { ResultLoader } from './resultsContainer/resultsContainer.js'
 import { normaliseAndLowecase,splitTextInWords } from './helpers.js'
 import { clearAndShowSearchMessage,manageExceptionUI } from './general.js'
@@ -31,8 +31,9 @@ export async function processSearch(query,resultContainer,paginateButtonsContain
     }
 
     const resultLoader = new ResultLoader(searchedWords,resultContainer,paginateButtonsContainer,HulipaaOpt)
+
     //This needs to happen before openPaginatePage, otherwise when it tries to highlight a button it can't find it
-    addPaginationButtons(paginateButtonsContainer,finalResults,resultLoader,MAX_RESULTS_IN_PAGE,resultContainer)
+    refreshPaginationButtons(paginateButtonsContainer,finalResults,resultLoader,MAX_RESULTS_IN_PAGE,resultContainer)
 
     openPaginatePage(0,finalResults,resultLoader,MAX_RESULTS_IN_PAGE,paginateButtonsContainer)
 }

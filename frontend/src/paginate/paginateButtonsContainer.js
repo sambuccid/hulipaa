@@ -10,8 +10,13 @@ export function initContainer(searchDiv) {
     return buttonsDiv
 }
 
-export function addPaginationButtons(paginateButtonsContainer,allResults,resultLoader,maxResults,resultContainer) {
+export function refreshPaginationButtons(paginateButtonsContainer,allResults,resultLoader,maxResults,resultContainer) {
     UI.clear(paginateButtonsContainer)
+    if (allResults.length <= maxResults) {
+        UI.hideContainer(paginateButtonsContainer)
+        return
+    }
+
     UI.showContainer(paginateButtonsContainer)
 
     const resultCount = allResults.length

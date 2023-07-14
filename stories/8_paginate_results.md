@@ -39,7 +39,7 @@ When I search for a different word with no results
 And the no results message is displayed
 Then there shouldn't be any pagination buttons
 
-### AC6
+### AC6[done]
 Given the word I search for is contained in less than 15 pages
 When I search for the word
 Then there aren't any pagination buttons
