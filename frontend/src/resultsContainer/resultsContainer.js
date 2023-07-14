@@ -1,5 +1,6 @@
 import * as UI from './resultsContainer-ui.js'
 import * as ResultsUI from '../results/results-ui.js'
+import { onResultExpandClick } from '../results/results.js'
 import { NetworkError } from '../network.js'
 
 export function initResultContainer(searchDiv) {
@@ -9,6 +10,24 @@ export function initResultContainer(searchDiv) {
         resultsDiv = r.element;
     }
     return resultsDiv
+}
+
+export class ResultLoader {
+    constructor(searchedWords,resultContainer,HulipaaOpt) {
+        this.searchedWords = searchedWords
+        this.resultContainer = resultContainer
+        this.HulipaaOpt = HulipaaOpt
+    }
+    loadResults(results) {
+        ResultsUI.clear(this.resultContainer)
+        for (const result of results) {
+            ResultsUI.addElements(this.resultContainer,{
+                resultTitle: result.title,
+                onclickExpandDiv: onResultExpandClick.bind(null,result.title,result.path,this.searchedWords,this.resultContainer,this.HulipaaOpt),
+                link: result.link
+            })
+        }
+    }
 }
 
 export function showSearchMessage(resultContainer,message,messageType) {

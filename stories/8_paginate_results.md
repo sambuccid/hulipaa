@@ -11,7 +11,7 @@ When I search for the word
 Then no more than 15 results are displayed
 And at the end of the page there are buttons to move to a different page
 
-### AC2
+### AC2[done]
 Given I search for a word contained in more than 15 pages
 And some pagination buttons are shown
 When I click on one of the buttons
@@ -21,7 +21,7 @@ Then the results are updated showing the results for that page
 When I search for a word contained in more than 15 pages
 Then the pagination button for the first page should be highlighted
 And changing page should highlight the other buttons
-And just one buttoc can be highlighted at any point
+And just one button can be highlighted at any point
 
 ### AC4
 When I search for a word contained in more than 15 pages
