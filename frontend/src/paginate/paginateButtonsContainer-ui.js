@@ -5,7 +5,12 @@ export const CLASS_NAME = "hulipaa_paginations_buttons"
 
 export function addElements(searchDiv,{ hidden }) {
     const buttonsDiv = EL.div({
-        className: CLASS_NAME
+        className: CLASS_NAME,
+        style: {
+            flexWrap: 'wrap',
+            justifyContent: 'space-around',
+            gap: '10px'
+        }
     });
 
     if (!hidden)
@@ -18,7 +23,7 @@ export function addElements(searchDiv,{ hidden }) {
 }
 
 export function showContainer(paginateButtonsContainer) {
-    paginateButtonsContainer.style.display = 'revert'
+    paginateButtonsContainer.style.display = 'flex'
 }
 export function hideContainer(paginateButtonsContainer) {
     paginateButtonsContainer.style.display = 'none'

@@ -1,4 +1,6 @@
 import EL from '../EL.js'
+import CSS from './paginateButton.css'
+import arrowDownIcon from '../images/arrow_down_icon.svg'
 
 const INDEX_PROP_NAME = "buttonIndex"
 const PAGE_PAGINATE_BUTTON_CLASS = "index-button"
@@ -22,7 +24,15 @@ export function addElements(containerDiv,{ paginationNumber,onclick }) {
 
 export function addPreviousPageButton(containerDiv,{ onclick }) {
     const element = EL.button({
-        textContent: '<',
+        els: [EL.img({
+            innerText: "Previous results",
+            src: arrowDownIcon,
+            style: {
+                width: 'auto',
+                height: '70%',
+                transform: 'rotate(90deg)'
+            }
+        })],
         onclick,
         className: PREVIOUS_PAGE_PAGINATE_BUTTON_CLASS
     })
@@ -34,7 +44,15 @@ export function findPreviousPageButton(paginateButtonsContainer) {
 
 export function addNextPageButton(containerDiv,{ onclick }) {
     const element = EL.button({
-        textContent: '>',
+        els: [EL.img({
+            innerText: "Next results",
+            src: arrowDownIcon,
+            style: {
+                width: 'auto',
+                height: '70%',
+                transform: 'rotate(-90deg)'
+            }
+        })],
         onclick,
         className: NEXT_PAGE_PAGINATE_BUTTON_CLASS
     })
@@ -63,11 +81,9 @@ export function buttonIdxEqual(button,buttonIdx) {
 
 export function selectButton(button) {
     button.classList.add(SELECTED_PAGINATE_BUTTON_CLASS)
-    button.style.backgroundColor = 'Cyan'
 }
 export function removeSelectionButton(button) {
     button.classList.remove(SELECTED_PAGINATE_BUTTON_CLASS)
-    button.style.backgroundColor = 'revert'
 }
 
 export function disableButton(button) {

@@ -59,11 +59,10 @@ Then there is a previous-page-button shown
 And clicking on it will open the previous page of results
 And the button will be hidden if we are in the first page
 
-### AC9
+### AC9[done]
 Given the word I search for is contained in more than 15 pages
 And I search for the word
 When the pagination buttons are displayed
 I want that them to have a clean look and feel
 - There is a potentially unlimited number of paginations, so the buttons should be relatively small
   - should look good with 2 pages, 4 pages as well as 10 pages)
-

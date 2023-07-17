@@ -52,3 +52,6 @@ When results are more than 15
 - pagination buttons are not shown when there is just one page needed
 - next page button shown, it works and is hidden if we are in the last page
 - previous page button shown, it works and is hidden if we are in the first page
+
+## Others
+When there is a page that contains 2 search bars, they still work fine and independently from each other
