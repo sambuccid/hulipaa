@@ -73,7 +73,7 @@ This version of the library ensures the library can be used in a real life scena
 
 ## User stories
 
-### paginate results
+### ~~paginate results~~
 As a visitor of the website
 When I search for a word that is contained in thousands of pages
 I want the results to be paginated
