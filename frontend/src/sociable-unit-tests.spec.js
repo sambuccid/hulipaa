@@ -1,6 +1,7 @@
-import { processSearch } from './general.js'
+import { processSearch } from './search.js'
 import * as Network from './network.js'
 import * as ResultsUI from './results/results-ui.js'
+import * as PaginateButtonUI from './paginate/paginateButton-ui.js'
 import { when,resetAllWhenMocks } from 'jest-when'
 
 jest.mock('./network.js',() => {
@@ -35,7 +36,10 @@ jest.mock('./paginate/paginateButtonsContainer-ui.js',() => {
 
 jest.mock('./paginate/paginateButton-ui.js',() => {
     return {
-        addElements: jest.fn()
+        addElements: jest.fn(),
+        getAllPageButtons: jest.fn(),
+        findPreviousPageButton: jest.fn(),
+        findNextPageButton: jest.fn()
     }
 })
 
@@ -75,6 +79,7 @@ describe('processSearch',() => {
 
         ResultsUI.getResultDiv.mockReturnValue(mockedResultDiv)
         ResultsUI.isExpanded.mockReturnValue(false)
+        PaginateButtonUI.getAllPageButtons.mockReturnValue([])
     });
 
     it("calls the backend to get the result",async () => {
