@@ -22,6 +22,10 @@ export function refreshPaginationButtons(paginateButtonsContainer,allResults,res
     const resultCount = allResults.length
     const paginationCount = getNumberOfPages(resultCount,maxResults)
 
+    PaginateButtonUI.addPreviousPageButton(paginateButtonsContainer,{
+        onclick: moveToPreviousPage.bind(null,allResults,resultLoader,maxResults,paginateButtonsContainer)
+    })
+
     for (let i = 0; i < paginationCount; i++) {
         PaginateButtonUI.addElements(paginateButtonsContainer,{
             paginationNumber: i,
@@ -41,6 +45,10 @@ function getNumberOfPages(resultCount,maxResults) {
 function moveToNextPage(allResults,resultLoader,maxResults,paginateButtonsContainer) {
     const pageIdx = PaginateButtonUI.getCurrentButtonIdx(paginateButtonsContainer);
     openPaginatePage(pageIdx + 1,allResults,resultLoader,maxResults,paginateButtonsContainer)
+}
+function moveToPreviousPage(allResults,resultLoader,maxResults,paginateButtonsContainer) {
+    const pageIdx = PaginateButtonUI.getCurrentButtonIdx(paginateButtonsContainer);
+    openPaginatePage(pageIdx - 1,allResults,resultLoader,maxResults,paginateButtonsContainer)
 }
 
 export function openPaginatePage(pageIndex,allResults,resultLoader,maxResults,paginateButtonsContainer) {
@@ -73,15 +81,18 @@ function highlightCurrentPaginateButton(pageIndex,paginateButtonsContainer) {
 }
 
 function updatePreviousNextButtons(pageIdx,resultCount,maxResults,paginateButtonsContainer) {
+    const previousPageButton = PaginateButtonUI.findPreviousPageButton(paginateButtonsContainer)
     const nextPageButton = PaginateButtonUI.findNextPageButton(paginateButtonsContainer)
-    if (!nextPageButton)
+    if (!previousPageButton || !nextPageButton) {
         return
+    }
 
+    // Previous page button
+    const isFirstPage = pageIdx <= 0
+    PaginateButtonUI.visibleTransparentButton(previousPageButton,!isFirstPage)
+
+    // Next page button
     const totalPages = getNumberOfPages(resultCount,maxResults)
     const isLastPage = pageIdx >= totalPages - 1
-    if (isLastPage) {
-        PaginateButtonUI.hideButton(nextPageButton)
-    } else {
-        PaginateButtonUI.showButton(nextPageButton)
-    }
+    PaginateButtonUI.visibleTransparentButton(nextPageButton,!isLastPage)
 }

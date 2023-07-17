@@ -5,7 +5,6 @@ import { ResultLoader } from './resultsContainer/resultsContainer.js'
 import { normaliseAndLowecase,splitTextInWords } from './helpers.js'
 import { clearAndShowSearchMessage,manageExceptionUI } from './general.js'
 
-//TODO move processSearch and other function to it's own file
 const MAX_RESULTS_IN_PAGE = 15;
 export async function processSearch(query,resultContainer,paginateButtonsContainer,HulipaaOpt) {
     const normalisedQuery = normaliseAndLowecase(query)

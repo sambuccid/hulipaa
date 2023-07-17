@@ -51,7 +51,7 @@ Then there is a next-page-button shown
 And clicking on it will open the next page of results
 And the button will be hidden if we are in the last page
 
-### AC8
+### AC8[done]
 Given the word I search for is contained in more than 15 pages
 When I search for the word
 And move to another page

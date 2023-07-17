@@ -4,6 +4,8 @@ const INDEX_PROP_NAME = "buttonIndex"
 const PAGE_PAGINATE_BUTTON_CLASS = "index-button"
 const SELECTED_PAGINATE_BUTTON_CLASS = "selected-button"
 const NEXT_PAGE_PAGINATE_BUTTON_CLASS = "next-button"
+const PREVIOUS_PAGE_PAGINATE_BUTTON_CLASS = "previous-button"
+
 export function addElements(containerDiv,{ paginationNumber,onclick }) {
     const dataset = {}
     dataset[INDEX_PROP_NAME] = paginationNumber
@@ -16,6 +18,18 @@ export function addElements(containerDiv,{ paginationNumber,onclick }) {
 
     containerDiv.appendChild(element)
     return { element: element }
+}
+
+export function addPreviousPageButton(containerDiv,{ onclick }) {
+    const element = EL.button({
+        textContent: '<',
+        onclick,
+        className: PREVIOUS_PAGE_PAGINATE_BUTTON_CLASS
+    })
+    containerDiv.appendChild(element)
+}
+export function findPreviousPageButton(paginateButtonsContainer) {
+    return paginateButtonsContainer.querySelectorAll(`.${PREVIOUS_PAGE_PAGINATE_BUTTON_CLASS}`)[0]
 }
 
 export function addNextPageButton(containerDiv,{ onclick }) {
@@ -68,4 +82,18 @@ export function hideButton(button) {
 }
 export function showButton(button) {
     button.style.display = 'revert'
+}
+
+export function visibleTransparentButton(button,shouldShow) {
+    if (shouldShow) {
+        visibleButton(button)
+    } else {
+        transparentButton(button)
+    }
+}
+export function visibleButton(button) {
+    button.style.visibility = 'revert'
+}
+export function transparentButton(button) {
+    button.style.visibility = 'hidden'
 }
