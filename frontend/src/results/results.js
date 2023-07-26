@@ -5,14 +5,12 @@ import {
 } from '../helpers.js'
 import { loadResult } from '../service.js'
 import * as ResultsUI from './results-ui.js'
-import {
-    manageExceptionUI
-} from '../resultsContainer/resultsContainer.js'
+import { manageExceptionUI } from '../general.js'
 
-export async function onResultExpandClick(resultTitle,resultPath,searchedWords,resultContainer,HulipaaOpt,expandDiv) {
+export async function onResultExpandClick(resultTitle,resultPath,searchedWords,resultContainer,paginateButtonsContainer,HulipaaOpt,expandDiv) {
     if (!ResultsUI.isExpanded({ expandDiv })) {
-        const { result,error } = await manageExceptionUI(resultContainer,async () =>
-            await loadResult(resultPath)
+        const { result,error } = await manageExceptionUI(resultContainer,paginateButtonsContainer,
+            async () => await loadResult(resultPath)
         )
         if (error) return // There has been an error, already managed by manageExceptionUI
 

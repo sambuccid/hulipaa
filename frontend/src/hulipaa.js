@@ -1,6 +1,7 @@
 import * as SearchBarUI from './searchbar/searchbar-ui.js'
 import * as ResultsContainer from './resultsContainer/resultsContainer.js'
-import { processSearch } from './general.js'
+import * as PaginateButtonsContainer from './paginate/paginateButtonsContainer.js'
+import { processSearch } from './search.js'
 
 function Hulipaa(options) {
     validateHulipaaOpt(options)
@@ -18,7 +19,9 @@ function Hulipaa(options) {
 
         function onSearch(query) {
             const resultContainer = ResultsContainer.initResultContainer(searchDiv)
-            processSearch(query,resultContainer,HulipaaOpt)
+            const paginateButtonsContainer = PaginateButtonsContainer.initContainer(searchDiv)
+
+            processSearch(query,resultContainer,paginateButtonsContainer,HulipaaOpt)
         }
     }
 }

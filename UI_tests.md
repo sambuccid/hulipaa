@@ -40,3 +40,18 @@ This is about having multiple results, searching for words repeated in multiple 
 When the user searched for multiple words
 - Results for all the words are shown
 - Searching for words mentioned in all pages it will sort the results based on the number of total occurrences of all the words on each page
+
+## User story 8
+When results are more than 15
+- results are limited to 15
+- there are pagination buttons to navigate through the list of results
+- the highlighted button represent the current loaded page
+- clicking on a pagination button it shows the results for that page
+- can't click on the pagination button for the current page
+- when an error occurs the pagination buttons are not displayed
+- pagination buttons are not shown when there is just one page needed
+- next page button shown, it works and is hidden if we are in the last page
+- previous page button shown, it works and is hidden if we are in the first page
+
+## Others
+When there is a page that contains 2 search bars, they still work fine and independently from each other

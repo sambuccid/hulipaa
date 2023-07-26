@@ -1,6 +1,7 @@
-import { processSearch } from './general.js'
+import { processSearch } from './search.js'
 import * as Network from './network.js'
 import * as ResultsUI from './results/results-ui.js'
+import * as PaginateButtonUI from './paginate/paginateButton-ui.js'
 import { when,resetAllWhenMocks } from 'jest-when'
 
 jest.mock('./network.js',() => {
@@ -24,6 +25,24 @@ jest.mock('./results/results-ui.js',() => {
     }
 })
 
+jest.mock('./paginate/paginateButtonsContainer-ui.js',() => {
+    return {
+        addElements: jest.fn(),
+        showContainer: jest.fn(),
+        hideContainer: jest.fn(),
+        clear: jest.fn()
+    }
+})
+
+jest.mock('./paginate/paginateButton-ui.js',() => {
+    return {
+        addElements: jest.fn(),
+        getAllPageButtons: jest.fn(),
+        findPreviousPageButton: jest.fn(),
+        findNextPageButton: jest.fn()
+    }
+})
+
 function getOnclickPropertyOfExpandResult() {
     const correctCallParameters = ResultsUI.addElements.mock.lastCall
     const secondParameter = correctCallParameters[1]
@@ -39,6 +58,7 @@ describe('processSearch',() => {
     const mockContainer = {}
     const mockedExpandDiv = '<div>test-expanded-div</div>'
     const mockedResultDiv = '<div>test-result-div</div>'
+    const mockPaginateContainer = {}
     const searchedWord = "searchedword"
 
     const resultList = {
@@ -59,10 +79,11 @@ describe('processSearch',() => {
 
         ResultsUI.getResultDiv.mockReturnValue(mockedResultDiv)
         ResultsUI.isExpanded.mockReturnValue(false)
+        PaginateButtonUI.getAllPageButtons.mockReturnValue([])
     });
 
     it("calls the backend to get the result",async () => {
-        await processSearch(searchedWord,mockContainer,HulipaaOpt)
+        await processSearch(searchedWord,mockContainer,mockPaginateContainer,HulipaaOpt)
 
         expect(Network.get).toHaveBeenCalled();
         expect(Network.get).toHaveBeenCalledWith("/search/" + searchedWord + ".json");
@@ -71,7 +92,7 @@ describe('processSearch',() => {
     it("normalise and removes accents from the searched word before calling the backend",async () => {
         const typedWord = "wordñij"
         const expectedWord = "wordnij"
-        await processSearch(typedWord,mockContainer,HulipaaOpt)
+        await processSearch(typedWord,mockContainer,mockPaginateContainer,HulipaaOpt)
 
         expect(Network.get).toHaveBeenCalled();
         expect(Network.get).toHaveBeenCalledWith("/search/" + expectedWord + ".json");
@@ -80,14 +101,14 @@ describe('processSearch',() => {
     it("transform the searched word to lower case before calling the backend",async () => {
         const typedWord = "CAPITALCASEword"
         const expectedWord = "capitalcaseword"
-        await processSearch(typedWord,mockContainer,HulipaaOpt)
+        await processSearch(typedWord,mockContainer,mockPaginateContainer,HulipaaOpt)
 
         expect(Network.get).toHaveBeenCalled();
         expect(Network.get).toHaveBeenCalledWith("/search/" + expectedWord + ".json");
     });
 
     it('the element contains the title of the page',async () => {
-        await processSearch(searchedWord,mockContainer,HulipaaOpt)
+        await processSearch(searchedWord,mockContainer,mockPaginateContainer,HulipaaOpt)
 
         expect(ResultsUI.addElements).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
             resultTitle: resultList.results[0].title
@@ -95,13 +116,13 @@ describe('processSearch',() => {
     });
 
     it('empties the old results before adding the new results',async () => {
-        await processSearch(searchedWord,mockContainer,HulipaaOpt)
+        await processSearch(searchedWord,mockContainer,mockPaginateContainer,HulipaaOpt)
 
         expect(ResultsUI.clear).toHaveBeenCalledWith(mockContainer)
     });
 
     it('there should be the expand element that should be clickable',async () => {
-        await processSearch(searchedWord,mockContainer,HulipaaOpt)
+        await processSearch(searchedWord,mockContainer,mockPaginateContainer,HulipaaOpt)
 
         expect(ResultsUI.addElements).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
             onclickExpandDiv: expect.anything()
@@ -109,7 +130,7 @@ describe('processSearch',() => {
     });
 
     it('the main part of the result should open the result link',async () => {
-        await processSearch(searchedWord,mockContainer,HulipaaOpt)
+        await processSearch(searchedWord,mockContainer,mockPaginateContainer,HulipaaOpt)
 
         expect(ResultsUI.addElements).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
             link: resultList.results[0].link
@@ -120,7 +141,7 @@ describe('processSearch',() => {
         when(Network.get).calledWith(expect.anything())
             .mockRejectedValue()
 
-        await processSearch(searchedWord,mockContainer,HulipaaOpt)
+        await processSearch(searchedWord,mockContainer,mockPaginateContainer,HulipaaOpt)
 
         // Removes old elements
         expect(ResultsUI.clear).toHaveBeenCalledWith(mockContainer)
@@ -136,7 +157,7 @@ describe('processSearch',() => {
         when(Network.get).calledWith(expect.anything())
             .mockResolvedValue({ ok: false,status: 500 })
 
-        await processSearch(searchedWord,mockContainer,HulipaaOpt)
+        await processSearch(searchedWord,mockContainer,mockPaginateContainer,HulipaaOpt)
 
         // Removes old elements
         expect(ResultsUI.clear).toHaveBeenCalledWith(mockContainer)
@@ -152,7 +173,7 @@ describe('processSearch',() => {
         when(Network.get).calledWith(expect.anything())
             .mockResolvedValue({ ok: false,status: 404 })
 
-        await processSearch(searchedWord,mockContainer,HulipaaOpt)
+        await processSearch(searchedWord,mockContainer,mockPaginateContainer,HulipaaOpt)
 
         // Removes old elements
         expect(ResultsUI.clear).toHaveBeenCalledWith(mockContainer)
@@ -186,7 +207,7 @@ describe('processSearch',() => {
         });
 
         it("calls the backend to get the content of the result",async () => {
-            await processSearch(searchedWord,mockContainer,HulipaaOpt)
+            await processSearch(searchedWord,mockContainer,mockPaginateContainer,HulipaaOpt)
 
             await simulateClickOnResultExpandDiv();
 
@@ -195,7 +216,7 @@ describe('processSearch',() => {
         });
 
         it('expands the expandDiv and formats the content of the result',async () => {
-            await processSearch(searchedWord,mockContainer,HulipaaOpt)
+            await processSearch(searchedWord,mockContainer,mockPaginateContainer,HulipaaOpt)
 
             await simulateClickOnResultExpandDiv();
 
@@ -210,7 +231,7 @@ describe('processSearch',() => {
         });
 
         it("when clicking the result twice it goes back showing the down arrow image",async () => {
-            await processSearch(searchedWord,mockContainer,HulipaaOpt)
+            await processSearch(searchedWord,mockContainer,mockPaginateContainer,HulipaaOpt)
 
             await simulateClickOnResultExpandDiv();
             await simulateClickOnResultExpandDiv();
@@ -223,7 +244,7 @@ describe('processSearch',() => {
         });
 
         it("when clicking the result 3 times it shows the content of the result",async () => {
-            await processSearch(searchedWord,mockContainer,HulipaaOpt)
+            await processSearch(searchedWord,mockContainer,mockPaginateContainer,HulipaaOpt)
 
             await simulateClickOnResultExpandDiv();
             await simulateClickOnResultExpandDiv();
@@ -245,7 +266,7 @@ describe('processSearch',() => {
             when(Network.get).calledWith(resultList.results[0].path)
                 .mockRejectedValue()
 
-            await processSearch(searchedWord,mockContainer,HulipaaOpt)
+            await processSearch(searchedWord,mockContainer,mockPaginateContainer,HulipaaOpt)
 
             await simulateClickOnResultExpandDiv();
 
@@ -263,7 +284,7 @@ describe('processSearch',() => {
             when(Network.get).calledWith(resultList.results[0].path)
                 .mockResolvedValue({ ok: false,status: 500 })
 
-            await processSearch(searchedWord,mockContainer,HulipaaOpt)
+            await processSearch(searchedWord,mockContainer,mockPaginateContainer,HulipaaOpt)
 
             await simulateClickOnResultExpandDiv();
 
@@ -281,7 +302,7 @@ describe('processSearch',() => {
             when(Network.get).calledWith(resultList.results[0].path)
                 .mockResolvedValue({ ok: false,status: 404 })
 
-            await processSearch(searchedWord,mockContainer,HulipaaOpt)
+            await processSearch(searchedWord,mockContainer,mockPaginateContainer,HulipaaOpt)
 
             await simulateClickOnResultExpandDiv();
 
@@ -297,4 +318,3 @@ describe('processSearch',() => {
         })
     })
 });
-
