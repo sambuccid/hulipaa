@@ -11,14 +11,14 @@ export function initResultContainer(searchDiv) {
     return resultsDiv
 }
 
-export class ResultLoader {
+export class ResultsPrinter {
     constructor(searchedWords,resultContainer,paginateButtonsContainer,HulipaaOpt) {
         this.searchedWords = searchedWords
         this.resultContainer = resultContainer
         this.paginateButtonsContainer = paginateButtonsContainer
         this.HulipaaOpt = HulipaaOpt
     }
-    loadResults(results) {
+    execute(results) {
         ResultsUI.clear(this.resultContainer)
         for (const result of results) {
             ResultsUI.addElements(this.resultContainer,{
