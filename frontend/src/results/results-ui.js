@@ -39,7 +39,6 @@ export function addElements(div,{ resultTitle,onclickExpandDiv,link }) {
                 })],
             style: {
                 flex: '6 6 0px',
-                paddingBottom: '2px',
                 minHeight: '30px'
             },
             className: MAIN_DIV_CLASS_NAME
@@ -47,7 +46,7 @@ export function addElements(div,{ resultTitle,onclickExpandDiv,link }) {
         expandDiv
     ]
 
-    const backgroundColor = "white"
+    const backgroundColor = "transparent"
     const element = createMainResultDiv(resultContent,backgroundColor)
 
     div.appendChild(element)
@@ -91,11 +90,8 @@ function createMainResultDiv(content,backgroundColor) {
         els: content,
         style: {
             backgroundColor,
-            borderRadius: "10px",
             paddingTop: '3px',
             paddingBottom: '0px',
-            textAlign: "center",
-            border: "gray solid 1px",
             marginBottom: "15px",
             overflow: 'hidden',
             display: 'flex',
@@ -132,11 +128,14 @@ function makePopulateExpandDiv({ content,existingExpandDiv,onclick }) {
                 els: buttonContent,
                 onclick: onClickButton,
                 style: {
+                    // TODO this can probably be removed when the button is gone
+                    textAlign: 'left',
                     border: 'none',
                     width: '100%',
                     height: '100%',
                     backgroundColor: 'inherit',
                     padding: '0',
+                    paddingLeft: '5px',
                     margin: '0',
                     font: 'inherit',
                 }
@@ -144,9 +143,6 @@ function makePopulateExpandDiv({ content,existingExpandDiv,onclick }) {
         ],
         style: {
             flex: '4 4 0px',
-            backgroundColor: 'lightblue',
-            paddingTop: '2px',
-            paddingBottom: '2px',
             overflow: 'auto',
             minHeight: '20px',
         },
