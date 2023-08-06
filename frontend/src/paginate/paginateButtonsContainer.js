@@ -42,21 +42,21 @@ function getNumberOfPages(resultCount,maxResults) {
     return Math.floor((resultCount - 1) / maxResults) + 1
 }
 
-function moveToNextPage(allResults,resultsPrinter,maxResults,paginateButtonsContainer) {
+async function moveToNextPage(allResults,resultsPrinter,maxResults,paginateButtonsContainer) {
     const pageIdx = PaginateButtonUI.getCurrentButtonIdx(paginateButtonsContainer);
-    openPaginatePage(pageIdx + 1,allResults,resultsPrinter,maxResults,paginateButtonsContainer)
+    await openPaginatePage(pageIdx + 1,allResults,resultsPrinter,maxResults,paginateButtonsContainer)
 }
-function moveToPreviousPage(allResults,resultsPrinter,maxResults,paginateButtonsContainer) {
+async function moveToPreviousPage(allResults,resultsPrinter,maxResults,paginateButtonsContainer) {
     const pageIdx = PaginateButtonUI.getCurrentButtonIdx(paginateButtonsContainer);
-    openPaginatePage(pageIdx - 1,allResults,resultsPrinter,maxResults,paginateButtonsContainer)
+    await openPaginatePage(pageIdx - 1,allResults,resultsPrinter,maxResults,paginateButtonsContainer)
 }
 
-export function openPaginatePage(pageIndex,allResults,resultsPrinter,maxResults,paginateButtonsContainer) {
+export async function openPaginatePage(pageIndex,allResults,resultsPrinter,maxResults,paginateButtonsContainer) {
     highlightCurrentPaginateButton(pageIndex,paginateButtonsContainer)
     updatePreviousNextButtons(pageIndex,allResults.length,maxResults,paginateButtonsContainer)
 
     const paginatedResults = getPaginatedResults(allResults,pageIndex,maxResults)
-    resultsPrinter.execute(paginatedResults)
+    await resultsPrinter.execute(paginatedResults)
 }
 
 function getPaginatedResults(allResults,pageIndex,maxResults) {

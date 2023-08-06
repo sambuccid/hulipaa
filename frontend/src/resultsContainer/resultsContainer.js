@@ -18,14 +18,25 @@ export class ResultsPrinter {
         this.paginateButtonsContainer = paginateButtonsContainer
         this.HulipaaOpt = HulipaaOpt
     }
-    execute(results) {
+    async execute(results) {
         ResultsUI.clear(this.resultContainer)
+        const loadResultContentPromises = []
         for (const result of results) {
-            ResultsUI.addElements(this.resultContainer,{
+            const { element,expandDiv } = ResultsUI.addElements(this.resultContainer,{
                 resultTitle: result.title,
-                onclickExpandDiv: onResultExpandClick.bind(null,result.title,result.path,this.searchedWords,this.resultContainer,this.paginateButtonsContainer,this.HulipaaOpt),
                 link: result.link
             })
+            const loadContentPromise = onResultExpandClick(
+                result.title,
+                result.path,
+                this.searchedWords,
+                this.resultContainer,
+                this.paginateButtonsContainer,
+                this.HulipaaOpt,
+                expandDiv
+            )
+            loadResultContentPromises.push(loadContentPromise)
         }
+        await Promise.all(loadResultContentPromises)
     }
 }

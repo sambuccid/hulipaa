@@ -12,6 +12,10 @@ export const messageType = {
     MESSAGE: 'message'
 }
 export function addElements(div,{ resultTitle,onclickExpandDiv,link }) {
+    const expandDiv = makePopulateExpandDiv({
+        content: createImageExpandDiv(),
+        onclick: onclickExpandDiv
+    })
     const resultContent = [
         EL.div({
             els: [
@@ -37,17 +41,14 @@ export function addElements(div,{ resultTitle,onclickExpandDiv,link }) {
             },
             className: MAIN_DIV_CLASS_NAME
         }),
-        makePopulateExpandDiv({
-            content: createImageExpandDiv(),
-            onclick: onclickExpandDiv
-        })
+        expandDiv
     ]
 
     const backgroundColor = "white"
     const element = createMainResultDiv(resultContent,backgroundColor)
 
     div.appendChild(element)
-    return { element: element }
+    return { element: element,expandDiv: expandDiv }
 }
 
 export function getResultDiv({ expandDiv }) {
@@ -109,17 +110,21 @@ function makePopulateExpandDiv({ content,existingExpandDiv,onclick }) {
         return
     }
     // Create new div
+    let onClickButton = null
+    if (onclick != null) {
+        onClickButton = async (event) => {
+            await onclick(event.currentTarget.parentElement)
+        }
+    }
     return EL.div({
         els: [
+            //TODO remove button, as it's now just text
             EL.button({
                 els: [
                     content
                 ],
-                onclick: async (event) => {
-                    await onclick(event.currentTarget.parentElement)
-                },
+                onclick: onClickButton,
                 style: {
-                    cursor: 'pointer',
                     border: 'none',
                     width: '100%',
                     height: '100%',
@@ -153,6 +158,7 @@ function createImageExpandDiv() {
     })
 }
 
+//TODO delete this
 export function populateExpandWithImage({ expandDiv }) {
     const img = createImageExpandDiv()
     makePopulateExpandDiv({

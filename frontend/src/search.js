@@ -34,7 +34,7 @@ export async function processSearch(query,resultContainer,paginateButtonsContain
     // This needs to happen before openPaginatePage, otherwise when it tries to highlight a button it can't find it
     refreshPaginationButtons(paginateButtonsContainer,finalResults,resultsPrinter,MAX_RESULTS_IN_PAGE,resultContainer)
 
-    openPaginatePage(0,finalResults,resultsPrinter,MAX_RESULTS_IN_PAGE,paginateButtonsContainer)
+    await openPaginatePage(0,finalResults,resultsPrinter,MAX_RESULTS_IN_PAGE,paginateButtonsContainer)
 }
 
 function processQueryResults(allQueriesResults) {

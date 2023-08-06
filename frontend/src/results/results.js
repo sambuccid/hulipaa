@@ -7,7 +7,10 @@ import { loadResult } from '../service.js'
 import * as ResultsUI from './results-ui.js'
 import { manageExceptionUI } from '../general.js'
 
+// TODO change name of function to print result content
+// then change the name of the parameters
 export async function onResultExpandClick(resultTitle,resultPath,searchedWords,resultContainer,paginateButtonsContainer,HulipaaOpt,expandDiv) {
+    // TODO clear up the if
     if (!ResultsUI.isExpanded({ expandDiv })) {
         const { result,error } = await manageExceptionUI(resultContainer,paginateButtonsContainer,
             async () => await loadResult(resultPath)
