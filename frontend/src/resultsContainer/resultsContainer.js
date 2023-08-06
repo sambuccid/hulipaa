@@ -1,6 +1,6 @@
 import * as UI from './resultsContainer-ui.js'
 import * as ResultsUI from '../results/results-ui.js'
-import { onResultExpandClick } from '../results/results.js'
+import { printResultContent } from '../results/results.js'
 
 export function initResultContainer(searchDiv) {
     let resultsDiv = searchDiv.getElementsByClassName(UI.CLASS_NAME)[0]
@@ -26,7 +26,7 @@ export class ResultsPrinter {
                 resultTitle: result.title,
                 link: result.link
             })
-            const loadContentPromise = onResultExpandClick(
+            const loadContentPromise = printResultContent(
                 result.title,
                 result.path,
                 this.searchedWords,

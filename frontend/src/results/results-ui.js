@@ -13,6 +13,7 @@ export const messageType = {
 }
 export function addElements(div,{ resultTitle,onclickExpandDiv,link }) {
     const expandDiv = makePopulateExpandDiv({
+        // TODO by default don't populate the div with enything
         content: createImageExpandDiv(),
         onclick: onclickExpandDiv
     })

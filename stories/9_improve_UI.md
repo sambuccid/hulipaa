@@ -33,3 +33,4 @@ Do we need some different style for the mobile?
 
 ### AC9
 Remove any code related to expanding the results
+- As part of that remove all references to `expandDiv` and instead use `resultContentDiv`

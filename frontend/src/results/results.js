@@ -9,9 +9,9 @@ import { manageExceptionUI } from '../general.js'
 
 // TODO change name of function to print result content
 // then change the name of the parameters
-export async function onResultExpandClick(resultTitle,resultPath,searchedWords,resultContainer,paginateButtonsContainer,HulipaaOpt,expandDiv) {
+export async function printResultContent(resultTitle,resultPath,searchedWords,resultContainer,paginateButtonsContainer,HulipaaOpt,resultContentDiv) {
     // TODO clear up the if
-    if (!ResultsUI.isExpanded({ expandDiv })) {
+    if (!ResultsUI.isExpanded({ expandDiv: resultContentDiv })) {
         const { result,error } = await manageExceptionUI(resultContainer,paginateButtonsContainer,
             async () => await loadResult(resultPath)
         )
@@ -19,32 +19,32 @@ export async function onResultExpandClick(resultTitle,resultPath,searchedWords,r
 
         if (result == null) {
             ResultsUI.substituteWithMessage(
-                ResultsUI.getResultDiv({ expandDiv }),
+                ResultsUI.getResultDiv({ expandDiv: resultContentDiv }),
                 `Error: The result for the ${resultTitle} page couldn't be found`,
                 ResultsUI.messageType.ERROR)
             return;
         }
 
-        const resultDetails = parseResult(result,resultTitle,expandDiv,HulipaaOpt)
+        const resultDetails = parseResult(result,resultTitle,resultContentDiv,HulipaaOpt)
         if (!resultDetails) return // There has been an error, already managed by parseResult
 
         const formattedText = formatTextForResult(resultDetails.text,searchedWords)
-        ResultsUI.populateExpandWith({ expandDiv,htmlText: formattedText })
-        ResultsUI.expand({ expandDiv })
+        ResultsUI.populateExpandWith({ expandDiv: resultContentDiv,htmlText: formattedText })
+        ResultsUI.expand({ expandDiv: resultContentDiv })
     } else {
-        ResultsUI.populateExpandWithImage({ expandDiv })
-        ResultsUI.collapse({ expandDiv })
+        ResultsUI.populateExpandWithImage({ expandDiv: resultContentDiv })
+        ResultsUI.collapse({ expandDiv: resultContentDiv })
     }
 }
 
-function parseResult(result,resultTitle,expandDiv,HulipaaOpt) {
+function parseResult(result,resultTitle,resultContentDiv,HulipaaOpt) {
     let resultDetails
     try {
         resultDetails = HulipaaOpt.parsePage(result)
     } catch (e) { }
     if (resultDetails?.text == null || resultDetails?.text === "") {
         ResultsUI.substituteWithMessage(
-            ResultsUI.getResultDiv({ expandDiv }),
+            ResultsUI.getResultDiv({ expandDiv: resultContentDiv }),
             `There has been an error parsing the ${resultTitle} page`,
             ResultsUI.messageType.ERROR)
         return;
