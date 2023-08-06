@@ -2,7 +2,7 @@
 As a visitor of the website
 I want the UI to be simple but nice
 
-### AC1
+### AC1[done]
 Load each result already prepopulated
 - The code attached to expanding the results can be kept, there is an AC to clean it up
 

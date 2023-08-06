@@ -7,8 +7,6 @@ import { loadResult } from '../service.js'
 import * as ResultsUI from './results-ui.js'
 import { manageExceptionUI } from '../general.js'
 
-// TODO change name of function to print result content
-// then change the name of the parameters
 export async function printResultContent(resultTitle,resultPath,searchedWords,resultContainer,paginateButtonsContainer,HulipaaOpt,resultContentDiv) {
     // TODO clear up the if
     if (!ResultsUI.isExpanded({ expandDiv: resultContentDiv })) {

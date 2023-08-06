@@ -1,9 +1,12 @@
 import EL from '../EL.js'
-import arrowDownIcon from '../images/arrow_down_icon.svg'
+// import arrowDownIcon from '../images/arrow_down_icon.svg'
+//TODO Temporary
+const arrowDownIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='6 6 12 12'%3E%3Ctitle%3EArtboard-67%3C/title%3E%3Cg id='Down'%3E%3Cpath d='M12,15a1,1,0,0,1-.707-.293l-4-4A1,1,0,1,1,8.707,9.293L12,12.586l3.293-3.293a1,1,0,0,1,1.414,1.414l-4,4A1,1,0,0,1,12,15Z' style='fill:%231c1b1e'/%3E%3C/g%3E%3C/svg%3E"
 import { clearDiv } from '../ui-helpers.js'
 
 export const EXPAND_DIV_CLASS_NAME = 'expand-div'
 export const MAIN_DIV_CLASS_NAME = 'open-div'
+// TODO to remove
 const EXPANDED_CLASS_NAME = 'expanded'
 const ERROR_COLOR = '#ff7640'
 const MESSAGE_COLOR = '#ffd24d'
@@ -13,8 +16,7 @@ export const messageType = {
 }
 export function addElements(div,{ resultTitle,onclickExpandDiv,link }) {
     const expandDiv = makePopulateExpandDiv({
-        // TODO by default don't populate the div with enything
-        content: createImageExpandDiv(),
+        content: null,
         onclick: onclickExpandDiv
     })
     const resultContent = [
@@ -107,7 +109,9 @@ function makePopulateExpandDiv({ content,existingExpandDiv,onclick }) {
     if (existingExpandDiv) {
         const button = existingExpandDiv.firstChild
         clear(button)
-        button.appendChild(content)
+        if (content) {
+            button.appendChild(content)
+        }
         return
     }
     // Create new div
@@ -117,13 +121,15 @@ function makePopulateExpandDiv({ content,existingExpandDiv,onclick }) {
             await onclick(event.currentTarget.parentElement)
         }
     }
+    let buttonContent = null
+    if (content) {
+        buttonContent = [content]
+    }
     return EL.div({
         els: [
-            //TODO remove button, as it's now just text
+            //TODO remove button, as now it's not possible to click it
             EL.button({
-                els: [
-                    content
-                ],
+                els: buttonContent,
                 onclick: onClickButton,
                 style: {
                     border: 'none',
