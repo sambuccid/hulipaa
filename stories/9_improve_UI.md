@@ -9,7 +9,7 @@ Load each result already prepopulated
 ### AC2[done]
 Remove the background and the border, there should be the title at the top and under it the result
 
-### AC3
+### AC3[done]
 Adapt how "No Results" and "Error" messages are shown
 
 ### AC4
@@ -30,6 +30,8 @@ Try different fonts for the title of the page and the result content
 
 ### AC8
 Redesign the size and font of "No Results" and "Error" messages
+- We might want at some point to write longer and more useful error messages, suggesting what to do to the user
+- So maybe a smaller font might be better
 
 ### AC9
 Change the color of the highlight to make it less strong on the eye
@@ -42,5 +44,12 @@ Do we need some different style for the mobile?
 - maybe just background and shadow to make each result look like a card)
 
 ### AC12
+Find a better way of showing the single result errors (parse page and loading result)
+- The website user should understand the error more or less
+- The website creator should spot that there has been an error with that page
+- Maybe the user should still be able to try and open the page
+- Perhaps we can show the result in the normal way, but instead of the result content we show the error message, making it clear that it is an error message
+
+### AC13
 Remove any code related to expanding the results
 - As part of that remove all references to `expandDiv` and instead use `resultContentDiv`

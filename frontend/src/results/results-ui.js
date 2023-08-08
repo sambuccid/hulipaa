@@ -46,8 +46,7 @@ export function addElements(div,{ resultTitle,onclickExpandDiv,link }) {
         expandDiv
     ]
 
-    const backgroundColor = "transparent"
-    const element = createMainResultDiv(resultContent,backgroundColor)
+    const element = createMainResultDiv(resultContent)
 
     div.appendChild(element)
     return { element: element,expandDiv: expandDiv }
@@ -58,38 +57,29 @@ export function getResultDiv({ expandDiv }) {
 }
 
 export function addMessage(div,{ message,type }) {
-    const { messageElements,color } = createMessage({ message,type })
+    const { messageElements } = createMessage({ message,type })
 
-    const element = createMainResultDiv(messageElements,color)
+    const element = createMainResultDiv(messageElements)
 
     div.appendChild(element)
     return { element: element }
 }
 
 function createMessage({ message,type }) {
-    let color = "white"
-    if (type === messageType.ERROR) {
-        color = ERROR_COLOR
-    } else if (type === messageType.MESSAGE) {
-        color = MESSAGE_COLOR
-    }
-
     return {
         messageElements: [
             EL.span({
                 innerText: message
             })
-        ],
-        color
+        ]
     }
 
 }
 
-function createMainResultDiv(content,backgroundColor) {
+function createMainResultDiv(content) {
     return EL.div({
         els: content,
         style: {
-            backgroundColor,
             paddingTop: '3px',
             paddingBottom: '0px',
             marginBottom: "15px",
@@ -190,12 +180,11 @@ export function populateExpandWith({ expandDiv,htmlText,text }) {
 export function substituteWithMessage(resultDiv,message,messageType) {
     clear(resultDiv)
 
-    const { messageElements,color } = createMessage({ message,type: messageType })
+    const { messageElements } = createMessage({ message,type: messageType })
 
     for (const el of messageElements) {
         resultDiv.appendChild(el)
     }
-    resultDiv.style.backgroundColor = color
 }
 
 export function clear(div) {

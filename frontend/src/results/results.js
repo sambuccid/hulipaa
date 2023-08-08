@@ -18,7 +18,7 @@ export async function printResultContent(resultTitle,resultPath,searchedWords,re
         if (result == null) {
             ResultsUI.substituteWithMessage(
                 ResultsUI.getResultDiv({ expandDiv: resultContentDiv }),
-                `Error: The result for the ${resultTitle} page couldn't be found`,
+                `There has been an issue finding the content of the page ${resultTitle}`,
                 ResultsUI.messageType.ERROR)
             return;
         }
@@ -43,7 +43,7 @@ function parseResult(result,resultTitle,resultContentDiv,HulipaaOpt) {
     if (resultDetails?.text == null || resultDetails?.text === "") {
         ResultsUI.substituteWithMessage(
             ResultsUI.getResultDiv({ expandDiv: resultContentDiv }),
-            `There has been an error parsing the ${resultTitle} page`,
+            `There has been an issue getting the content of the page ${resultTitle}`,
             ResultsUI.messageType.ERROR)
         return;
     }
