@@ -1,34 +1,45 @@
-// Shortens text adding '...' where it cuts
-// it doesn't cut the text midword, it will exclude the word from the text
-// if from and to are the same indexes it throws an exception
-// if the to index is outside the string it won't cut any text, eg.
-// - if to is less than 0 it doesn't cut the text
-// - if to is bigger than the string lenght it doesn't cut the text
-export function shortenText({ from,to,text }) {
-    if (from == to) throw "Unexpected parameter"
-    if (from > to) {
-        if (to <= 0) return text
 
-        //try to avoid half-words in text, when cutting text it should not cut words in half
-        //find first index not mid word
-        while (to < text.length && isIndexMidWord(to,text)) {
-            to++
-        }
-        text = text.substring(to)
-        text = '...' + text
-    } else if (to > from) {
-        if (to >= text.length) return text
 
-        //try to avoid half-words in formatted text, when cutting text it should not cut words in half
-        //find first index not mid word
-        while (to != 0 && isIndexMidWord(to,text)) {
-            to--
+// This returns the indexes of the maximum number found in a matrix 
+// The matrix has lines and columns
+// Each value in the matrix should be a positive integer
+// eg. matrix[line][column] = 12
+// If it doesn't find it, it returns [null,null]
+export function findIndexOfMaxNumberInMatrix(matrix) {
+    const listOfMaxOfEachLine = matrix.map((column) => {
+        if (column.length == 0) {
+            return -1
         }
-        text = text.substring(0,to)
-        text = text + '...'
+        return Math.max(...column)
+    })
+
+    const overallMax = Math.max(...listOfMaxOfEachLine)
+    const idxLine = listOfMaxOfEachLine.indexOf(overallMax)
+
+    const lineWithMax = matrix[idxLine]
+    const idxColumn = lineWithMax.findIndex((column) => column === overallMax)
+    if (overallMax == -1 || idxLine == -1 || idxColumn == -1) {
+        return [null,null]
     }
+    return [idxLine,idxColumn]
+}
 
-    return text
+export function findStartEndIdxOfSearchedWords(words,text) {
+    let idxsWordsFound = words.map((word) => {
+        const foundIn = matchWholeWord(text,word)
+        const foundIdxsList = foundIn.map((find) => {
+            return {
+                start: find.index,
+                end: find.index + word.length
+            }
+        })
+        return foundIdxsList
+    })
+    idxsWordsFound = idxsWordsFound.flat()
+    idxsWordsFound = idxsWordsFound.sort((idx1,idx2) => {
+        return idx1.start - idx2.start
+    })
+    return idxsWordsFound
 }
 
 // !!THERE IS EXACLTY THE SAME FUNCTION IN BACK-END AND THEY NEED TO STAY THE SAME!!

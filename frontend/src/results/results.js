@@ -1,8 +1,3 @@
-import {
-    shortenText,
-    matchWholeWord,
-    normaliseAndLowecase
-} from '../helpers.js'
 import { loadResult } from '../service.js'
 import * as ResultsUI from './results-ui.js'
 import { manageExceptionUI } from '../general.js'

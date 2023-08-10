@@ -1,7 +1,8 @@
 import {
-    shortenText,
-    matchWholeWord,
-    normaliseAndLowecase
+    findStartEndIdxOfSearchedWords,
+    normaliseAndLowecase,
+    isIndexMidWord,
+    findIndexOfMaxNumberInMatrix
 } from '../../helpers.js'
 
 const N_CHARS_CUT_TEXT = 10
@@ -12,30 +13,11 @@ export default class ShortenedLinesFormatter {
     execute(text,searchedWords) {
         const normalisedSearchedWords = searchedWords.map((word) => normaliseAndLowecase(word))
 
-
         const separateLines = text.split(/\r?\n|\r|\n/g);
         const normalisedLines = separateLines.map(normaliseAndLowecase)
 
-        function findStartEndIdxOfSearchedWords(text) {
-            let idxsWordsFound = normalisedSearchedWords.map((word) => {
-                const foundIn = matchWholeWord(text,word)
-                const foundIdxsList = foundIn.map((find) => {
-                    return {
-                        start: find.index,
-                        end: find.index + word.length
-                    }
-                })
-                return foundIdxsList
-            })
-            idxsWordsFound = idxsWordsFound.flat()
-            idxsWordsFound = idxsWordsFound.sort((idx1,idx2) => {
-                return idx1.start - idx2.start
-            })
-            return idxsWordsFound
-        }
-
         let sectionsPerLine = normalisedLines.map((line) => {
-            const idxsWordsFound = findStartEndIdxOfSearchedWords(line)
+            const idxsWordsFound = findStartEndIdxOfSearchedWords(normalisedSearchedWords,line)
 
             // finds the maximum number of the searched words that can be contained in a section N_CHARS__WHERE_FIND_WORDS caracters long
             // and create an object representing a section
@@ -74,28 +56,6 @@ export default class ShortenedLinesFormatter {
                 return !biggerOverlappingSectionExists
             })
         })
-
-
-        function findIndexOfMaxNumberInMatrix(matrix) {
-            // Matrix has lines and columns
-            // matrix[line][column]
-            const listOfMaxOfEachLine = matrix.map((column) => {
-                if (column.length == 0) {
-                    return -1
-                }
-                return Math.max(...column)
-            })
-
-            const overallMax = Math.max(...listOfMaxOfEachLine)
-            const idxLine = listOfMaxOfEachLine.indexOf(overallMax)
-
-            const lineWithMax = matrix[idxLine]
-            const idxColumn = lineWithMax.findIndex((column) => column === overallMax)
-            if (overallMax == -1 || idxLine == -1 || idxColumn == -1) {
-                return [null,null]
-            }
-            return [idxLine,idxColumn]
-        }
 
         const matrixMaxWordsMatchedInSectionInLine = sectionsPerLine.map((sections) => {
             return sections.map((section) => section.nMatchedWords)
@@ -143,30 +103,20 @@ export default class ShortenedLinesFormatter {
             let finalText = sectionDetails.lineText
 
             let idxWhereToCut = sectionDetails.section.endIdx + N_CHARS_CUT_TEXT
-            finalText = shortenText({
+            finalText = this.#shortenText({
                 from: sectionDetails.section.endIdx,
                 to: idxWhereToCut,
                 text: finalText
             })
 
             idxWhereToCut = sectionDetails.section.startIdx - N_CHARS_CUT_TEXT
-            finalText = shortenText({
+            finalText = this.#shortenText({
                 from: sectionDetails.section.startIdx,
                 to: idxWhereToCut,
                 text: finalText
             })
 
-            let wordsIdxs = findStartEndIdxOfSearchedWords(finalText)
-            wordsIdxs.reverse() // Starting from the end means we don't have to worry about the any idx changing
-
-            // Highlight the words
-            for (const wordIdx of wordsIdxs) {
-                finalText = finalText.substring(0,wordIdx.start) +
-                    '<mark>' +
-                    finalText.substring(wordIdx.start,wordIdx.end) +
-                    '</mark>' +
-                    finalText.substring(wordIdx.end)
-            }
+            finalText = this.#highlightWords(normalisedSearchedWords,finalText)
 
             return finalText
         })
@@ -174,5 +124,54 @@ export default class ShortenedLinesFormatter {
         const finalHtmlText = formattedSections.join('<br>')
 
         return finalHtmlText
+    }
+
+    // Shortens text adding '...' where it cuts
+    // it doesn't cut the text midword, it will exclude the word from the text
+    // if from and to are the same indexes it throws an exception
+    // if the to index is outside the string it won't cut any text, eg.
+    // - if to is less than 0 it doesn't cut the text
+    // - if to is bigger than the string lenght it doesn't cut the text
+    #shortenText({ from,to,text }) {
+        if (from == to) throw "Unexpected parameter"
+        if (from > to) {
+            if (to <= 0) return text
+
+            //try to avoid half-words in text, when cutting text it should not cut words in half
+            //find first index not mid word
+            while (to < text.length && isIndexMidWord(to,text)) {
+                to++
+            }
+            text = text.substring(to)
+            text = '...' + text
+        } else if (to > from) {
+            if (to >= text.length) return text
+
+            //try to avoid half-words in formatted text, when cutting text it should not cut words in half
+            //find first index not mid word
+            while (to != 0 && isIndexMidWord(to,text)) {
+                to--
+            }
+            text = text.substring(0,to)
+            text = text + '...'
+        }
+
+        return text
+    }
+
+    #highlightWords(normalisedSearchedWords,text) {
+        let highlightedText = text
+
+        let wordsIdxs = findStartEndIdxOfSearchedWords(normalisedSearchedWords,highlightedText)
+        wordsIdxs.reverse() // Starting from the end means we don't have to worry about the any idx changing
+
+        for (const wordIdx of wordsIdxs) {
+            highlightedText = highlightedText.substring(0,wordIdx.start) +
+                '<mark>' +
+                highlightedText.substring(wordIdx.start,wordIdx.end) +
+                '</mark>' +
+                highlightedText.substring(wordIdx.end)
+        }
+        return highlightedText
     }
 }
