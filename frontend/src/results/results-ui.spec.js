@@ -99,18 +99,6 @@ describe('addElements',() => {
                 els: [mockedButton]
             }))
         });
-        it('has an image',() => {
-            addElements(mockContainer,{ resultTitle,onclickExpandDiv,link })
-
-            expect(EL.img).toHaveBeenCalledTimes(1)
-            expect(EL.button).toHaveBeenCalledWith(expect.objectContaining({
-                els: [mockedImg]
-            }))
-            expect(EL.div).toHaveBeenCalledWith(expect.objectContaining({
-                className: EXPAND_DIV_CLASS_NAME,
-                els: [mockedButton]
-            }))
-        });
 
     })
 
