@@ -12,10 +12,11 @@ export function initResultContainer(searchDiv) {
 }
 
 export class ResultsPrinter {
-    constructor(searchedWords,resultContainer,paginateButtonsContainer,HulipaaOpt) {
+    constructor(searchedWords,resultContainer,paginateButtonsContainer,resultFormatter,HulipaaOpt) {
         this.searchedWords = searchedWords
         this.resultContainer = resultContainer
         this.paginateButtonsContainer = paginateButtonsContainer
+        this.resultFormatter = resultFormatter
         this.HulipaaOpt = HulipaaOpt
     }
     async execute(results) {
@@ -32,6 +33,7 @@ export class ResultsPrinter {
                 this.searchedWords,
                 this.resultContainer,
                 this.paginateButtonsContainer,
+                this.resultFormatter,
                 this.HulipaaOpt,
                 expandDiv
             )
