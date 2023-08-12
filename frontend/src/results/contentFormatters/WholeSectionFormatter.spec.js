@@ -14,9 +14,9 @@ describe('execute',() => {
         expect(generatedContent).toBe(expectedResult)
     })
 
-    it('substitutes new lines with \\n with html breaks',() => {
-        const content = "content very short\nnew line"
-        const expectedResult = "content very short<br>new line"
+    it('substitutes new lines with \\n with space',() => {
+        const content = "content very short.\nnew line"
+        const expectedResult = "content very short. new line"
 
         const formatter = new WholeSectionFormatter()
         const generatedContent = formatter.execute(content,[searchedWord])
@@ -24,9 +24,9 @@ describe('execute',() => {
         expect(generatedContent).toBe(expectedResult)
     })
 
-    it('substitutes new lines with carriage return with html breaks',() => {
+    it('substitutes new lines with carriage return with space',() => {
         const content = "content very short\rnew line"
-        const expectedResult = "content very short<br>new line"
+        const expectedResult = "content very short new line"
 
         const formatter = new WholeSectionFormatter()
         const generatedContent = formatter.execute(content,[searchedWord])
@@ -34,16 +34,27 @@ describe('execute',() => {
         expect(generatedContent).toBe(expectedResult)
     })
 
-    it('substitutes new lines with \\r and \\n with html breaks',() => {
+    it('substitutes new lines with \\r and \\n with space',() => {
         const content = "content very short\r\nnew line"
-        const expectedResult = "content very short<br>new line"
+        const expectedResult = "content very short new line"
 
         const formatter = new WholeSectionFormatter()
         const generatedContent = formatter.execute(content,[searchedWord])
 
         expect(generatedContent).toBe(expectedResult)
     })
-    // TODO test for simple highlight of word
+
+    it('hightlights the searched words',() => {
+        const secondSearchedWord = "secondword"
+        const content = "content with searchedword and secondword"
+        const expectedResult = "content with <mark>searchedword</mark> and <mark>secondword</mark>"
+
+        const formatter = new WholeSectionFormatter()
+        const generatedContent = formatter.execute(content,[searchedWord,secondSearchedWord])
+
+        expect(generatedContent).toBe(expectedResult)
+    })
+
     // TODO test for maximum size of section
 
     // TODO rest of tests in this file
