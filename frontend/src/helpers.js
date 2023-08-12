@@ -24,6 +24,8 @@ export function findIndexOfMaxNumberInMatrix(matrix) {
     return [idxLine,idxColumn]
 }
 
+export const NEW_NILE_MATCHER_REGEX = /\r?\n|\r|\n/g
+
 export function findStartEndIdxOfSearchedWords(words,text) {
     let idxsWordsFound = words.map((word) => {
         const foundIn = matchWholeWord(text,word)

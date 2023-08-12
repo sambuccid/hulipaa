@@ -2,8 +2,13 @@ import {
     findStartEndIdxOfSearchedWords,
     normaliseAndLowecase,
     isIndexMidWord,
-    findIndexOfMaxNumberInMatrix
+    findIndexOfMaxNumberInMatrix,
+    NEW_NILE_MATCHER_REGEX
 } from '../../helpers.js'
+
+import {
+    highlightWords
+} from './formatterHelpers.js'
 
 const N_CHARS_CUT_TEXT = 10
 const N_CHARS__WHERE_FIND_WORDS = 30
@@ -13,7 +18,7 @@ export default class ShortenedLinesFormatter {
     execute(text,searchedWords) {
         const normalisedSearchedWords = searchedWords.map((word) => normaliseAndLowecase(word))
 
-        const separateLines = text.split(/\r?\n|\r|\n/g);
+        const separateLines = text.split(NEW_NILE_MATCHER_REGEX);
         const normalisedLines = separateLines.map(normaliseAndLowecase)
 
         let sectionsPerLine = normalisedLines.map((line) => {
@@ -116,7 +121,7 @@ export default class ShortenedLinesFormatter {
                 text: finalText
             })
 
-            finalText = this.#highlightWords(normalisedSearchedWords,finalText)
+            finalText = highlightWords(normalisedSearchedWords,finalText)
 
             return finalText
         })
@@ -157,21 +162,5 @@ export default class ShortenedLinesFormatter {
         }
 
         return text
-    }
-
-    #highlightWords(normalisedSearchedWords,text) {
-        let highlightedText = text
-
-        let wordsIdxs = findStartEndIdxOfSearchedWords(normalisedSearchedWords,highlightedText)
-        wordsIdxs.reverse() // Starting from the end means we don't have to worry about the any idx changing
-
-        for (const wordIdx of wordsIdxs) {
-            highlightedText = highlightedText.substring(0,wordIdx.start) +
-                '<mark>' +
-                highlightedText.substring(wordIdx.start,wordIdx.end) +
-                '</mark>' +
-                highlightedText.substring(wordIdx.end)
-        }
-        return highlightedText
     }
 }
