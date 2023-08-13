@@ -3,7 +3,7 @@ import {
     normaliseAndLowecase,
     isIndexMidWord,
     findIndexOfMaxNumberInMatrix,
-    NEW_NILE_MATCHER_REGEX
+    NEW_LINE_MATCHER_REGEX
 } from '../../helpers.js'
 
 import {
@@ -18,7 +18,7 @@ export default class ShortenedLinesFormatter {
     execute(text,searchedWords) {
         const normalisedSearchedWords = searchedWords.map((word) => normaliseAndLowecase(word))
 
-        const separateLines = text.split(NEW_NILE_MATCHER_REGEX);
+        const separateLines = text.split(NEW_LINE_MATCHER_REGEX);
         const normalisedLines = separateLines.map(normaliseAndLowecase)
 
         let sectionsPerLine = normalisedLines.map((line) => {

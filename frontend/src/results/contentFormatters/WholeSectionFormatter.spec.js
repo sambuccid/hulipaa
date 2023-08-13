@@ -55,22 +55,36 @@ describe('execute',() => {
         expect(generatedContent).toBe(expectedResult)
     })
 
-    // TODO test for maximum size of section
+    it('cuts the content to maximum 150 characters',() => {
+        const content = 'the content with searchedword that is longer than 150 characters because it is very long long long  |100 |105 |110 |115 |120 |125 |130 |135 |140 |145 |150 |155'
+        const expectedResult = 'the content with <mark>searchedword</mark> that is longer than 150 characters because it is very long long long  |100 |105 |110 |115 |120 |125 |130 |135 |140 |145 '
 
+        const formatter = new WholeSectionFormatter()
+        const generatedContent = formatter.execute(content,[searchedWord])
+
+        expect(generatedContent).toBe(expectedResult)
+    })
+
+    it('highlights the searched word correctly ingoring non standard characters in both typed word and content word',async () => {
+        const wordInText = 'wördnĳ'
+        const searchingWord = 'wordñij'
+        const normalisedWordInText = 'wordnij'
+        const resultText = `some text ${wordInText} some text`
+        // in theory we want to keep the result with the original accents, but it just takes long to do
+        const expectedResult = `some text <mark>${normalisedWordInText}</mark> some text`
+
+        const formatter = new WholeSectionFormatter()
+        const generatedContent = formatter.execute(resultText,[searchingWord])
+
+        expect(generatedContent).toBe(expectedResult)
+    });
+    // TODO keep capitalisation and accents of original content (comment above)
+
+    // TODO selects section in content with result word
+    // TODO maybe it picks sentence from the start? (any punctuation start)
+    // TODO picks the section with the maximum number of results
     // TODO rest of tests in this file
-    // it('highlights the searched word correctly ingoring non standard characters in both typed word and content word',async () => {
-    //     const wordInText = 'wördnĳ'
-    //     const searchingWord = 'wordñij'
-    //     const normalisedWordInText = 'wordnij'
-    //     const resultText = `some text ${wordInText} some text`
-    //     // in theory we want to keep the result with the original accents, but it just takes long to do
-    //     const expectedResult = `some text <mark>${normalisedWordInText}</mark> some text`
 
-    //     const formatter = new ShortenedLinesFormatter()
-    //     const generatedContent = formatter.execute(resultText,[searchingWord])
-
-    //     expect(generatedContent).toBe(expectedResult)
-    // });
 
     // it('highlights the searched word correctly when either the typed word or the the word in the content contains upper case values',async () => {
     //     const wordInText = 'CAPITALCASEword'
