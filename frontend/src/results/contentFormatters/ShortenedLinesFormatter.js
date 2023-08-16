@@ -1,13 +1,13 @@
 import {
     findStartEndIdxOfSearchedWords,
     normaliseAndLowecase,
-    isIndexMidWord,
     findIndexOfMaxNumberInMatrix,
     NEW_LINE_MATCHER_REGEX
 } from '../../helpers.js'
 
 import {
-    highlightWords
+    highlightWords,
+    cutTextAroundWords
 } from './formatterHelpers.js'
 
 const N_CHARS_CUT_TEXT = 10
@@ -142,22 +142,21 @@ export default class ShortenedLinesFormatter {
         if (from > to) {
             if (to <= 0) return text
 
-            //try to avoid half-words in text, when cutting text it should not cut words in half
-            //find first index not mid word
-            while (to < text.length && isIndexMidWord(to,text)) {
-                to++
-            }
-            text = text.substring(to)
+            text = cutTextAroundWords({
+                startIdx: to,
+                endIdx: text.length,
+                text
+            })
+
             text = '...' + text
         } else if (to > from) {
             if (to >= text.length) return text
 
-            //try to avoid half-words in formatted text, when cutting text it should not cut words in half
-            //find first index not mid word
-            while (to != 0 && isIndexMidWord(to,text)) {
-                to--
-            }
-            text = text.substring(0,to)
+            text = cutTextAroundWords({
+                startIdx: 0,
+                endIdx: to,
+                text
+            })
             text = text + '...'
         }
 

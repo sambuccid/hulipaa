@@ -4,9 +4,19 @@ import WholeSectionFormatter from './WholeSectionFormatter.js'
 describe('execute',() => {
     const searchedWord = "searchedword"
 
-    it('returns all the text if it is short',() => {
+    it("returns all the text if it is short and doesn't contain the word",() => {
         const content = "content very short"
-        const expectedResult = "content very short"
+        const expectedResult = content
+
+        const formatter = new WholeSectionFormatter()
+        const generatedContent = formatter.execute(content,[searchedWord])
+
+        expect(generatedContent).toBe(expectedResult)
+    })
+
+    it('returns all the text if it is short',() => {
+        const content = "content very searchedword short"
+        const expectedResult = content
 
         const formatter = new WholeSectionFormatter()
         const generatedContent = formatter.execute(content,[searchedWord])
@@ -64,8 +74,37 @@ describe('execute',() => {
         expect(generatedContent).toBe(expectedResult)
     })
 
+    it('select a section of the content with the the searched word',() => {
+        const content = 'Very long content that is longer that 150 characters, near the end the content contains the word that is being searched so it will need to find the searchedword and cut the right section from the content that contains the word'
 
-    // TODO selects section in content with result word
+        const formatter = new WholeSectionFormatter()
+        const generatedContent = formatter.execute(content,[searchedWord])
+
+        expect(generatedContent).toMatch(searchedWord)
+    })
+
+    it('selects a section long 150 chars even when the result word is at the start of the section',() => {
+        const content = 'Very long searchedword content that is longer that 150 characters, near the start the content contains the word that is being searched so it will need to find the and cut the right section from the content that contains the word'
+
+        const formatter = new WholeSectionFormatter()
+        const generatedContent = formatter.execute(content,[searchedWord])
+
+        expect(generatedContent.length).toBe(150)
+    })
+
+    it("when it selects a section it doesn't split a word",() => {
+        const content = 'word word word very_very_very_very_very_very_very_very_very_long_long_long_word some text that is long a bit less than 75 chars before it has the searchedword and then more text that is still long and then has very_very_very_very_very_long_long_long_word and then the end of the content'
+        const expectedResult = ' some text that is long a bit less than 75 chars before it has the searchedword and then more text that is still long and then has '
+
+        const formatter = new WholeSectionFormatter()
+        const generatedContent = formatter.execute(content,[searchedWord])
+
+        expect(generatedContent).toBe(expectedResult)
+    })
+
+    //TODO it trims the formatted result
+
+    //TODO finds section even with capital/accents words
     // TODO maybe it picks sentence from the start? (any punctuation start)
     // TODO picks the section with the maximum number of results
     // TODO rest of tests in this file
