@@ -102,7 +102,6 @@ describe('execute',() => {
         expect(generatedContent).toBe(expectedResult)
     })
 
-
     it("trims the result to remove empty spaces",() => {
         const content = '  some content  '
         const expectedResult = 'some content'
@@ -113,9 +112,30 @@ describe('execute',() => {
         expect(generatedContent).toBe(expectedResult)
     })
 
-    //TODO it trims the formatted result
+    it("selects the right section with the searched word when searched word has different accents",() => {
+        const searchingWord = 'sèãrchedWORD'
 
-    //TODO finds section even with capital/accents words
+        const content = 'word word word very_very_very_very_very_very_very_very_very_long_long_long_word some text that is long a bit less than 75 chars before it has the searchedword and then more text that is still long and then has very_very_very_very_very_long_long_long_word and then the end of the content'
+        const expectedResult = 'some text that is long a bit less than 75 chars before it has the searchedword and then more text that is still long and then has'
+
+        const formatter = new WholeSectionFormatter()
+        const generatedContent = formatter.execute(content,[searchingWord])
+
+        expect(generatedContent).toBe(expectedResult)
+    })
+
+    it("selects the right section with the searched word when the word in the text content has different accents",() => {
+        const content = 'word word word very_very_very_very_very_very_very_very_very_long_long_long_word some text that is long a bit less than 75 chars before it has the sèãrchedWORD and then more text that is still long and then has very_very_very_very_very_long_long_long_word and then the end of the content'
+        const expectedResult = 'some text that is long a bit less than 75 chars before it has the sèãrchedWORD and then more text that is still long and then has'
+
+        const formatter = new WholeSectionFormatter()
+        const generatedContent = formatter.execute(content,[searchedWord])
+
+        expect(generatedContent).toBe(expectedResult)
+    })
+
+    // TODO finds section even with capital/accents words
+    //      for result in content
     // TODO maybe it picks sentence from the start? (any punctuation start)
     // TODO picks the section with the maximum number of results
     // TODO rest of tests in this file
