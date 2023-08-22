@@ -56,7 +56,7 @@ describe('execute',() => {
 
     it('cuts the content to maximum 150 characters',() => {
         const content = 'the content with searchedword that is longer than 150 characters because it is very long long long  |100 |105 |110 |115 |120 |125 |130 |135 |140 |145 |150 |155'
-        const expectedResult = 'the content with searchedword that is longer than 150 characters because it is very long long long  |100 |105 |110 |115 |120 |125 |130 |135 |140 |145 '
+        const expectedResult = 'the content with searchedword that is longer than 150 characters because it is very long long long  |100 |105 |110 |115 |120 |125 |130 |135 |140 |145'
 
         const formatter = new WholeSectionFormatter()
         const generatedContent = formatter.execute(content,[searchedWord])
@@ -94,7 +94,18 @@ describe('execute',() => {
 
     it("when it selects a section it doesn't split a word",() => {
         const content = 'word word word very_very_very_very_very_very_very_very_very_long_long_long_word some text that is long a bit less than 75 chars before it has the searchedword and then more text that is still long and then has very_very_very_very_very_long_long_long_word and then the end of the content'
-        const expectedResult = ' some text that is long a bit less than 75 chars before it has the searchedword and then more text that is still long and then has '
+        const expectedResult = 'some text that is long a bit less than 75 chars before it has the searchedword and then more text that is still long and then has'
+
+        const formatter = new WholeSectionFormatter()
+        const generatedContent = formatter.execute(content,[searchedWord])
+
+        expect(generatedContent).toBe(expectedResult)
+    })
+
+
+    it("trims the result to remove empty spaces",() => {
+        const content = '  some content  '
+        const expectedResult = 'some content'
 
         const formatter = new WholeSectionFormatter()
         const generatedContent = formatter.execute(content,[searchedWord])

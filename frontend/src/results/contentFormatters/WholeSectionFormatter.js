@@ -12,6 +12,7 @@ export default class WholeSectionFormatter {
         let result = text
         result = result.replace(NEW_LINE_MATCHER_REGEX," ")
         result = this.#extractSection(result,searchedWords)
+        result = result.trim()
         return result
     }
 
