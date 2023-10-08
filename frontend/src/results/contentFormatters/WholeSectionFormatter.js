@@ -4,7 +4,8 @@ import {
 } from '../../helpers.js'
 
 import {
-    cutTextAroundWords
+    cutTextAroundWords,
+    getSectionWithMostNumberOfResultsUnprecise
 } from './formatterHelpers.js'
 
 const MAX_LENGHT = 150
@@ -20,16 +21,17 @@ export default class WholeSectionFormatter {
 
     #extractSection(text,searchedWords) {
         const normalisedText = normaliseAndLowecase(text)
-        const unpreciseWordIndex = normalisedText.indexOf(searchedWords)
+        // const unpreciseWordIndex = normalisedText.indexOf(searchedWords)
 
-        let startSection = unpreciseWordIndex - (MAX_LENGHT / 2)
-        startSection = startSection > 0 ? startSection : 0
+        // let startSection = unpreciseWordIndex - (MAX_LENGHT / 2)
+        // startSection = startSection > 0 ? startSection : 0
 
-        const endSection = startSection + MAX_LENGHT
+        // const endSection = startSection + MAX_LENGHT
+        const { sectionStartIdx,sectionEndIdx } = getSectionWithMostNumberOfResultsUnprecise(normalisedText,searchedWords,MAX_LENGHT)
 
         let result = cutTextAroundWords({
-            startIdx: startSection,
-            endIdx: endSection,
+            startIdx: sectionStartIdx,
+            endIdx: sectionEndIdx,
             text: text
         })
         return result

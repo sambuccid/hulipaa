@@ -1,6 +1,8 @@
 import {
     findStartEndIdxOfSearchedWords,
-    isIndexMidWord
+    isIndexMidWord,
+    calculateDifferenceNumbersInList,
+    findBiggerGroupOfNumbersWithinDistance
 } from '../../helpers.js'
 
 export function highlightWords(normalisedSearchedWords,text) {
@@ -41,4 +43,63 @@ export function cutTextAroundWords({ startIdx,endIdx,text }) {
     text = text.substring(startIdx)
 
     return text
+}
+
+export function getSectionWithMostNumberOfResultsUnprecise(text,searchedWords,sectionLength) {
+    if (text.length <= sectionLength) {
+        return {
+            sectionStartIdx: 0,
+            sectionEndIdx: text.length
+        }
+    }
+
+    const idxsWordsFound = findStartEndIdxOfSearchedWords(searchedWords,text)
+    const startIdxsWordsFound = idxsWordsFound.map((idxs) => idxs.start)
+
+    if (idxsWordsFound.length == 0)
+        return {
+            sectionStartIdx: 0,
+            sectionEndIdx: sectionLength
+        }
+    if (idxsWordsFound.length == 1) {
+        return getPaddedStartEndSectionAt(idxsWordsFound[0].start,idxsWordsFound[0].end)
+    }
+
+    const biggerGroup = findBiggerGroupOfNumbersWithinDistance(startIdxsWordsFound,sectionLength)
+    const firstCloserWordNumber = biggerGroup.groupStartIdx
+    const lastCloserWordNumber = biggerGroup.groupEndIdx
+    const firstCloserWordIdx = startIdxsWordsFound[firstCloserWordNumber]
+    //lastCloserWordIdx = startIdxsWordsFound[lastCloserWordNumber]
+    const lastCloserWordIdxEnd = idxsWordsFound[lastCloserWordNumber].end
+
+    return getPaddedStartEndSectionAt(firstCloserWordIdx,lastCloserWordIdxEnd)
+
+    function getPaddedStartEndSectionAt(startIdx,endIdx) {
+        const sectionOfFoundWordsLength = endIdx - startIdx
+        const lengthOfSectionLeftToFill = sectionLength - sectionOfFoundWordsLength
+
+        if (lengthOfSectionLeftToFill <= 1) {
+            return getStartEndSectionAt(startIdx)
+        }
+
+        const paddingLength = Math.floor(lengthOfSectionLeftToFill / 2)
+
+        let startSection = startIdx - paddingLength
+        // endSection = endIdx + paddingLength
+
+        startSection = Math.max(0,startSection) // avoid start of section being before the string begins
+        return getStartEndSectionAt(startSection)
+    }
+
+    function getStartEndSectionAt(startSection) {
+        const endSection = startSection + sectionLength
+
+        const overLength = endSection - text.length
+        const startAdjustment = Math.max(0,overLength) // if the end section is longer than the text length, then the adjustment is not needed
+
+        return {
+            sectionStartIdx: startSection - startAdjustment,
+            sectionEndIdx: startSection + sectionLength
+        }
+    }
 }

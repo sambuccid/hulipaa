@@ -110,3 +110,65 @@ function isCharPartOfWord(char) {
 
     return false
 }
+
+function differenceBetween2NumbersInArray(numbers,num1Idx,num2Idx) {
+    const num1 = numbers[num1Idx]
+    const num2 = numbers[num2Idx]
+    const difference = num2 - num1
+    return difference
+}
+
+export function calculateDifferenceBetweenNConsecutiveNumbers(numbers,nConsecutiveNumbers) {
+    const positionBetweenNumbers = nConsecutiveNumbers - 1
+
+    const differences = []
+    for (let i = 0; i < numbers.length - positionBetweenNumbers; i++) {
+        // const currentNum = numbers[i]
+        // const nextNum = numbers[i + positionBetweenNumbers]
+        // const difference = nextNum - currentNum
+        const difference = differenceBetween2NumbersInArray(numbers,i,i + positionBetweenNumbers)
+        differences.push(difference)
+    }
+    return differences
+}
+
+
+export function findClosestGroupOfNumbersOfSize(orderedNumbers,groupLength) {
+    let nConsecutiveNumbersForDifference = groupLength
+    if (nConsecutiveNumbersForDifference == null) {
+        nConsecutiveNumbersForDifference = orderedNumbers.length - 1
+    }
+    const distances = calculateDifferenceBetweenNConsecutiveNumbers(orderedNumbers,nConsecutiveNumbersForDifference)
+
+    const smallerDistance = Math.min(...distances)
+    const idxFirstNumberGroup = distances.indexOf(smallerDistance)
+    if (idxFirstNumberGroup < 0)
+        throw "Issue with result data"
+    return { groupStartIdx: idxFirstNumberGroup }
+}
+
+export function findBiggerGroupOfNumbersWithinDistance(orderedNumbers,maximumDistance) {
+    const maximumGroupSize = orderedNumbers.length - 1
+    let maximumValidGroupSize = -1
+    let groupStartIdxOfBiggestValidGroup = -1
+    let groupEndIdxOfBiggestValidGroup = -1
+    for (let groupSize = 2; groupSize <= maximumGroupSize; groupSize++) {
+        let { groupStartIdx } = findClosestGroupOfNumbersOfSize(orderedNumbers,groupSize)
+        let groupEndIdx = groupStartIdx + groupSize - 1
+        let groupDistance = differenceBetween2NumbersInArray(orderedNumbers,groupStartIdx,groupEndIdx)
+        if (groupDistance > maximumDistance) {
+            break;
+        } else {
+            maximumValidGroupSize = groupSize
+            groupStartIdxOfBiggestValidGroup = groupStartIdx
+            groupEndIdxOfBiggestValidGroup = groupEndIdx
+        }
+    }
+    if (groupStartIdxOfBiggestValidGroup < 0 || groupEndIdxOfBiggestValidGroup < 0) {
+        throw "No Group Found"
+    }
+    return {
+        groupStartIdx: groupStartIdxOfBiggestValidGroup,
+        groupEndIdx: groupEndIdxOfBiggestValidGroup
+    }
+}

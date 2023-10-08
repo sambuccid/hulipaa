@@ -12,10 +12,11 @@ Remove the background and the border, there should be the title at the top and u
 ### AC3[done]
 Adapt how "No Results" and "Error" messages are shown
 
-### AC4
+### AC4[in progress]
 Change how to show the content of a result, to show a consecutive part of the page
 - and maybe a bit more amount text than what it is now
 - and remove the ... at the start and end of the shown content
+(Happening in WholeSectionFormatter.spec.js with TDD)
 
 ### AC5
 Change the font size for the title and the content, probably is the content that should be a bit smaller
