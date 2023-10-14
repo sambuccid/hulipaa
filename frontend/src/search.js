@@ -4,7 +4,7 @@ import { refreshPaginationButtons,openPaginatePage } from './paginate/paginateBu
 import { ResultsPrinter } from './resultsContainer/resultsContainer.js'
 import { normaliseAndLowecase,splitTextInWords } from './helpers.js'
 import { clearAndShowSearchMessage,manageExceptionUI } from './general.js'
-import ShortenedLinesFormatter from './results/contentFormatters/ShortenedLinesFormatter.js'
+import WholeSectionFormatter from './results/contentFormatters/WholeSectionFormatter.js'
 
 const MAX_RESULTS_IN_PAGE = 15;
 export async function processSearch(query,resultContainer,paginateButtonsContainer,HulipaaOpt) {
@@ -30,7 +30,7 @@ export async function processSearch(query,resultContainer,paginateButtonsContain
         return;
     }
 
-    const resultFormatter = new ShortenedLinesFormatter()
+    const resultFormatter = new WholeSectionFormatter()
     const resultsPrinter = new ResultsPrinter(searchedWords,resultContainer,paginateButtonsContainer,resultFormatter,HulipaaOpt)
 
     // This needs to happen before openPaginatePage, otherwise when it tries to highlight a button it can't find it

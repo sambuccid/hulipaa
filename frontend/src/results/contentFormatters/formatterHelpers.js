@@ -1,7 +1,6 @@
 import {
     findStartEndIdxOfSearchedWords,
     isIndexMidWord,
-    calculateDifferenceNumbersInList,
     findBiggerGroupOfNumbersWithinDistance
 } from '../../helpers.js'
 
