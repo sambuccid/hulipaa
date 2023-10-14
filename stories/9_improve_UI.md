@@ -17,39 +17,45 @@ Change how to show the content of a result, to show a consecutive part of the pa
 - and maybe a bit more amount text than what it is now
 - and remove the ... at the start and end of the shown content
 
-### AC5
+### AC5[done]
 Change the font size for the title and the content, probably is the content that should be a bit smaller
 Also put the title in a header element, but it shouldn't be a too big font
+- It seems that it might create issues as it adds a lot of decorations on the text
 
 ### AC6
+Remove any code related to expanding the results
+This also means making sure the result text is selectable with the mouse
+(At the moment is not because it's inside a button)
+- As part of that remove all references to `expandDiv` and instead use `resultContentDiv`
+
+### AC7
 Check if might be worth having some different colors for the text
 Uaually the title is blue but we can try different things
 
-### AC7
+### AC8
 Try different fonts for the title of the page and the result content
 
-### AC8
+### AC9
 Redesign the size and font of "No Results" and "Error" messages
 - We might want at some point to write longer and more useful error messages, suggesting what to do to the user
 - So maybe a smaller font might be better
 
-### AC9
+### AC10
 Change the color of the highlight to make it less strong on the eye
 
-### AC10
+### AC11
 Redesign the background and text color of the "No Results" and "Error" messages
 
-### AC11
+### AC12
 Do we need some different style for the mobile?
 - maybe just background and shadow to make each result look like a card)
 
-### AC12
+### AC13
+Maybe add back the underline on the title when the more hovers, seems that many search engines do that and it's definitively clearer that the element is clickable
+
+### AC14
 Find a better way of showing the single result errors (parse page and loading result)
 - The website user should understand the error more or less
 - The website creator should spot that there has been an error with that page
 - Maybe the user should still be able to try and open the page
 - Perhaps we can show the result in the normal way, but instead of the result content we show the error message, making it clear that it is an error message
-
-### AC13
-Remove any code related to expanding the results
-- As part of that remove all references to `expandDiv` and instead use `resultContentDiv`

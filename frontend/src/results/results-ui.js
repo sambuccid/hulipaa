@@ -160,15 +160,14 @@ export function populateExpandWithImage({ expandDiv }) {
     })
 }
 
-export function populateExpandWith({ expandDiv,htmlText,text }) {
+export function populateExpandWith({ expandDiv,htmlText }) {
     let span
     if (htmlText) {
         span = EL.span({
-            innerHTML: htmlText
-        })
-    } else if (text) {
-        span = EL.span({
-            innerText: test
+            innerText: htmlText,
+            style: {
+                fontSize: '0.75rem'
+            }
         })
     }
     makePopulateExpandDiv({
