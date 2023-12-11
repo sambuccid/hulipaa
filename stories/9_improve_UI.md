@@ -22,7 +22,7 @@ Change the font size for the title and the content, probably is the content that
 Also put the title in a header element, but it shouldn't be a too big font
 - It seems that it might create issues as it adds a lot of decorations on the text
 
-### AC6
+### AC6[in progress]
 Remove any code related to expanding the results
 This also means making sure the result text is selectable with the mouse
 (At the moment is not because it's inside a button)

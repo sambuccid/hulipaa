@@ -84,24 +84,6 @@ describe('addElements',() => {
             }))
         })
     })
-
-
-    describe('the expandDiv',() => {
-        it('should be clickable',() => {
-            addElements(mockContainer,{ resultTitle,onclickExpandDiv,link })
-
-            expect(EL.button).toHaveBeenCalledTimes(1)
-            expect(EL.button).toHaveBeenCalledWith(expect.objectContaining({
-                onclick: expect.anything()
-            }))
-            expect(EL.div).toHaveBeenCalledWith(expect.objectContaining({
-                className: EXPAND_DIV_CLASS_NAME,
-                els: [mockedButton]
-            }))
-        });
-
-    })
-
 });
 
 describe('addMessage',() => {

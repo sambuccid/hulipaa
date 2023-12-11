@@ -1,23 +1,19 @@
 import EL from '../EL.js'
-// import arrowDownIcon from '../images/arrow_down_icon.svg'
-//TODO Temporary
-const arrowDownIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='6 6 12 12'%3E%3Ctitle%3EArtboard-67%3C/title%3E%3Cg id='Down'%3E%3Cpath d='M12,15a1,1,0,0,1-.707-.293l-4-4A1,1,0,1,1,8.707,9.293L12,12.586l3.293-3.293a1,1,0,0,1,1.414,1.414l-4,4A1,1,0,0,1,12,15Z' style='fill:%231c1b1e'/%3E%3C/g%3E%3C/svg%3E"
+import arrowDownIcon from '../images/arrow_down_icon.svg'
 import { clearDiv } from '../ui-helpers.js'
 
+// TODO rename constant and value
 export const EXPAND_DIV_CLASS_NAME = 'expand-div'
 export const MAIN_DIV_CLASS_NAME = 'open-div'
-// TODO to remove
-const EXPANDED_CLASS_NAME = 'expanded'
-const ERROR_COLOR = '#ff7640'
-const MESSAGE_COLOR = '#ffd24d'
+
 export const messageType = {
     ERROR: 'error',
     MESSAGE: 'message'
 }
-export function addElements(div,{ resultTitle,onclickExpandDiv,link }) {
+export function addElements(div,{ resultTitle,link }) {
+    // TODO to rename
     const expandDiv = makePopulateExpandDiv({
         content: null,
-        onclick: onclickExpandDiv
     })
     const resultContent = [
         EL.div({
@@ -49,9 +45,11 @@ export function addElements(div,{ resultTitle,onclickExpandDiv,link }) {
     const element = createMainResultDiv(resultContent)
 
     div.appendChild(element)
+    //TODO to rename returning prop
     return { element: element,expandDiv: expandDiv }
 }
 
+// TODO rename prop passed in
 export function getResultDiv({ expandDiv }) {
     return expandDiv.parentElement
 }
@@ -90,86 +88,41 @@ function createMainResultDiv(content) {
     })
 }
 
-function makePopulateExpandDiv({ content,existingExpandDiv,onclick }) {
+// TODO rename function and prop
+function makePopulateExpandDiv({ content,existingExpandDiv }) {
     // Populate existing div
     if (existingExpandDiv) {
-        const button = existingExpandDiv.firstChild
-        clear(button)
+        clear(existingExpandDiv)
         if (content) {
-            button.appendChild(content)
+            existingExpandDiv.appendChild(content)
         }
         return
     }
+
     // Create new div
-    let onClickButton = null
-    if (onclick != null) {
-        onClickButton = async (event) => {
-            await onclick(event.currentTarget.parentElement)
-        }
-    }
-    let buttonContent = null
+    let divContent = null
     if (content) {
-        buttonContent = [content]
+        divContent = [content]
     }
     return EL.div({
-        els: [
-            //TODO remove button, as now it's not possible to click it
-            EL.button({
-                els: buttonContent,
-                onclick: onClickButton,
-                style: {
-                    // TODO this can probably be removed when the button is gone
-                    textAlign: 'left',
-                    border: 'none',
-                    width: '100%',
-                    height: '100%',
-                    backgroundColor: 'inherit',
-                    padding: '0',
-                    paddingLeft: '5px',
-                    margin: '0',
-                    font: 'inherit',
-                }
-            })
-        ],
+        els: divContent,
         style: {
-            flex: '4 4 0px',
+            flex: '4 4 auto',
             overflow: 'auto',
             minHeight: '20px',
+            paddingLeft: '5px',
         },
         className: EXPAND_DIV_CLASS_NAME
     })
 }
 
-function createImageExpandDiv() {
-    return EL.img({
-        innerText: "Expand",
-        src: arrowDownIcon,
+export function populateExpandWith({ expandDiv,htmlText }) {
+    const span = EL.span({
+        innerText: htmlText,
         style: {
-            width: 'auto',
-            height: '100%'
+            fontSize: '0.75rem'
         }
     })
-}
-
-//TODO delete this
-export function populateExpandWithImage({ expandDiv }) {
-    const img = createImageExpandDiv()
-    makePopulateExpandDiv({
-        existingExpandDiv: expandDiv,
-        content: img
-    })
-}
-
-export function populateExpandWith({ expandDiv,htmlText }) {
-    let span
-    if (htmlText) {
-        span = EL.span({
-            innerText: htmlText,
-            style: {
-                fontSize: '0.75rem'
-            }
-        })
-    }
     makePopulateExpandDiv({
         existingExpandDiv: expandDiv,
         content: span
@@ -188,21 +141,4 @@ export function substituteWithMessage(resultDiv,message,messageType) {
 
 export function clear(div) {
     clearDiv(div)
-}
-
-export function isExpanded({ expandDiv }) {
-    if (expandDiv.classList.contains(EXPANDED_CLASS_NAME))
-        return true
-    else
-        return false
-}
-
-export function expand({ expandDiv }) {
-    expandDiv.classList.add(EXPANDED_CLASS_NAME)
-    expandDiv.style.flexBasis = 'auto'
-}
-
-export function collapse({ expandDiv }) {
-    expandDiv.classList.remove(EXPANDED_CLASS_NAME)
-    expandDiv.style.flexBasis = '0px'
 }
