@@ -4,7 +4,6 @@ import {
     addMessage,
     clear,
     messageType,
-    EXPAND_DIV_CLASS_NAME,
     MAIN_DIV_CLASS_NAME
 } from './results-ui'
 
@@ -26,7 +25,6 @@ describe('addElements',() => {
     const mockedAnchor = 'mockedAnchor'
     const mockContainer = { appendChild: jest.fn() }
     const resultTitle = 'test result title'
-    const onclickExpandDiv = jest.fn()
     const link = '/testLink.html'
 
     beforeEach(() => {
@@ -40,7 +38,7 @@ describe('addElements',() => {
 
 
     it('creates an element in the container div',() => {
-        addElements(mockContainer,{ resultTitle,onclickExpandDiv,link })
+        addElements(mockContainer,{ resultTitle,link })
 
         expect(EL.div).toHaveBeenCalled()
 
@@ -49,14 +47,14 @@ describe('addElements',() => {
     });
 
     it('the result element contains 2 other elements',() => {
-        addElements(mockContainer,{ resultTitle,onclickExpandDiv,link })
+        addElements(mockContainer,{ resultTitle,link })
 
         expect(EL.div).toHaveBeenCalledTimes(3)
     });
 
     describe('the main part of the result',() => {
         it('should be clickable',() => {
-            addElements(mockContainer,{ resultTitle,onclickExpandDiv,link })
+            addElements(mockContainer,{ resultTitle,link })
 
             expect(EL.a).toHaveBeenCalledWith(expect.objectContaining({
                 href: link
@@ -70,7 +68,7 @@ describe('addElements',() => {
             const testSpan = 'test-span'
             EL.span.mockReturnValue(testSpan)
 
-            addElements(mockContainer,{ resultTitle,onclickExpandDiv,link })
+            addElements(mockContainer,{ resultTitle,link })
 
             expect(EL.span).toHaveBeenCalledWith(expect.objectContaining({
                 innerText: resultTitle

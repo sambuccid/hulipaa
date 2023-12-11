@@ -16,7 +16,6 @@ jest.mock('./results/results-ui.js',() => {
         substituteWithMessage: jest.fn(),
         clear: jest.fn(),
         getResultDiv: jest.fn(),
-        populateExpandWith: jest.fn(),
         messageType: actualModule.messageType
     }
 })
@@ -46,8 +45,7 @@ const HulipaaOpt = {
 
 describe('processSearch',() => {
     const mockContainer = {}
-    // TODo to rename
-    const mockedExpandDiv = '<div>test-expanded-div</div>'
+    const mockedResultContentDiv = '<div>test-result-content-div</div>'
     const mockedResultDiv = '<div>test-result-div</div>'
     const mockPaginateContainer = {}
     const searchedWord = "searchedword"
@@ -69,7 +67,7 @@ describe('processSearch',() => {
             .mockResolvedValue({ ok: true,json: jest.fn().mockResolvedValue(resultList) })
 
         ResultsUI.getResultDiv.mockReturnValue(mockedResultDiv)
-        ResultsUI.addElements.mockReturnValue({ element: mockedResultDiv,expandDiv: mockedExpandDiv })
+        ResultsUI.addElements.mockReturnValue({ element: mockedResultDiv,resultContentDiv: mockedResultContentDiv })
         PaginateButtonUI.getAllPageButtons.mockReturnValue([])
     });
 

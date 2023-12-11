@@ -23,7 +23,7 @@ export class ResultsPrinter {
         ResultsUI.clear(this.resultContainer)
         const loadResultContentPromises = []
         for (const result of results) {
-            const { element,expandDiv } = ResultsUI.addElements(this.resultContainer,{
+            const { element,resultContentDiv } = ResultsUI.addElements(this.resultContainer,{
                 resultTitle: result.title,
                 link: result.link
             })
@@ -35,7 +35,7 @@ export class ResultsPrinter {
                 this.paginateButtonsContainer,
                 this.resultFormatter,
                 this.HulipaaOpt,
-                expandDiv
+                resultContentDiv
             )
             loadResultContentPromises.push(loadContentPromise)
         }

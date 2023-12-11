@@ -10,7 +10,7 @@ export async function printResultContent(resultTitle,resultPath,searchedWords,re
 
     if (result == null) {
         ResultsUI.substituteWithMessage(
-            ResultsUI.getResultDiv({ expandDiv: resultContentDiv }),
+            ResultsUI.getResultDiv({ resultContentDiv }),
             `There has been an issue finding the content of the page ${resultTitle}`,
             ResultsUI.messageType.ERROR)
         return;
@@ -21,7 +21,7 @@ export async function printResultContent(resultTitle,resultPath,searchedWords,re
 
 
     const formattedText = resultFormatter.execute(resultDetails.text,searchedWords)
-    ResultsUI.populateExpandWith({ expandDiv: resultContentDiv,htmlText: formattedText })
+    ResultsUI.setResultContent({ resultContentDiv,htmlText: formattedText })
 }
 
 function parseResult(result,resultTitle,resultContentDiv,HulipaaOpt) {
@@ -31,7 +31,7 @@ function parseResult(result,resultTitle,resultContentDiv,HulipaaOpt) {
     } catch (e) { }
     if (resultDetails?.text == null || resultDetails?.text === "") {
         ResultsUI.substituteWithMessage(
-            ResultsUI.getResultDiv({ expandDiv: resultContentDiv }),
+            ResultsUI.getResultDiv({ resultContentDiv }),
             `There has been an issue getting the content of the page ${resultTitle}`,
             ResultsUI.messageType.ERROR)
         return;

@@ -2,8 +2,7 @@ import EL from '../EL.js'
 import arrowDownIcon from '../images/arrow_down_icon.svg'
 import { clearDiv } from '../ui-helpers.js'
 
-// TODO rename constant and value
-export const EXPAND_DIV_CLASS_NAME = 'expand-div'
+export const RESULT_CONTENT_DIV_CLASS_NAME = 'result-content-div'
 export const MAIN_DIV_CLASS_NAME = 'open-div'
 
 export const messageType = {
@@ -11,11 +10,10 @@ export const messageType = {
     MESSAGE: 'message'
 }
 export function addElements(div,{ resultTitle,link }) {
-    // TODO to rename
-    const expandDiv = makePopulateExpandDiv({
+    const resultContentDiv = populateResultContentDiv({
         content: null,
     })
-    const resultContent = [
+    const resultElements = [
         EL.div({
             els: [
                 EL.a({
@@ -39,19 +37,17 @@ export function addElements(div,{ resultTitle,link }) {
             },
             className: MAIN_DIV_CLASS_NAME
         }),
-        expandDiv
+        resultContentDiv
     ]
 
-    const element = createMainResultDiv(resultContent)
+    const element = createMainResultDiv(resultElements)
 
     div.appendChild(element)
-    //TODO to rename returning prop
-    return { element: element,expandDiv: expandDiv }
+    return { element: element,resultContentDiv: resultContentDiv }
 }
 
-// TODO rename prop passed in
-export function getResultDiv({ expandDiv }) {
-    return expandDiv.parentElement
+export function getResultDiv({ resultContentDiv }) {
+    return resultContentDiv.parentElement
 }
 
 export function addMessage(div,{ message,type }) {
@@ -88,13 +84,12 @@ function createMainResultDiv(content) {
     })
 }
 
-// TODO rename function and prop
-function makePopulateExpandDiv({ content,existingExpandDiv }) {
+function populateResultContentDiv({ content,existingResultContentDiv }) {
     // Populate existing div
-    if (existingExpandDiv) {
-        clear(existingExpandDiv)
+    if (existingResultContentDiv) {
+        clear(existingResultContentDiv)
         if (content) {
-            existingExpandDiv.appendChild(content)
+            existingResultContentDiv.appendChild(content)
         }
         return
     }
@@ -112,19 +107,19 @@ function makePopulateExpandDiv({ content,existingExpandDiv }) {
             minHeight: '20px',
             paddingLeft: '5px',
         },
-        className: EXPAND_DIV_CLASS_NAME
+        className: RESULT_CONTENT_DIV_CLASS_NAME
     })
 }
 
-export function populateExpandWith({ expandDiv,htmlText }) {
+export function setResultContent({ resultContentDiv,htmlText }) {
     const span = EL.span({
         innerText: htmlText,
         style: {
             fontSize: '0.75rem'
         }
     })
-    makePopulateExpandDiv({
-        existingExpandDiv: expandDiv,
+    populateResultContentDiv({
+        existingResultContentDiv: resultContentDiv,
         content: span
     })
 }
