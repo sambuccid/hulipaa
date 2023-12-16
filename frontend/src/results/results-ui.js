@@ -1,6 +1,8 @@
 import EL from '../EL.js'
 import arrowDownIcon from '../images/arrow_down_icon.svg'
 import { clearDiv } from '../ui-helpers.js'
+import CSS from './results.css'
+
 
 export const RESULT_CONTENT_DIV_CLASS_NAME = 'result-content-div'
 export const MAIN_DIV_CLASS_NAME = 'open-div'
@@ -33,7 +35,9 @@ export function addElements(div,{ resultTitle,link }) {
                 })],
             style: {
                 flex: '6 6 0px',
-                minHeight: '30px'
+                minHeight: '30px',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
             },
             className: MAIN_DIV_CLASS_NAME
         }),
