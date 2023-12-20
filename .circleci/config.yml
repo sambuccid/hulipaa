@@ -13,17 +13,19 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Node version
-          command: "node --version"
-      - run:
           name: Npm install - root
-          command: "npm ci"
+          command: npm ci
+      # TODO maybe add npm audit?
       - run:
           name: Npm install - generate_results
-          command: "cd generate_results && npm ci"
+          command: |
+            cd generate_results
+            npm ci
       - run:
           name: Unit tests - generate_results
-          command: "cd generate_results && npm test"
+          command: |
+            cd generate_results
+            npm test
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
