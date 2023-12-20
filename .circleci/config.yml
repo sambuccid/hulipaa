@@ -26,6 +26,16 @@ jobs:
           command: |
             cd generate_results
             npm test
+      - run:
+          name: Npm install - frontend
+          command: |
+            cd frontend
+            npm ci
+      - run:
+          name: Unit tests - frontend
+          command: |
+            cd frontend
+            npm test
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
