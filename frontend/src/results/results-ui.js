@@ -37,7 +37,7 @@ export function addElements(div,{ resultTitle,link }) {
                 flex: '6 6 0px',
                 minHeight: '30px',
                 textTransform: 'uppercase',
-                letterSpacing: '0.05em',
+                letterSpacing: '0.05rem',
             },
             className: MAIN_DIV_CLASS_NAME
         }),
@@ -67,7 +67,10 @@ function createMessage({ message,type }) {
     return {
         messageElements: [
             EL.span({
-                innerText: message
+                innerText: message,
+                style: {
+                    fontSize: 'small'
+                }
             })
         ]
     }

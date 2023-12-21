@@ -35,20 +35,20 @@ Uaually the title is blue but we can try different things
 ### AC8[done]
 Try different fonts for the title of the page and the result content
 
-### AC9
+### AC9[done]
 Redesign the size and font of "No Results" and "Error" messages
-- We might want at some point to write longer and more useful error messages, suggesting what to do to the user
-- So maybe a smaller font might be better
 
-### AC10
+### AC10[done]
 Change the color of the highlight to make it less strong on the eye
+- it has been removed completely in previous ACs
 
-### AC11
+### AC11[done]
 Redesign the background and text color of the "No Results" and "Error" messages
+- I think it's more accessible, clean and customisable to keep it black text over white background, as it is now
 
 ### AC12
 Do we need some different style for the mobile?
-- maybe just background and shadow to make each result look like a card)
+- maybe just background and shadow to make each result look like a card
 
 ### AC13[done]
 Maybe add back the underline on the title when the mouse hovers, seems that many search engines do that and it's definitively clearer that the element is clickable

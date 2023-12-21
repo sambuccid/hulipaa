@@ -108,6 +108,12 @@ Other stories that still need to be prioritised and assigned to a version.
 ### possibility to pass in an array of paths of the pages to scan
 So that it becomes more extensible and there is a way to use the library without having to accomodate many use cases where the pages are in sub-folders, in different folders etc.
 
+### Tech debt
+- remove inline css
+- code structure
+- code linting(eslint, prettier)
+- improve ci/cd pipeline
+
 ### fully integrated with 11ty(spike)
 Need to see how much work would be needed to integrate it as a 11ty plugin
 this involves it working with all the type of data(json, MD and so on) seamlessly
@@ -129,7 +135,5 @@ Need to provide the default configuration for the front end with a generic, neut
 
 ### basic frontend configuration
 It needs to be possible to configure basic style things on the front end like for example changing background and foreground colors
-
-### use prettier
 
 ### spell checking on the code
