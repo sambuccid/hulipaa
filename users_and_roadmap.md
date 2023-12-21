@@ -109,7 +109,7 @@ Other stories that still need to be prioritised and assigned to a version.
 So that it becomes more extensible and there is a way to use the library without having to accomodate many use cases where the pages are in sub-folders, in different folders etc.
 
 ### Tech debt
-- remove inline css
+- remove inline css and specific code used just in dev environment
 - code structure
 - code linting(eslint, prettier)
 - improve ci/cd pipeline

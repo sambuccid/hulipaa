@@ -46,9 +46,11 @@ Change the color of the highlight to make it less strong on the eye
 Redesign the background and text color of the "No Results" and "Error" messages
 - I think it's more accessible, clean and customisable to keep it black text over white background, as it is now
 
-### AC12
+### AC12[done]
 Do we need some different style for the mobile?
 - maybe just background and shadow to make each result look like a card
+- the card effect for error messages doesn't look good
+  - but it would require a big refactor to be able to avoid it
 
 ### AC13[done]
 Maybe add back the underline on the title when the mouse hovers, seems that many search engines do that and it's definitively clearer that the element is clickable

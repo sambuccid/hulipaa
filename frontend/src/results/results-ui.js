@@ -4,6 +4,7 @@ import { clearDiv } from '../ui-helpers.js'
 import CSS from './results.css'
 
 
+export const RESULT_DIV_CLASS_NAME = 'result-div'
 export const RESULT_CONTENT_DIV_CLASS_NAME = 'result-content-div'
 export const MAIN_DIV_CLASS_NAME = 'open-div'
 
@@ -83,11 +84,12 @@ function createMainResultDiv(content) {
         style: {
             paddingTop: '3px',
             paddingBottom: '0px',
-            marginBottom: "15px",
+            marginBottom: "17px",
             overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column'
-        }
+        },
+        className: RESULT_DIV_CLASS_NAME
     })
 }
 
