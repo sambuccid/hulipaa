@@ -52,6 +52,6 @@ workflows:
     #       - main
     jobs:
       - prepare
-      - unit-tests
+      - unit-tests:
         requires:
           - prepare
