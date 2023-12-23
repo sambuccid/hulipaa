@@ -53,5 +53,5 @@ workflows:
     jobs:
       - prepare
       - unit-tests:
-        requires:
-          - prepare
+          requires:
+            - prepare
