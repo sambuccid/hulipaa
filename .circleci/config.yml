@@ -21,11 +21,6 @@ jobs:
           command: |
             cd frontend
             npm ci
-      - run:
-          name: TMP
-          command: |
-            ls -al
-            pwd
       - persist_to_workspace:
           root: ~/project
           paths:
@@ -39,6 +34,11 @@ jobs:
     # See: https://circleci.com/docs/configuration-reference/#steps
     steps:
       # TODO maybe add npm audit?
+      - run:
+          name: TMP
+          command: |
+            ls -al
+            pwd
       - run:
           name: Unit tests - generate_results
           command: |
