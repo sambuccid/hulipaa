@@ -21,6 +21,10 @@ jobs:
           command: |
             cd frontend
             npm ci
+      - persist_to_workspace:
+          root: ~/hulipaa
+          paths:
+            - .
   unit-tests:
     # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/configuration-reference/#executor-job
@@ -29,7 +33,6 @@ jobs:
     # Add steps to the job
     # See: https://circleci.com/docs/configuration-reference/#steps
     steps:
-      - checkout
       # TODO maybe add npm audit?
       - run:
           name: Unit tests - generate_results
