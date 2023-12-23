@@ -21,6 +21,11 @@ jobs:
           command: |
             cd frontend
             npm ci
+      - run:
+          name: TMP
+          command: |
+            ls -al
+            pwd
       - persist_to_workspace:
           root: ~/hulipaa
           paths:
