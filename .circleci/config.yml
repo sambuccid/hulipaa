@@ -27,7 +27,7 @@ jobs:
             ls -al
             pwd
       - persist_to_workspace:
-          root: ~/hulipaa
+          root: ~/project
           paths:
             - .
   unit-tests:
