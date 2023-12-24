@@ -13,7 +13,8 @@
     "test": "jest --testPathIgnorePatterns=\"test/functional-tests\"",
     "custom-regex-test": "jest",
     "functional-test": "jest \"test/functional-tests\"",
-    "test-ci": "jest --testPathIgnorePatterns=\"test/functional-tests\" --ci --runInBand --reporters=default --reporters=jest-junit"
+    "test-ci": "jest --testPathIgnorePatterns=\"test/functional-tests\" --ci --runInBand --reporters=default --reporters=jest-junit",
+    "functional-test-ci": "jest \"test/functional-tests\" --ci --runInBand --reporters=default --reporters=jest-junit"
   },
   "devDependencies": {
     "jest": "^29.1.2",
