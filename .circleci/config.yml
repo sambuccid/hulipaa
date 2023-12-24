@@ -1,5 +1,8 @@
 version: 2.1
 
+anchors_definitions: &filter_always
+  only: /.*/
+
 jobs:
   prepare:
     docker:
@@ -59,7 +62,6 @@ workflows:
           requires:
             - unit-tests
           filters: &filter-to-deploy
-            tags:
-              only: /.*/
+            tags: *filter_always
             branches:
               ignore: /.*/
