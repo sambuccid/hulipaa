@@ -1,0 +1,92 @@
+version: 2.1
+
+anchors-definitions:
+  - always: &always
+      only: /.*/
+  - never: &never
+      ignore: /.*/
+  - filter-to-deploy: &filter-to-deploy
+      tags: *always
+      branches: *never
+
+jobs:
+  prepare:
+    docker:
+      - image: cimg/node:lts
+    steps:
+      - checkout
+      - run:
+          name: Npm install - root
+          command: npm ci
+      - run:
+          name: Npm install - generate_results
+          command: |
+            cd generate_results
+            npm ci
+      - run:
+          name: Npm install - frontend
+          command: |
+            cd frontend
+            npm ci
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - .
+  
+  unit-tests:
+    docker:
+      - image: cimg/node:lts
+    steps:
+      - attach_workspace:
+          at: ~/project
+      # TODO maybe add npm audit?
+      - run:
+          name: Unit tests - generate_results
+          command: |
+            cd generate_results
+            npm run test-ci
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: ../reports/
+            JEST_JUNIT_OUTPUT_NAME: generate-results-unit.xml
+            JEST_JUNIT_ADD_FILE_ATTRIBUTE: "true"
+      - run:
+          name: Integration tests - generate_results
+          command: |
+            cd generate_results
+            npm run functional-test-ci
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: ../reports/
+            JEST_JUNIT_OUTPUT_NAME: generate-results-integration.xml
+            JEST_JUNIT_ADD_FILE_ATTRIBUTE: "true"
+      - run:
+          name: Unit tests - frontend
+          command: |
+            cd frontend
+            npm run test-ci
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: ../reports/
+            JEST_JUNIT_OUTPUT_NAME: frontend-unit.xml
+            JEST_JUNIT_ADD_FILE_ATTRIBUTE: "true"
+      - store_test_results:
+          path: ./reports/
+  deploy:
+    docker:
+      - image: cimg/node:lts
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: placeholder
+          command: echo "we ae deployyyyiiinggg"
+
+workflows:
+  workflow:
+    jobs:
+      - prepare
+      - unit-tests:
+          requires:
+            - prepare
+      - deploy:
+          requires:
+            - unit-tests
+          filters: *filter-to-deploy
