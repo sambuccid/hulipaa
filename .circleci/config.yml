@@ -58,7 +58,8 @@ workflows:
       - deploy:
           requires:
             - unit-tests
-          filters:
+          filters: &filter-to-deploy
+            tags:
+              only: /.*/
             branches:
-              only:
-                - main
+              ignore: /.*/
