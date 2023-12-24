@@ -46,6 +46,11 @@ jobs:
             cd generate_results
             npm test
       - run:
+          name: Integration tests - generate_results
+          command: |
+            cd generate_results
+            npm run functional-test
+      - run:
           name: Unit tests - frontend
           command: |
             cd frontend
