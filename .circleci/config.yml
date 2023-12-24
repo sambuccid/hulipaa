@@ -1,7 +1,13 @@
 version: 2.1
 
-anchors_definitions: &filter_always
-  only: /.*/
+anchors-definitions:
+  - always: &always
+      only: /.*/
+  - never: &never
+    ignore: /.*/
+  - filter-to-deploy: &filter-to-deploy
+      tags: *always
+      branches: *never
 
 jobs:
   prepare:
@@ -50,6 +56,9 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/project
+      - run:
+          name: placeholder
+          command: echo "we ae deployyyyiiinggg"
 
 workflows:
   workflow:
@@ -61,7 +70,4 @@ workflows:
       - deploy:
           requires:
             - unit-tests
-          filters: &filter-to-deploy
-            tags: *filter_always
-            branches:
-              ignore: /.*/
+          filters: *filter-to-deploy
