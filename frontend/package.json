@@ -11,6 +11,7 @@
   "main": "dist/hulipaa.js",
   "scripts": {
     "test": "jest",
+    "test-ci": "jest --ci --runInBand --reporters=default --reporters=jest-junit",
     "build": "webpack build"
   },
   "devDependencies": {
@@ -24,7 +25,8 @@
     "jest-when": "^3.5.2",
     "style-loader": "^3.3.3",
     "webpack": "^5.88.1",
-    "webpack-cli": "^5.1.4"
+    "webpack-cli": "^5.1.4",
+    "jest-junit": "^16.0.0"
   },
   "files": [
     "package.json",

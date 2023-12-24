@@ -62,7 +62,11 @@ jobs:
           name: Unit tests - frontend
           command: |
             cd frontend
-            npm test
+            npm run test-ci
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: ../reports/
+            JEST_JUNIT_OUTPUT_NAME: frontend-unit.xml
+            JEST_JUNIT_ADD_FILE_ATTRIBUTE: "true"
       - store_test_results:
           path: ./reports/
   deploy:
