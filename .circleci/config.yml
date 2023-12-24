@@ -4,7 +4,7 @@ anchors-definitions:
   - always: &always
       only: /.*/
   - never: &never
-    ignore: /.*/
+      ignore: /.*/
   - filter-to-deploy: &filter-to-deploy
       tags: *always
       branches: *never
