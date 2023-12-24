@@ -44,7 +44,15 @@ jobs:
           name: Unit tests - generate_results
           command: |
             cd generate_results
-            npm test
+            npm run test-ci
+            ls
+            ls ../reports
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: ../reports/
+            JEST_JUNIT_OUTPUT_NAME: generate-results-unit.xml
+            JEST_JUNIT_ADD_FILE_ATTRIBUTE: "true"
+      - store_test_results:
+          path: ./reports/
       - run:
           name: Integration tests - generate_results
           command: |
