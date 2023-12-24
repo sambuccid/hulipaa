@@ -1,7 +1,5 @@
 version: 2.1
 
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
   prepare:
     docker:
@@ -25,22 +23,14 @@ jobs:
           root: ~/project
           paths:
             - .
+  
   unit-tests:
-    # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/configuration-reference/#executor-job
     docker:
       - image: cimg/node:lts
-    # Add steps to the job
-    # See: https://circleci.com/docs/configuration-reference/#steps
     steps:
       - attach_workspace:
           at: ~/project
       # TODO maybe add npm audit?
-      - run:
-          name: TMP
-          command: |
-            ls -al
-            pwd
       - run:
           name: Unit tests - generate_results
           command: |
@@ -51,17 +41,24 @@ jobs:
           command: |
             cd frontend
             npm test
+  deploy:
+    docker:
+      - image: cimg/node:lts
+    steps:
+      - attach_workspace:
+          at: ~/project
 
-# Orchestrate jobs using workflows
-# See: https://circleci.com/docs/configuration-reference/#workflows
 workflows:
-  push-workflow:
-    # triggers:
-    #   branches:
-    #     only:
-    #       - main
+  workflow:
     jobs:
       - prepare
       - unit-tests:
           requires:
             - prepare
+      - deploy:
+          requires:
+            - unit-tests
+          filters:
+            branches:
+              only:
+                - main
