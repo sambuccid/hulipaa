@@ -13,7 +13,7 @@ jest.mock('./results/results-ui.js',() => {
     return {
         addElements: jest.fn(),
         addMessage: jest.fn(),
-        substituteWithMessage: jest.fn(),
+        setResultError: jest.fn(),
         clear: jest.fn(),
         getResultDiv: jest.fn(),
         messageType: actualModule.messageType
@@ -129,7 +129,7 @@ describe('processSearch',() => {
 
         // Adds new element with correct message and error style
         expect(ResultsUI.addMessage).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
-            message: 'Experienced a network issue, please try again',
+            message: 'There has been an issue with the network.',
             type: ResultsUI.messageType.ERROR
         }))
     })
@@ -145,7 +145,7 @@ describe('processSearch',() => {
 
         // Adds new element with correct message and error style
         expect(ResultsUI.addMessage).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
-            message: 'There has been an issue, please try again',
+            message: 'There has been an issue.',
             type: ResultsUI.messageType.ERROR
         }))
     })
@@ -161,7 +161,7 @@ describe('processSearch',() => {
 
         // Adds new element with correct message and message style
         expect(ResultsUI.addMessage).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
-            message: 'No results were found for your search',
+            message: 'No results were found for your search.',
             type: ResultsUI.messageType.MESSAGE
         }))
     })

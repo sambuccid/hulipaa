@@ -27,9 +27,9 @@ export async function manageExceptionUI(resultContainer,paginateButtonsContainer
 }
 
 function onError(resultContainer,paginateButtonsContainer,error) {
-    let errorText = 'Experienced a network issue, please try again'
+    let errorText = 'There has been an issue with the network.'
     if (error instanceof NetworkError) {
-        errorText = 'There has been an issue, please try again'
+        errorText = 'There has been an issue.'
     }
     clearAndShowSearchMessage(resultContainer,paginateButtonsContainer,errorText,ResultsUI.messageType.ERROR)
 }

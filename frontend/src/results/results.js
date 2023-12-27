@@ -9,9 +9,9 @@ export async function printResultContent(resultTitle,resultPath,searchedWords,re
     if (error) return // There has been an error, already managed by manageExceptionUI
 
     if (result == null) {
-        ResultsUI.substituteWithMessage(
-            ResultsUI.getResultDiv({ resultContentDiv }),
-            `There has been an issue finding the content of the page ${resultTitle}`,
+        ResultsUI.setResultError(
+            resultContentDiv,
+            `We had an issue finding the page, but you can try to open it instead.`,
             ResultsUI.messageType.ERROR)
         return;
     }
@@ -30,9 +30,9 @@ function parseResult(result,resultTitle,resultContentDiv,HulipaaOpt) {
         resultDetails = HulipaaOpt.parsePage(result)
     } catch (e) { }
     if (resultDetails?.text == null || resultDetails?.text === "") {
-        ResultsUI.substituteWithMessage(
-            ResultsUI.getResultDiv({ resultContentDiv }),
-            `There has been an issue getting the content of the page ${resultTitle}`,
+        ResultsUI.setResultError(
+            resultContentDiv,
+            `We had an issue showing this result, but you can try to open it instead.`,
             ResultsUI.messageType.ERROR)
         return;
     }

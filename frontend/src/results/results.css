@@ -1,11 +1,20 @@
+body {
+    --card-result-padding: 3px;
+}
+
 /* Show results as cards for small devices, up to ~23 EMs*/
 @media (max-width: 23.125em) {
     .result-div {
         border-radius: 3px;
         box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
-        padding: 3px;
+        padding: var(--card-result-padding);
         background-color: rgba(255, 255, 255, 0.4);
     }
+}
+
+.result-error {
+    background-color: rgba(252, 61, 3, 0.4);
+    padding: var(--card-result-padding);
 }
 
 .open-div:hover {

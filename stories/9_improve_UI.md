@@ -55,13 +55,6 @@ Do we need some different style for the mobile?
 ### AC13[done]
 Maybe add back the underline on the title when the mouse hovers, seems that many search engines do that and it's definitively clearer that the element is clickable
 
-### AC14
+### AC14[done]
 Find a better way of showing the single result errors (parse page and loading result)
-- The website user should understand the error more or less
-- The website creator should spot that there has been an error with that page
-- Maybe the user should still be able to try and open the page
-- Perhaps we can show the result in the normal way, but instead of the result content we show the error message, making it clear that it is an error message
-
-TODO check that the generated bundle has all the correct fonts and css applied
-- added css for overall font of page(helvetica)
-- added css for title of results(verdana) and underline on mouse hover
+- Decided that to indicate to the website creator what to do, we'll have a section on the readme about it

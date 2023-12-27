@@ -25,7 +25,7 @@ export async function processSearch(query,resultContainer,paginateButtonsContain
         clearAndShowSearchMessage(
             resultContainer,
             paginateButtonsContainer,
-            "No results were found for your search",
+            "No results were found for your search.",
             ResultsUI.messageType.MESSAGE)
         return;
     }

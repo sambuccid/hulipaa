@@ -133,14 +133,13 @@ export function setResultContent({ resultContentDiv,htmlText }) {
     })
 }
 
-export function substituteWithMessage(resultDiv,message,messageType) {
-    clear(resultDiv)
-
-    const { messageElements } = createMessage({ message,type: messageType })
-
-    for (const el of messageElements) {
-        resultDiv.appendChild(el)
-    }
+export function setResultError(resultContentDiv,message,messageType) {
+    const resultDiv = getResultDiv({ resultContentDiv })
+    resultDiv.classList.add('result-error')
+    setResultContent({
+        resultContentDiv,
+        htmlText: message
+    })
 }
 
 export function clear(div) {

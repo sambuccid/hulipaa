@@ -12,10 +12,12 @@
         window.addEventListener('DOMContentLoaded',() => {
             Hulipaa({ parsePage,resultsPath: '../search' })
 
-            // First line is title of page and the rest is the content
+            // First line is title of page, the second line should be empty, and the rest is the content
             function parsePage(pageContent) {
                 const pageLines = pageContent.split(/\r?\n|\r|\n/g);
                 const title = pageLines.shift()
+                const emptyLine = pageLines.shift()
+                if(emptyLine.length > 0) throw "error" // We use this to test parsing issues
                 return {
                     text: pageLines.reduce((finalText,line) => finalText + '\n' + line,'')
                 }
