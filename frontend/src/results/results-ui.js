@@ -1,18 +1,22 @@
 import EL from '../EL.js'
 import arrowDownIcon from '../images/arrow_down_icon.svg'
 import { clearDiv } from '../ui-helpers.js'
+import CSS from './results.css'
 
-export const EXPAND_DIV_CLASS_NAME = 'expand-div'
+
+export const RESULT_DIV_CLASS_NAME = 'result-div'
+export const RESULT_CONTENT_DIV_CLASS_NAME = 'result-content-div'
 export const MAIN_DIV_CLASS_NAME = 'open-div'
-const EXPANDED_CLASS_NAME = 'expanded'
-const ERROR_COLOR = '#ff7640'
-const MESSAGE_COLOR = '#ffd24d'
+
 export const messageType = {
     ERROR: 'error',
     MESSAGE: 'message'
 }
-export function addElements(div,{ resultTitle,onclickExpandDiv,link }) {
-    const resultContent = [
+export function addElements(div,{ resultTitle,link }) {
+    const resultContentDiv = populateResultContentDiv({
+        content: null,
+    })
+    const resultElements = [
         EL.div({
             els: [
                 EL.a({
@@ -32,180 +36,112 @@ export function addElements(div,{ resultTitle,onclickExpandDiv,link }) {
                 })],
             style: {
                 flex: '6 6 0px',
-                paddingBottom: '2px',
-                minHeight: '30px'
+                minHeight: '30px',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05rem',
             },
             className: MAIN_DIV_CLASS_NAME
         }),
-        makePopulateExpandDiv({
-            content: createImageExpandDiv(),
-            onclick: onclickExpandDiv
-        })
+        resultContentDiv
     ]
 
-    const backgroundColor = "white"
-    const element = createMainResultDiv(resultContent,backgroundColor)
+    const element = createMainResultDiv(resultElements)
 
     div.appendChild(element)
-    return { element: element }
+    return { element: element,resultContentDiv: resultContentDiv }
 }
 
-export function getResultDiv({ expandDiv }) {
-    return expandDiv.parentElement
+export function getResultDiv({ resultContentDiv }) {
+    return resultContentDiv.parentElement
 }
 
 export function addMessage(div,{ message,type }) {
-    const { messageElements,color } = createMessage({ message,type })
+    const { messageElements } = createMessage({ message,type })
 
-    const element = createMainResultDiv(messageElements,color)
+    const element = createMainResultDiv(messageElements)
 
     div.appendChild(element)
     return { element: element }
 }
 
 function createMessage({ message,type }) {
-    let color = "white"
-    if (type === messageType.ERROR) {
-        color = ERROR_COLOR
-    } else if (type === messageType.MESSAGE) {
-        color = MESSAGE_COLOR
-    }
-
     return {
         messageElements: [
             EL.span({
-                innerText: message
+                innerText: message,
+                style: {
+                    fontSize: 'small'
+                }
             })
-        ],
-        color
+        ]
     }
 
 }
 
-function createMainResultDiv(content,backgroundColor) {
+function createMainResultDiv(content) {
     return EL.div({
         els: content,
         style: {
-            backgroundColor,
-            borderRadius: "10px",
             paddingTop: '3px',
             paddingBottom: '0px',
-            textAlign: "center",
-            border: "gray solid 1px",
-            marginBottom: "15px",
+            marginBottom: "17px",
             overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column'
-        }
+        },
+        className: RESULT_DIV_CLASS_NAME
     })
 }
 
-function makePopulateExpandDiv({ content,existingExpandDiv,onclick }) {
+function populateResultContentDiv({ content,existingResultContentDiv }) {
     // Populate existing div
-    if (existingExpandDiv) {
-        const button = existingExpandDiv.firstChild
-        clear(button)
-        button.appendChild(content)
+    if (existingResultContentDiv) {
+        clear(existingResultContentDiv)
+        if (content) {
+            existingResultContentDiv.appendChild(content)
+        }
         return
     }
+
     // Create new div
+    let divContent = null
+    if (content) {
+        divContent = [content]
+    }
     return EL.div({
-        els: [
-            EL.button({
-                els: [
-                    content
-                ],
-                onclick: async (event) => {
-                    await onclick(event.currentTarget.parentElement)
-                },
-                style: {
-                    cursor: 'pointer',
-                    border: 'none',
-                    width: '100%',
-                    height: '100%',
-                    backgroundColor: 'inherit',
-                    padding: '0',
-                    margin: '0',
-                    font: 'inherit',
-                }
-            })
-        ],
+        els: divContent,
         style: {
-            flex: '4 4 0px',
-            backgroundColor: 'lightblue',
-            paddingTop: '2px',
-            paddingBottom: '2px',
+            flex: '4 4 auto',
             overflow: 'auto',
             minHeight: '20px',
+            paddingLeft: '5px',
         },
-        className: EXPAND_DIV_CLASS_NAME
+        className: RESULT_CONTENT_DIV_CLASS_NAME
     })
 }
 
-function createImageExpandDiv() {
-    return EL.img({
-        innerText: "Expand",
-        src: arrowDownIcon,
+export function setResultContent({ resultContentDiv,htmlText }) {
+    const span = EL.span({
+        innerText: htmlText,
         style: {
-            width: 'auto',
-            height: '100%'
+            fontSize: '0.75rem'
         }
     })
-}
-
-export function populateExpandWithImage({ expandDiv }) {
-    const img = createImageExpandDiv()
-    makePopulateExpandDiv({
-        existingExpandDiv: expandDiv,
-        content: img
-    })
-}
-
-export function populateExpandWith({ expandDiv,htmlText,text }) {
-    let span
-    if (htmlText) {
-        span = EL.span({
-            innerHTML: htmlText
-        })
-    } else if (text) {
-        span = EL.span({
-            innerText: test
-        })
-    }
-    makePopulateExpandDiv({
-        existingExpandDiv: expandDiv,
+    populateResultContentDiv({
+        existingResultContentDiv: resultContentDiv,
         content: span
     })
 }
 
-export function substituteWithMessage(resultDiv,message,messageType) {
-    clear(resultDiv)
-
-    const { messageElements,color } = createMessage({ message,type: messageType })
-
-    for (const el of messageElements) {
-        resultDiv.appendChild(el)
-    }
-    resultDiv.style.backgroundColor = color
+export function setResultError(resultContentDiv,message,messageType) {
+    const resultDiv = getResultDiv({ resultContentDiv })
+    resultDiv.classList.add('result-error')
+    setResultContent({
+        resultContentDiv,
+        htmlText: message
+    })
 }
 
 export function clear(div) {
     clearDiv(div)
-}
-
-export function isExpanded({ expandDiv }) {
-    if (expandDiv.classList.contains(EXPANDED_CLASS_NAME))
-        return true
-    else
-        return false
-}
-
-export function expand({ expandDiv }) {
-    expandDiv.classList.add(EXPANDED_CLASS_NAME)
-    expandDiv.style.flexBasis = 'auto'
-}
-
-export function collapse({ expandDiv }) {
-    expandDiv.classList.remove(EXPANDED_CLASS_NAME)
-    expandDiv.style.flexBasis = '0px'
 }

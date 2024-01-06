@@ -13,14 +13,9 @@ jest.mock('./results/results-ui.js',() => {
     return {
         addElements: jest.fn(),
         addMessage: jest.fn(),
-        substituteWithMessage: jest.fn(),
+        setResultError: jest.fn(),
         clear: jest.fn(),
-        isExpanded: jest.fn(),
-        expand: jest.fn(),
-        collapse: jest.fn(),
         getResultDiv: jest.fn(),
-        populateExpandWith: jest.fn(),
-        populateExpandWithImage: jest.fn(),
         messageType: actualModule.messageType
     }
 })
@@ -43,12 +38,6 @@ jest.mock('./paginate/paginateButton-ui.js',() => {
     }
 })
 
-function getOnclickPropertyOfExpandResult() {
-    const correctCallParameters = ResultsUI.addElements.mock.lastCall
-    const secondParameter = correctCallParameters[1]
-    return secondParameter.onclickExpandDiv
-}
-
 const HulipaaOpt = {
     parsePage: jest.fn(),
     resultsPath: '/search'
@@ -56,7 +45,7 @@ const HulipaaOpt = {
 
 describe('processSearch',() => {
     const mockContainer = {}
-    const mockedExpandDiv = '<div>test-expanded-div</div>'
+    const mockedResultContentDiv = '<div>test-result-content-div</div>'
     const mockedResultDiv = '<div>test-result-div</div>'
     const mockPaginateContainer = {}
     const searchedWord = "searchedword"
@@ -78,7 +67,7 @@ describe('processSearch',() => {
             .mockResolvedValue({ ok: true,json: jest.fn().mockResolvedValue(resultList) })
 
         ResultsUI.getResultDiv.mockReturnValue(mockedResultDiv)
-        ResultsUI.isExpanded.mockReturnValue(false)
+        ResultsUI.addElements.mockReturnValue({ element: mockedResultDiv,resultContentDiv: mockedResultContentDiv })
         PaginateButtonUI.getAllPageButtons.mockReturnValue([])
     });
 
@@ -121,14 +110,6 @@ describe('processSearch',() => {
         expect(ResultsUI.clear).toHaveBeenCalledWith(mockContainer)
     });
 
-    it('there should be the expand element that should be clickable',async () => {
-        await processSearch(searchedWord,mockContainer,mockPaginateContainer,HulipaaOpt)
-
-        expect(ResultsUI.addElements).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
-            onclickExpandDiv: expect.anything()
-        }))
-    });
-
     it('the main part of the result should open the result link',async () => {
         await processSearch(searchedWord,mockContainer,mockPaginateContainer,HulipaaOpt)
 
@@ -148,7 +129,7 @@ describe('processSearch',() => {
 
         // Adds new element with correct message and error style
         expect(ResultsUI.addMessage).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
-            message: 'Experienced a network issue, please try again',
+            message: 'There has been an issue with the network.',
             type: ResultsUI.messageType.ERROR
         }))
     })
@@ -164,7 +145,7 @@ describe('processSearch',() => {
 
         // Adds new element with correct message and error style
         expect(ResultsUI.addMessage).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
-            message: 'There has been an issue, please try again',
+            message: 'There has been an issue.',
             type: ResultsUI.messageType.ERROR
         }))
     })
@@ -180,141 +161,8 @@ describe('processSearch',() => {
 
         // Adds new element with correct message and message style
         expect(ResultsUI.addMessage).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
-            message: 'No results were found for your search',
+            message: 'No results were found for your search.',
             type: ResultsUI.messageType.MESSAGE
         }))
-    })
-
-    describe('when clicking the expandDiv of the result element',() => {
-        const result = 'some content of the result'
-        const parsedResult = {
-            title: resultList.results[0].title,
-            path: resultList.results[0].path,
-            text: `content ${searchedWord} of page`
-        };
-        const expectedHtml = `content <mark>${searchedWord}</mark> of page`;
-
-        async function simulateClickOnResultExpandDiv() {
-            const expandDivClickFunc = getOnclickPropertyOfExpandResult();
-            await expandDivClickFunc(mockedExpandDiv);
-            ResultsUI.isExpanded.mockReturnValue(!ResultsUI.isExpanded())
-        }
-
-        beforeEach(() => {
-            when(Network.get).calledWith(resultList.results[0].path)
-                .mockResolvedValue({ ok: true,text: jest.fn().mockResolvedValue(result) })
-            HulipaaOpt.parsePage.mockReturnValue(parsedResult)
-        });
-
-        it("calls the backend to get the content of the result",async () => {
-            await processSearch(searchedWord,mockContainer,mockPaginateContainer,HulipaaOpt)
-
-            await simulateClickOnResultExpandDiv();
-
-            expect(Network.get).toHaveBeenCalledTimes(2);
-            expect(Network.get).toHaveBeenNthCalledWith(2,resultList.results[0].path);
-        });
-
-        it('expands the expandDiv and formats the content of the result',async () => {
-            await processSearch(searchedWord,mockContainer,mockPaginateContainer,HulipaaOpt)
-
-            await simulateClickOnResultExpandDiv();
-
-            // The div has been expanded
-            expect(ResultsUI.expand).toHaveBeenCalledWith({ expandDiv: mockedExpandDiv })
-
-            // The div has been populated with the content of the result
-            expect(ResultsUI.populateExpandWith).toHaveBeenCalledWith({
-                expandDiv: mockedExpandDiv,
-                htmlText: expectedHtml
-            })
-        });
-
-        it("when clicking the result twice it goes back showing the down arrow image",async () => {
-            await processSearch(searchedWord,mockContainer,mockPaginateContainer,HulipaaOpt)
-
-            await simulateClickOnResultExpandDiv();
-            await simulateClickOnResultExpandDiv();
-
-            // The element has been collapsed
-            expect(ResultsUI.collapse).toHaveBeenCalledWith({ expandDiv: mockedExpandDiv })
-
-            // The element has the down arrow(expand) image
-            expect(ResultsUI.populateExpandWithImage).toHaveBeenCalledWith({ expandDiv: mockedExpandDiv })
-        });
-
-        it("when clicking the result 3 times it shows the content of the result",async () => {
-            await processSearch(searchedWord,mockContainer,mockPaginateContainer,HulipaaOpt)
-
-            await simulateClickOnResultExpandDiv();
-            await simulateClickOnResultExpandDiv();
-            await simulateClickOnResultExpandDiv();
-
-            // The div has been expanded again
-            expect(ResultsUI.expand).toHaveBeenCalledTimes(2)
-            expect(ResultsUI.expand).toHaveBeenNthCalledWith(2,{ expandDiv: mockedExpandDiv })
-
-            // The div has been populated with the content of the result
-            expect(ResultsUI.populateExpandWith).toHaveBeenCalledTimes(2)
-            expect(ResultsUI.populateExpandWith).toHaveBeenNthCalledWith(2,{
-                expandDiv: mockedExpandDiv,
-                htmlText: expectedHtml
-            })
-        });
-
-        it("should show an error if the network doesn't work",async () => {
-            when(Network.get).calledWith(resultList.results[0].path)
-                .mockRejectedValue()
-
-            await processSearch(searchedWord,mockContainer,mockPaginateContainer,HulipaaOpt)
-
-            await simulateClickOnResultExpandDiv();
-
-            // Removes result
-            expect(ResultsUI.clear).toHaveBeenCalledWith(mockContainer)
-
-            // Adds new element with correct message and error style
-            expect(ResultsUI.addMessage).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
-                message: 'Experienced a network issue, please try again',
-                type: ResultsUI.messageType.ERROR
-            }))
-        })
-
-        it("should show an error if the result call has problems",async () => {
-            when(Network.get).calledWith(resultList.results[0].path)
-                .mockResolvedValue({ ok: false,status: 500 })
-
-            await processSearch(searchedWord,mockContainer,mockPaginateContainer,HulipaaOpt)
-
-            await simulateClickOnResultExpandDiv();
-
-            // Removes result
-            expect(ResultsUI.clear).toHaveBeenCalledWith(mockContainer)
-
-            // Adds new element with correct message and error style
-            expect(ResultsUI.addMessage).toHaveBeenCalledWith(mockContainer,expect.objectContaining({
-                message: 'There has been an issue, please try again',
-                type: ResultsUI.messageType.ERROR
-            }))
-        })
-
-        it("should show a specific error if the result is not found",async () => {
-            when(Network.get).calledWith(resultList.results[0].path)
-                .mockResolvedValue({ ok: false,status: 404 })
-
-            await processSearch(searchedWord,mockContainer,mockPaginateContainer,HulipaaOpt)
-
-            await simulateClickOnResultExpandDiv();
-
-            // Removes result
-            expect(ResultsUI.clear).toHaveBeenCalledWith(mockContainer)
-
-            // Adds new element with correct message and error style
-            expect(ResultsUI.substituteWithMessage).toHaveBeenCalledWith(
-                mockedResultDiv,
-                `Error: The result for the ${resultList.results[0].title} page couldn't be found`,
-                ResultsUI.messageType.ERROR
-            )
-        })
     })
 });

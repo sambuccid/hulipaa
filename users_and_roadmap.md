@@ -80,7 +80,7 @@ I want the results to be paginated
 So I can see the results more easily
 And The results page doesn't become too big
 
-### improve UI
+### ~~improve UI~~
 As a visitor of the website
 I want the UI to be simple but nice
 
@@ -94,6 +94,11 @@ As the creator of the website
 I want to have clear instruction about the library
 So that I can decide if to use it, and know how to use it
 - also fix the formatting of markdowns, by adding to emtpy spaces at the end of the line to force a linebreak
+- add section where to explain common errors
+  - including the errors the are shown in the results themselfes and how to fix them
+
+### fix packages vulnerabilities
+Check vulnerabilities from packages and use version of the packages that are not affected
 
 # Other versions
 Other stories that still need to be prioritised and assigned to a version.
@@ -104,6 +109,12 @@ Other stories that still need to be prioritised and assigned to a version.
 
 ### possibility to pass in an array of paths of the pages to scan
 So that it becomes more extensible and there is a way to use the library without having to accomodate many use cases where the pages are in sub-folders, in different folders etc.
+
+### Tech debt
+- remove inline css and specific code used just in dev environment
+- code structure
+- code linting(eslint, prettier)
+- improve ci/cd pipeline
 
 ### fully integrated with 11ty(spike)
 Need to see how much work would be needed to integrate it as a 11ty plugin
@@ -126,7 +137,5 @@ Need to provide the default configuration for the front end with a generic, neut
 
 ### basic frontend configuration
 It needs to be possible to configure basic style things on the front end like for example changing background and foreground colors
-
-### use prettier
 
 ### spell checking on the code

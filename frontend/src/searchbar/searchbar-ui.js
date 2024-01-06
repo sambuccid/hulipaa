@@ -1,3 +1,4 @@
+import CSS from './searchbar.css'
 import EL from '../EL.js'
 import glassMagnifierIcon from '../images/glass_magnifier_icon.svg'
 

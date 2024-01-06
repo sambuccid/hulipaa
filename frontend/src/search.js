@@ -1,9 +1,10 @@
 import { search } from './service.js'
 import * as ResultsUI from './results/results-ui.js'
 import { refreshPaginationButtons,openPaginatePage } from './paginate/paginateButtonsContainer.js'
-import { ResultLoader } from './resultsContainer/resultsContainer.js'
+import { ResultsPrinter } from './resultsContainer/resultsContainer.js'
 import { normaliseAndLowecase,splitTextInWords } from './helpers.js'
 import { clearAndShowSearchMessage,manageExceptionUI } from './general.js'
+import WholeSectionFormatter from './results/contentFormatters/WholeSectionFormatter.js'
 
 const MAX_RESULTS_IN_PAGE = 15;
 export async function processSearch(query,resultContainer,paginateButtonsContainer,HulipaaOpt) {
@@ -24,17 +25,18 @@ export async function processSearch(query,resultContainer,paginateButtonsContain
         clearAndShowSearchMessage(
             resultContainer,
             paginateButtonsContainer,
-            "No results were found for your search",
+            "No results were found for your search.",
             ResultsUI.messageType.MESSAGE)
         return;
     }
 
-    const resultLoader = new ResultLoader(searchedWords,resultContainer,paginateButtonsContainer,HulipaaOpt)
+    const resultFormatter = new WholeSectionFormatter()
+    const resultsPrinter = new ResultsPrinter(searchedWords,resultContainer,paginateButtonsContainer,resultFormatter,HulipaaOpt)
 
     // This needs to happen before openPaginatePage, otherwise when it tries to highlight a button it can't find it
-    refreshPaginationButtons(paginateButtonsContainer,finalResults,resultLoader,MAX_RESULTS_IN_PAGE,resultContainer)
+    refreshPaginationButtons(paginateButtonsContainer,finalResults,resultsPrinter,MAX_RESULTS_IN_PAGE,resultContainer)
 
-    openPaginatePage(0,finalResults,resultLoader,MAX_RESULTS_IN_PAGE,paginateButtonsContainer)
+    await openPaginatePage(0,finalResults,resultsPrinter,MAX_RESULTS_IN_PAGE,paginateButtonsContainer)
 }
 
 function processQueryResults(allQueriesResults) {

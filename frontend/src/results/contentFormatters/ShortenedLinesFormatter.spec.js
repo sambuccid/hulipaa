@@ -1,7 +1,7 @@
-import { formatTextForResult } from './results.js'
+import ShortenedLinesFormatter from './ShortenedLinesFormatter.js'
 
 
-describe('formatTextForResult',() => {
+describe('execute',() => {
     const searchedWord = "searchedword"
 
     it.each([
@@ -15,7 +15,7 @@ describe('formatTextForResult',() => {
         ["contains a long word after the searched word that will need to be cut, it doesn't cut the word but it excludes it",
             `a ${searchedWord} long_long_word a`,
             `a <mark>${searchedWord}</mark> ...`],
-        ["contains multiple lines, shows just the one with teh searched word",
+        ["contains multiple lines, shows just the one with the searched word",
             `there is a line 1\nand ${searchedWord} line\nand line 3`,
             `and <mark>${searchedWord}</mark> line`],
         ["contains the searched word it highlights the searched word, even across multiple lines",
@@ -26,7 +26,8 @@ describe('formatTextForResult',() => {
             `... normal <mark>${searchedWord}</mark> a`]
     ])('generates right content for result, when input %s',
         async (_desc,resultText,expectedResult) => {
-            const generatedContent = formatTextForResult(resultText,[searchedWord])
+            const formatter = new ShortenedLinesFormatter()
+            const generatedContent = formatter.execute(resultText,[searchedWord])
 
             expect(generatedContent).toBe(expectedResult)
         });
@@ -39,7 +40,8 @@ describe('formatTextForResult',() => {
         // in theory we want to keep the result with the original accents, but it just takes long to do
         const expectedResult = `some text <mark>${normalisedWordInText}</mark> some text`
 
-        const generatedContent = formatTextForResult(resultText,[searchingWord])
+        const formatter = new ShortenedLinesFormatter()
+        const generatedContent = formatter.execute(resultText,[searchingWord])
 
         expect(generatedContent).toBe(expectedResult)
     });
@@ -52,7 +54,8 @@ describe('formatTextForResult',() => {
         // In theory we want to preserve the casing of the result, but it's a bit long to do cause of normalisation
         const expectedResult = `some text <mark>${lowercaseWordInText}</mark> some text`
 
-        const generatedContent = formatTextForResult(resultText,[searchingWord])
+        const formatter = new ShortenedLinesFormatter()
+        const generatedContent = formatter.execute(resultText,[searchingWord])
 
         expect(generatedContent).toBe(expectedResult)
     });
@@ -67,7 +70,8 @@ describe('formatTextForResult',() => {
         const expectedResult = `... here <mark>${searchedWord}</mark><br>` +
             `... result <mark>${searchedWord}</mark>`
 
-        const generatedContent = formatTextForResult(resultText,[searchedWord])
+        const formatter = new ShortenedLinesFormatter()
+        const generatedContent = formatter.execute(resultText,[searchedWord])
 
         expect(generatedContent).toBe(expectedResult)
     });
@@ -85,7 +89,8 @@ describe('formatTextForResult',() => {
         const expectedResult = `... here <mark>${secondSearchedWord}</mark> <mark>${searchedWord}</mark><br>` +
             `... result <mark>${searchedWord}</mark>`
 
-        const generatedContent = formatTextForResult(resultText,[searchedWord,secondSearchedWord])
+        const formatter = new ShortenedLinesFormatter()
+        const generatedContent = formatter.execute(resultText,[searchedWord,secondSearchedWord])
 
         expect(generatedContent).toBe(expectedResult)
     });
@@ -103,7 +108,8 @@ describe('formatTextForResult',() => {
         const expectedResult = `... here <mark>${secondSearchedWord}</mark> <mark>${firstSearchedWord}</mark><br>` +
             `... thing <mark>${firstSearchedWord}</mark> <mark>${secondSearchedWord}</mark> <mark>${firstSearchedWord}</mark>`
 
-        const generatedContent = formatTextForResult(resultText,[firstSearchedWord,secondSearchedWord])
+        const formatter = new ShortenedLinesFormatter()
+        const generatedContent = formatter.execute(resultText,[firstSearchedWord,secondSearchedWord])
 
         expect(generatedContent).toBe(expectedResult)
     });
@@ -120,11 +126,9 @@ describe('formatTextForResult',() => {
         const expectedResult = `... thing <mark>${secondSearchedWord}</mark> <mark>${firstSearchedWord}</mark> <mark>${secondSearchedWord}</mark> and some ...<br>` +
             `...separates <mark>${firstSearchedWord}</mark> <mark>${secondSearchedWord}</mark> <mark>${firstSearchedWord}</mark> <mark>${thirdsSearchedWord}</mark>`
 
-        const generatedContent = formatTextForResult(resultText,[firstSearchedWord,secondSearchedWord,thirdsSearchedWord])
+        const formatter = new ShortenedLinesFormatter()
+        const generatedContent = formatter.execute(resultText,[firstSearchedWord,secondSearchedWord,thirdsSearchedWord])
 
         expect(generatedContent).toBe(expectedResult)
     });
-
-
-
 });
