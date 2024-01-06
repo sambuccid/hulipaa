@@ -123,9 +123,6 @@ export function calculateDifferenceBetweenNConsecutiveNumbers(numbers,nConsecuti
 
     const differences = []
     for (let i = 0; i < numbers.length - positionBetweenNumbers; i++) {
-        // const currentNum = numbers[i]
-        // const nextNum = numbers[i + positionBetweenNumbers]
-        // const difference = nextNum - currentNum
         const difference = differenceBetween2NumbersInArray(numbers,i,i + positionBetweenNumbers)
         differences.push(difference)
     }

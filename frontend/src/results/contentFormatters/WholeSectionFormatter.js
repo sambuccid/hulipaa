@@ -21,12 +21,7 @@ export default class WholeSectionFormatter {
 
     #extractSection(text,searchedWords) {
         const normalisedText = normaliseAndLowecase(text)
-        // const unpreciseWordIndex = normalisedText.indexOf(searchedWords)
 
-        // let startSection = unpreciseWordIndex - (MAX_LENGHT / 2)
-        // startSection = startSection > 0 ? startSection : 0
-
-        // const endSection = startSection + MAX_LENGHT
         const { sectionStartIdx,sectionEndIdx } = getSectionWithMostNumberOfResultsUnprecise(normalisedText,searchedWords,MAX_LENGHT)
 
         let result = cutTextAroundWords({

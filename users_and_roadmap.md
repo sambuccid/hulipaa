@@ -80,7 +80,7 @@ I want the results to be paginated
 So I can see the results more easily
 And The results page doesn't become too big
 
-### improve UI
+### ~~improve UI~~
 As a visitor of the website
 I want the UI to be simple but nice
 
