@@ -68,7 +68,6 @@ export function getSectionWithMostNumberOfResultsUnprecise(text,searchedWords,se
     const firstCloserWordNumber = biggerGroup.groupStartIdx
     const lastCloserWordNumber = biggerGroup.groupEndIdx
     const firstCloserWordIdx = startIdxsWordsFound[firstCloserWordNumber]
-    //lastCloserWordIdx = startIdxsWordsFound[lastCloserWordNumber]
     const lastCloserWordIdxEnd = idxsWordsFound[lastCloserWordNumber].end
 
     return getPaddedStartEndSectionAt(firstCloserWordIdx,lastCloserWordIdxEnd)
@@ -84,7 +83,6 @@ export function getSectionWithMostNumberOfResultsUnprecise(text,searchedWords,se
         const paddingLength = Math.floor(lengthOfSectionLeftToFill / 2)
 
         let startSection = startIdx - paddingLength
-        // endSection = endIdx + paddingLength
 
         startSection = Math.max(0,startSection) // avoid start of section being before the string begins
         return getStartEndSectionAt(startSection)
