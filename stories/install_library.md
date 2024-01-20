@@ -30,7 +30,7 @@ And a function that will parse the input files
 And a function that will specify the url of the pages 
 Then the results will be generated
 
-### AC5[in progress]
+### AC5[done]
 Update/create some documentation on how to use the library
 Eg.
 - install it
