@@ -98,6 +98,7 @@ So that I can decide if to use it, and know how to use it
   - including the errors the are shown in the results themselfes and how to fix them
 - create demo website
   - and then take screenshot from it and add it to tutorial in "Open website" section
+- fix any TODOs in documentation files
 
 ### fix packages vulnerabilities
 Check vulnerabilities from packages and use version of the packages that are not affected

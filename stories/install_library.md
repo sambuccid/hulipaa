@@ -50,6 +50,6 @@ Eg.
   - the searchbar div where the searchbar will be created
     - and the possibility to limit the width of it and to do other customizations
 
-### AC6
+### AC6[done]
 We need to update the css selectors, all of them need to be always finding elements inside the main search element.
 Mostly if the user uses some css classes in their page that will have the same name of some of the internal classes we use, we shouldn't apply any css to the elements

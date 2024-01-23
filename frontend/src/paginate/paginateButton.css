@@ -1,6 +1,6 @@
-.index-button,
-.next-button,
-.previous-button {
+.hulipaa_searchbar .index-button,
+.hulipaa_searchbar .next-button,
+.hulipaa_searchbar .previous-button {
     background: none;
     color: inherit;
     border: none;
@@ -12,9 +12,9 @@
     height: 1.5em;
 }
 
-.index-button:hover,
-.next-button:hover,
-.previous-button:hover,
-.selected-button {
+.hulipaa_searchbar .index-button:hover,
+.hulipaa_searchbar .next-button:hover,
+.hulipaa_searchbar .previous-button:hover,
+.hulipaa_searchbar .selected-button {
     box-shadow: 0 -2px 0 #305252 inset;
 }
