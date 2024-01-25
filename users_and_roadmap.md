@@ -84,7 +84,7 @@ And The results page doesn't become too big
 As a visitor of the website
 I want the UI to be simple but nice
 
-### install library
+### ~~install library~~
 As the creator of the website
 I want to be able to import the library in both the back-end and the front-end
 So that I can use it
