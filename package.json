@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "live-server",
     "generate": "node manual_testing/index.js manual_testing/.input manual_testing/search",
-    "update-docs": "node ./update_docs.js"
+    "update-docs": "node ./update_docs.js",
+    "give-file-permissions": "chmod -R a+rw ."
   },
   "author": "sambuccid",
   "license": "ISC",
