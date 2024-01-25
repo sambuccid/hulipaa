@@ -17,7 +17,7 @@
                 const pageLines = pageContent.split(/\r?\n|\r|\n/g);
                 const title = pageLines.shift()
                 const emptyLine = pageLines.shift()
-                if(emptyLine.length > 0) throw "error" // We use this to test parsing issues
+                if (emptyLine.length > 0) throw "error" // We use this to test parsing issues
                 return {
                     text: pageLines.reduce((finalText,line) => finalText + '\n' + line,'')
                 }

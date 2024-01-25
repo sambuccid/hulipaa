@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "serve": "live-server",
-    "generate": "node manual_testing/index.js manual_testing/.input manual_testing/search"
+    "generate": "node manual_testing/index.js manual_testing/.input manual_testing/search",
+    "update-docs": "node ./update_docs.js"
   },
   "author": "sambuccid",
   "license": "ISC",
