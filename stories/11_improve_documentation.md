@@ -3,11 +3,10 @@ As the creator of the website
 I want to have clear instruction about the library  
 So that I can decide if to use it, and know how to use it
 
-### AC1 [**in progress**]
+### AC1 [**done**]
 Fix formatting in all makrdowns
-- We need to check how they look in github
 
-### AC2
+### AC2 [**done**]
 Update the UI Tests documentation file with the new style of the search results
 
 ### AC3

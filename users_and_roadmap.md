@@ -106,7 +106,7 @@ Need to see how much work would be needed to integrate it as a 11ty plugin.
 This involves it working with all the type of data(json, MD and so on) seamlessly.
 
 ### secure
-Need to go throught the code and check that everything is secure and doesn't expose private informations
+Need to go through the code and check that everything is secure and doesn't expose private informations
 
 ### when showing results the code should escape html
 If the pages are in html or contain html, we should not render it in the results
