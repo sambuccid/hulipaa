@@ -136,7 +136,7 @@ Now we can call the library to generate the search results.
 
 Hulipaa needs 4 properties to be defined when it's called, they are needed to find, load each page, and generate the results used by the searchbar.
 
-So calling the library will looks something similar to this
+So calling the library will look something similar to this
 ```javascript
 Hulipaa({ inputFolder, parseData, generateLink, outputFolder})
 ```

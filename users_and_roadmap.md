@@ -122,4 +122,8 @@ Need to provide the default configuration for the front end with a generic, neut
 ### basic frontend configuration
 It needs to be possible to configure basic style things on the front end like for example changing background and foreground colors
 
+### Validation of configuration
+Try to validate all the parameters provided.  
+Trying to spot any errors given by a configuration issue as early as possible.
+
 ### spell checking on the code

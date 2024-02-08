@@ -6,3 +6,6 @@ The search engine generates and indexes all the results when the website is buil
 
 ## How to use
 You can find the tutorial on how to setup and use the library here: [Hulipaa tutorial](tutorial.md)
+
+## Troubleshoot
+If you have any issues configuring Hulipaa you can visit the [Troubleshooting](troubleshooting.md) page
