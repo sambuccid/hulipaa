@@ -84,10 +84,21 @@ So that I can decide if to use it, and know how to use it
 ### fix packages vulnerabilities
 Check vulnerabilities from packages and use version of the packages that are not affected
 
+### update demo website
+Update demo website to use new verison of library  
+And add screenshot to readme and "Open website" section of tutorial
+
+
 # Other versions
 Other stories that still need to be prioritised and assigned to a version.
 
 ## User Stories
+
+### pass data of page to generateLink function
+As the creator of the website  
+I want to receive the data of the page as a parameter of the generateLink function  
+So that if I used the data to create the url of the page I can do the same generating the link  
+Without having to load the file manually
 
 ### auto completition
 

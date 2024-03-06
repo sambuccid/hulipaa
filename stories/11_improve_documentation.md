@@ -16,12 +16,9 @@ Where we can explain what to do in case of
 - The errors shown in the search results
   - Most of them can indicate a set up issue
 
-### AC4
+### AC4 [**done**]
 Create a new repo with a demo website.  
 And add links and snapshots to all documentation pages.
-- Eventually the website will need to use the new style of the library
-- The demo will need to contain thousands of pages, to show the strenghts of this library
-- Add screenshot to "Open website" section of the tutorial
 
 ### AC5
 Write new Readme with more informations about the library

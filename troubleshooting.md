@@ -114,4 +114,5 @@ This function needs to return an object containing some properties including `pa
 If this property is incorrect it will result in this issue.  
 Some common mistakes to check are:
 * **Absolute path**: This property needs to contain an absolute path, because it's used in the browser to load the data of a page.
-* **Sub-paths in url**: Remember that the path is used to create the url of the data of a page. If your web server is configured to deply everything under a sub-path you'll need to include it in this property.
+* **Sub-paths in url**: Remember that the path is used to create the url of the data of a page. If your web server is configured to deploy everything under a sub-path you'll need to include it in this property.
+* **Wrong type of page**: This property needs to point to the source data of the page and not the final html page. This file is the one that is later on parsed by the `parsePage` function.

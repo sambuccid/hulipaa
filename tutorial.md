@@ -116,13 +116,13 @@ First we need to install the library in our npm project.
 
 All we need to do is to type in a terminal
 ```bash
-npm install hulipaa
+npm install --save-dev hulipaa
 ```
 
 ### Import the library
 Next we need to import the library.
 
-Hulipaa supports both ES Modules and CommonJS modules. In this tutorial we are going to use the CommonJs syntax, but exactly the same result can be achieved using ESM.
+Hulipaa supports both ES Modules and CommonJS modules. In this tutorial we are going to use the CommonJs syntax, but the same result can be achieved using ESM.
 
 The library exports just one big top level function. So you can import it like this
 ```javascript
