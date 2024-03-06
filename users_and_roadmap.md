@@ -84,10 +84,17 @@ So that I can decide if to use it, and know how to use it
 ### fix packages vulnerabilities
 Check vulnerabilities from packages and use version of the packages that are not affected
 
-### update demo website
-Update demo website to use new verison of library  
-And add screenshot to readme and "Open website" section of tutorial
-
+### Update demo website
+Update demo website to use new verison of library
+- Increase number of pages generated, try around 30000
+  - And update all READMEs that mention it
+- And add screenshot to readme and "Open website" section of tutorial
+- Also create video/gif where we
+  - add a page to demo website
+  - run the generation of search results
+  - start webserver (with generation of pages)
+  - search for the word, or even multiple words
+- Add the video/gif to the readme, right at the end of the Demo section
 
 # Other versions
 Other stories that still need to be prioritised and assigned to a version.
@@ -112,6 +119,11 @@ So that it becomes more extensible and there is a way to use the library without
 - improve ci/cd pipeline
 - script to copy Readme to sub-folders that generate npm package
 
+### Get started page
+Create a get started page.  
+It should be way smaller that the full tutorial.  
+And it should contain the fewest steps required to have the library working.
+
 ### fully integrated with 11ty(spike)
 Need to see how much work would be needed to integrate it as a 11ty plugin.  
 This involves it working with all the type of data(json, MD and so on) seamlessly.
@@ -132,6 +144,13 @@ Need to provide the default configuration for the front end with a generic, neut
 
 ### basic frontend configuration
 It needs to be possible to configure basic style things on the front end like for example changing background and foreground colors
+
+### Css customisation
+As the website creator I want to be able to customise all the elements of the library  
+So that the style of my search page is consistent with the rest of my website.
+- Extract all css styles on their own css classes
+- Document these CSS classes and how to customise them
+- Add Customise section to Readme
 
 ### Validation of configuration
 Try to validate all the parameters provided.  

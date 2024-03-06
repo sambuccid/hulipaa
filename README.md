@@ -2,7 +2,10 @@
 
 Hulipaa is a simple search engine designed to be used in a static website.
 
-The search engine generates and indexes all the results when the website is built, using the same strategy of websites generators, this means you don't need a back-end server running.
+Hulipaa is light but scalable, it can index thousands of pages with no impact to the browser.
+
+The search engine generates and indexes all the results when the website is built, using the same strategy of websites generators.  
+This means you don't need a back-end server running.
 
 ## Demo
 You can see the library in action in our [Demo Website](https://sambuccid.github.io/hulipaa-demo/).
@@ -12,7 +15,7 @@ In the demo we use Hulipaa to index and search on 3000 pages, for a total of ove
 You can also find the code of the Demo in the [Repository](https://github.com/sambuccid/hulipaa-demo).
 
 ## How to use
-You can find the tutorial on how to setup and use the library here: [Hulipaa tutorial](tutorial.md)
+Follow the [Hulipaa tutorial](tutorial.md) to setup and use the library.
 
 ## Troubleshoot
-If you have any issues configuring Hulipaa you can visit the [Troubleshooting](troubleshooting.md) page
+If you have any issues configuring Hulipaa have a look at the [Troubleshooting](troubleshooting.md) page.

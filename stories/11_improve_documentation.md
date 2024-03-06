@@ -20,7 +20,7 @@ Where we can explain what to do in case of
 Create a new repo with a demo website.  
 And add links and snapshots to all documentation pages.
 
-### AC5
+### AC5 [**done**]
 Write new Readme with more informations about the library
 
 ### AC6
