@@ -346,4 +346,4 @@ To set it up you just need to
 
 Remember that Hulipaa can handle any amount of data while keeping a light footprint on the browser.
 
-And if you have any issues you can read the Troubleshooting page TODO-link, or raise an Issue on github TODO-link.
+And if you have any issues you can read the [Troubleshooting](troubleshooting.md) page, or [raise an Issue](https://github.com/sambuccid/hulipaa/issues) on github.

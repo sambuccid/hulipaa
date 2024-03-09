@@ -23,10 +23,10 @@ And add links and snapshots to all documentation pages.
 ### AC5 [**done**]
 Write new Readme with more informations about the library
 
-### AC6
+### AC6 [**done**]
 Add link in tutorial for raising an issue on Github
 - There is a TODO left there for it
 - Also link it in the troubleshooting page (introduction at the start)
 
-### AC7
+### AC7 [**done**]
 Update Readmes in sub-folders with new description
