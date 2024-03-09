@@ -63,7 +63,7 @@ This version of the library ensures the library can be used in a real life scena
 ### ~~paginate results~~
 As a visitor of the website  
 When I search for a word that is contained in thousands of pages  
-I want the results to be paginate  d
+I want the results to be paginated  
 So I can see the results more easily  
 And The results page doesn't become too big
 

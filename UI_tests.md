@@ -1,9 +1,6 @@
 # UI Manual Tests
 This file has a list of the manual tests to run to check that the UI works correctly, they cover most of the feature, but some of the hidden features are not listed here, for a complete list of them read the user stories.
 
-I decided that unit tests for the front end take too long to write and for a project this small don't really provide much value.  
-So instead we have this file where we have the tests to manually run to check that the UI works correctly.
-
 ## User story 1
 - When opening the page there should be a searchbar
 - The searchbar has a textbox where to enter text
