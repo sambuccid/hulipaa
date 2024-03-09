@@ -27,7 +27,10 @@ function Hulipaa(options) {
 }
 function validateHulipaaOpt(options) {
     if (options.parsePage == null) {
-        throw "The `parsePage` option is mandatory, a function to parse the content of a page"
+        throw "The `parsePage` property is mandatory"
+    }
+    if (options.resultsPath == null) {
+        throw "The `resultsPath` property is mandatory"
     }
 }
 

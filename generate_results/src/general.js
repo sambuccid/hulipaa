@@ -33,13 +33,13 @@ function buildIndex({ inputFolder,outputFolder,parseData,generateLink }) {
 
 function validateInputData(data) {
     if (isEmpty(data.title)) {
-        throw "Input data is missng title"
+        throw "Input data is missing title"
     }
     if (isEmpty(data.path)) {
         throw "Input data is missing path"
     }
     if (isEmpty(data.text)) {
-        throw "Input data is missng text"
+        throw "Input data is missing text"
     }
 
     function isEmpty(val) {

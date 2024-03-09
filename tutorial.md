@@ -116,13 +116,13 @@ First we need to install the library in our npm project.
 
 All we need to do is to type in a terminal
 ```bash
-npm install hulipaa
+npm install --save-dev hulipaa
 ```
 
 ### Import the library
 Next we need to import the library.
 
-Hulipaa supports both ES Modules and CommonJS modules. In this tutorial we are going to use the CommonJs syntax, but exactly the same result can be achieved using ESM.
+Hulipaa supports both ES Modules and CommonJS modules. In this tutorial we are going to use the CommonJs syntax, but the same result can be achieved using ESM.
 
 The library exports just one big top level function. So you can import it like this
 ```javascript
@@ -136,7 +136,7 @@ Now we can call the library to generate the search results.
 
 Hulipaa needs 4 properties to be defined when it's called, they are needed to find, load each page, and generate the results used by the searchbar.
 
-So calling the library will looks something similar to this
+So calling the library will look something similar to this
 ```javascript
 Hulipaa({ inputFolder, parseData, generateLink, outputFolder})
 ```
@@ -346,4 +346,4 @@ To set it up you just need to
 
 Remember that Hulipaa can handle any amount of data while keeping a light footprint on the browser.
 
-And if you have any issues you can read the Troubleshooting page TODO-link, or raise an Issue on github TODO-link.
+And if you have any issues you can read the [Troubleshooting](troubleshooting.md) page, or [raise an Issue](https://github.com/sambuccid/hulipaa/issues) on github.
