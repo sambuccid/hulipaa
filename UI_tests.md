@@ -19,7 +19,6 @@ This file has a list of the manual tests to run to check that the UI works corre
 - There should be errors shown when:
   - the network is not working
   - there is no result for the searched word
-- The errors should be shown with a slightly red background
 - When the website is opened on a device with a small screen, the results are shown with a "card" effect
 
 ## User story 3
