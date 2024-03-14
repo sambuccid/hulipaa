@@ -1,9 +1,8 @@
 const fs = require('fs')
 const path = require('path')
 
-const filesToUpdate = ["example_setup.md"]
-const newVersion = "0.1.1"
-
+const filesToUpdate = ["tutorial.md"]
+const newVersion = process.argv[2]
 
 for (let fileToUpdate of filesToUpdate) {
     const fullPath = path.join('.',fileToUpdate)

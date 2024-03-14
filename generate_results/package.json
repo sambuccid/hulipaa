@@ -22,6 +22,12 @@
     "jest-when": "^3.5.2",
     "jsonpath": "^1.1.1"
   },
+  "files": [
+    "src",
+    "package.json",
+    "LICENCE",
+    "README.md"
+  ],
   "author": "sambuccid",
   "license": "Apache-2.0",
   "engines": {
