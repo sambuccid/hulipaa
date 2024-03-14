@@ -103,6 +103,17 @@ describe('getSectionWithMostNumberOfResultsUnprecise',() => {
         expect(actualStringExtracted).toContain('word')
     })
 
+    it('works even when there are just two results',() => {
+        const text = 'test test test word test word'
+        const searchedWord = 'word'
+        const sectionLength = 20
+
+        const { sectionStartIdx,sectionEndIdx } = getSectionWithMostNumberOfResultsUnprecise(text,[searchedWord],sectionLength)
+        const actualStringExtracted = extractString(text,sectionStartIdx,sectionEndIdx)
+
+        expect(actualStringExtracted).toContain('word test word')
+    })
+
     it('returns the right length of a section even when the found word is at the end',() => {
         const text = 'test test test test word'
         const searchedWord = 'word'
