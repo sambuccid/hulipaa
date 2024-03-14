@@ -94,6 +94,17 @@ describe('findClosestGroupOfNumbersOfSize',() => {
     })
 
     it.each([
+        [[2,6,8,10],2],
+        [[2,11,20,22],2],
+        [[12,13,18,19],12],
+    ])('returns first number if the group size is the same as the group',(numbers,expectedFirstNumberOfGroup) => {
+        const result = findClosestGroupOfNumbersOfSize(numbers,4)
+        const actualFirstNumber = numbers[result.groupStartIdx]
+
+        expect(actualFirstNumber).toBe(expectedFirstNumberOfGroup)
+    })
+
+    it.each([
         [[2,6,8,10,20],2],
         [[2,3,8,12,55],2],
         [[1,23,25,30,31],23],
@@ -153,13 +164,47 @@ describe('findBiggerGroupOfNumbersWithinDistance',() => {
         expect(actualLastNumber).toBe(expectedLastNumberOfGroup)
     })
 
-    it('return the end of the group found',() => {
+    it('returns the end of the group found',() => {
         const numbers = [2,6,8,12]
         const expectedLastNumber = 8
         const result = findBiggerGroupOfNumbersWithinDistance(numbers,3)
         const actualLastNumber = numbers[result.groupEndIdx]
 
         expect(actualLastNumber).toBe(expectedLastNumber)
+    })
+
+    it('returns a goup with just 1 number if all the other numbers are too far away',() => {
+        const numbers = [2,6,10,14,18]
+        const expectedFirstNumberOfGroup = 2
+        const expectedLastNumberOfGroup = 2
+        const result = findBiggerGroupOfNumbersWithinDistance(numbers,3)
+        const actualFirstNumber = numbers[result.groupStartIdx]
+        const actualLastNumber = numbers[result.groupEndIdx]
+
+        expect(actualFirstNumber).toBe(expectedFirstNumberOfGroup)
+        expect(actualLastNumber).toBe(expectedLastNumberOfGroup)
+    })
+
+    it('selects all the numbers if all of them are within the distance',() => {
+        const numbers = [2,6,10,14,18]
+        const expectedFirstNumberOfGroup = 2
+        const expectedLastNumberOfGroup = 18
+        const result = findBiggerGroupOfNumbersWithinDistance(numbers,20)
+        const actualFirstNumber = numbers[result.groupStartIdx]
+        const actualLastNumber = numbers[result.groupEndIdx]
+
+        expect(actualFirstNumber).toBe(expectedFirstNumberOfGroup)
+        expect(actualLastNumber).toBe(expectedLastNumberOfGroup)
+    })
+
+    it('supports a list of 2 numbers',() => {
+        const numbers = [2,6]
+        const result = findBiggerGroupOfNumbersWithinDistance(numbers,10)
+        const actualFirstNumber = numbers[result.groupStartIdx]
+        const actualLastNumber = numbers[result.groupEndIdx]
+
+        expect(actualFirstNumber).toBe(2)
+        expect(actualLastNumber).toBe(6)
     })
 
     it('errors if something goes wrong',() => {

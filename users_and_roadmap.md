@@ -84,7 +84,7 @@ So that I can decide if to use it, and know how to use it
 ### ~~fix packages vulnerabilities~~
 Check vulnerabilities from packages and use version of the packages that are not affected
 
-### Fix big with file containing 2 words
+### ~~Fix bug with file containing 2 words~~
 Given a file contains a word exactly 2 times
 When I'm searching for that word
 I want to be able to see the preview of the file correctly

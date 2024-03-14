@@ -135,6 +135,7 @@ export function findClosestGroupOfNumbersOfSize(orderedNumbers,groupLength) {
     if (nConsecutiveNumbersForDifference == null) {
         nConsecutiveNumbersForDifference = orderedNumbers.length - 1
     }
+
     const distances = calculateDifferenceBetweenNConsecutiveNumbers(orderedNumbers,nConsecutiveNumbersForDifference)
 
     const smallerDistance = Math.min(...distances)
@@ -145,10 +146,15 @@ export function findClosestGroupOfNumbersOfSize(orderedNumbers,groupLength) {
 }
 
 export function findBiggerGroupOfNumbersWithinDistance(orderedNumbers,maximumDistance) {
-    const maximumGroupSize = orderedNumbers.length - 1
-    let maximumValidGroupSize = -1
-    let groupStartIdxOfBiggestValidGroup = -1
-    let groupEndIdxOfBiggestValidGroup = -1
+    if (orderedNumbers.length < 2)
+        throw "Invalid parameters, list of number must contain at least 2 numbers"
+
+    const maximumGroupSize = orderedNumbers.length
+    // It defaults to a group with only 1 number, the first
+    let maximumValidGroupSize = 1
+    let groupStartIdxOfBiggestValidGroup = 0
+    let groupEndIdxOfBiggestValidGroup = 0
+
     for (let groupSize = 2; groupSize <= maximumGroupSize; groupSize++) {
         let { groupStartIdx } = findClosestGroupOfNumbersOfSize(orderedNumbers,groupSize)
         let groupEndIdx = groupStartIdx + groupSize - 1
@@ -161,9 +167,7 @@ export function findBiggerGroupOfNumbersWithinDistance(orderedNumbers,maximumDis
             groupEndIdxOfBiggestValidGroup = groupEndIdx
         }
     }
-    if (groupStartIdxOfBiggestValidGroup < 0 || groupEndIdxOfBiggestValidGroup < 0) {
-        throw "No Group Found"
-    }
+
     return {
         groupStartIdx: groupStartIdxOfBiggestValidGroup,
         groupEndIdx: groupEndIdxOfBiggestValidGroup
