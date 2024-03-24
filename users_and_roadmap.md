@@ -55,10 +55,10 @@ And have a message telling me that there were no results
 ### ~~fix tech debt~~
 Address any tech debt that is left that needs to be fixed before releasing the library
 
-# Version 0.2.0
+# ~~Version 1.0.0~~
 This version of the library ensures the library can be used in a real life scenario and improves UI and Documentation.
 
-## User stories
+## ~~User stories~~
 
 ### ~~paginate results~~
 As a visitor of the website  
@@ -89,17 +89,8 @@ Given a file contains a word exactly 2 times
 When I'm searching for that word
 I want to be able to see the preview of the file correctly
 
-### Update demo website
+### ~~Update demo website~~
 Update demo website to use new verison of library
-- Increase number of pages generated, try around 30000
-  - And update all READMEs that mention it
-- And add screenshot to readme and "Open website" section of tutorial
-- Also create video/gif where we
-  - add a page to demo website
-  - run the generation of search results
-  - start webserver (with generation of pages)
-  - search for the word, or even multiple words
-- Add the video/gif to the readme, right at the end of the Demo section
 
 # Other versions
 Other stories that still need to be prioritised and assigned to a version.

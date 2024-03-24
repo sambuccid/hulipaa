@@ -329,6 +329,9 @@ Now you can open the browser and load your website, if you used `live-server` th
 
 Navigate to the search page, and the seachbar should be fully loaded.
 
+The searchbar will look similar to the one here  
+![search page](/images/search_page.png)
+
 You can search anything you want, remember that the example website we created contains words like `content`, `page`, `first`.
 
 You should be able to see the title and a preview of each page, and by clicking on the title of the search result you will be redirected to the page.
@@ -346,4 +349,4 @@ To set it up you just need to
 
 Remember that Hulipaa can handle any amount of data while keeping a light footprint on the browser.
 
-And if you have any issues you can read the [Troubleshooting](troubleshooting.md) page, or [raise an Issue](https://github.com/sambuccid/hulipaa/issues) on github.
+And if you have any issues you can read the [Troubleshooting](/troubleshooting.md) page, or [raise an Issue](https://github.com/sambuccid/hulipaa/issues) on github.
