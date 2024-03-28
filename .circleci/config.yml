@@ -132,7 +132,7 @@ jobs:
       - image: cimg/node:lts
     steps:
       - checkout
-    - run:
+      - run:
           name: Placeholder
           command: |
             echo "Placeholder"
