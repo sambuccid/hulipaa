@@ -6,9 +6,9 @@ anchors-definitions:
   - never: &never
       ignore: /.*/
   - pre-release-tag: &pre-release-tag
-      only: /^.*[\-pre]$/
+      only: /^v\d+\.\d+\.\d+[\-pre]$/
   - release-tag: &release-tag
-      only: /^.*[^\-pre]$/
+      only: /^v\d+\.\d+\.\d+[^\-pre]$/
   - filter-just-on-pre-release: &filter-just-on-pre-release
       filters:
         tags: *pre-release-tag
@@ -84,10 +84,14 @@ jobs:
       - attach_workspace:
           at: ~/project
       - run:
-          name: Extract new release tag
+          name: Extract new release tag and version
           command: |
             RELEASE_TAG=$(echo "$CIRCLE_TAG" | perl -wne '/^(.*)\-pre$/i and print $1')
             echo $RELEASE_TAG > RELEASE_TAG.txt
+            echo $RELEASE_TAG
+            RELEASE_VERSION=$(echo "$RELEASE_TAG" | perl -wne '/^v(\d+\.\d+\.\d+)$/i and print $1')
+            echo $RELEASE_VERSION > RELEASE_VERSION.txt
+            echo $RELEASE_VERSION
       - run:
           name: Point to main branch
           command: git checkout configure-automatic-deployment # TODO Should be "main"
@@ -95,10 +99,11 @@ jobs:
           name: Update version in package files
           command: |
             RELEASE_TAG=$(<RELEASE_TAG.txt)
+            RELEASE_VERSION=$(<RELEASE_VERSION.txt)
             chmod a+x ./update_package_json_version.sh
-            ./update_package_json_version.sh ./package.json $RELEASE_TAG
-            ./update_package_json_version.sh ./generate_results/package.json $RELEASE_TAG
-            ./update_package_json_version.sh ./frontend/package.json $RELEASE_TAG
+            ./update_package_json_version.sh ./package.json $RELEASE_VERSION
+            ./update_package_json_version.sh ./generate_results/package.json $RELEASE_VERSION
+            ./update_package_json_version.sh ./frontend/package.json $RELEASE_VERSION
             cat ./package.json
             cat ./generate_results/package.json
             cat ./frontend/package.json
