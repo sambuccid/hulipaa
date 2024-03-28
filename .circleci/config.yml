@@ -100,14 +100,13 @@ jobs:
 workflows:
   workflow:
     jobs:
-      - prepare
-      #- prepare:
-      #    <<: *filter-also-on-deployment
+      - prepare:
+          <<: *filter-also-on-deployment
       - unit-tests:
           requires:
             - prepare
-          #<<: *filter-also-on-deployment
+          <<: *filter-also-on-deployment
       - deploy:
-          #requires:
-          #  - unit-tests
+          requires:
+            - unit-tests
           <<: *filter-just-on-deployment
