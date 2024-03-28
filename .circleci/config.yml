@@ -80,22 +80,18 @@ jobs:
       - attach_workspace:
           at: ~/project
       - run:
-          name: placeholder
-          command: echo "we ae deployyyyiiinggg"
-      - run:
           name: Commit to GitHub
           command: |
             git config user.email "sambuccid@gmail.com"
             git config user.name "CircleCI Deploy"
-            git checkout configure-automatic-deployment
-            git status
+            git checkout configure-automatic-deployment #Should be "main"
             echo "\nDEPLOY:$CIRCLE_TAG" >> README.md
-            git status
             git add README.md
-            git status
             git commit -m "Automatic update of package versions from CircleCI [skip ci]"
             git push
-            git status
+        - run:
+            name: status
+            command: git status
       # Initial basic steps: update-packageS-json-version-with-commit-main, npm-publish
       # steps: copy-readmes, npm-audit-backend, npm-audit-frontend
       # TODO add rule for github for add tags just on main
