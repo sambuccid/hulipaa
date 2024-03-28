@@ -95,7 +95,7 @@ jobs:
             git push
       - run:
           name: something
-          command: echo "$CIRCLE_TAG" | perl -we '/^(.*)\-pr0e$/i and print $1'
+          command: echo "$CIRCLE_TAG" | perl -wne '/^(.*)\-pre$/i and print $1'
       # Initial basic steps: update-packageS-json-version-with-commit-main, git-tag
       # steps: copy-readmes, npm-audit-backend, npm-audit-frontend
       # TODO add rule for github for add tags just on main
