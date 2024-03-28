@@ -3,12 +3,12 @@ version: 2.1
 anchors-definitions:
   - always: &always
       only: /.*/
+  - never: &never
+      ignore: /.*/
   - pre-release-tag: &pre-release-tag
       only: /^.*[\-pre]$/
   - release-tag: &release-tag
       only: /^.*[^\-pre]$/
-  - never: &never
-      ignore: /.*/
   - filter-just-on-pre-release: &filter-just-on-pre-release
       filters:
         tags: *pre-release-tag
@@ -96,8 +96,10 @@ jobs:
       - run:
           name: something
           command: |
-            NEW_TAG=$(echo "$CIRCLE_TAG" | perl -wne '/^(.*)\-pre$/i and print $1')
-            echo "New tag: $NEW_TAG"
+            RELEASE_TAG=$(echo "$CIRCLE_TAG" | perl -wne '/^(.*)\-pre$/i and print $1')
+            echo $RELEASE_TAG > RELEASE_TAG.txt
+            T=$(<RELEASE_TAG.txt)
+            echo "The T is $T"
       # Initial basic steps: update-packageS-json-version-with-commit-main, git-tag
       # steps: copy-readmes, npm-audit-backend, npm-audit-frontend
       # TODO add rule for github for add tags just on main
