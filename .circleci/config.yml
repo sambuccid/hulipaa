@@ -78,6 +78,8 @@ jobs:
       - run:
           name: placeholder
           command: echo "we ae deployyyyiiinggg"
+      # Initial basic steps: update-packageS-json-version-with-commit-main, npm-publish
+      # steps: copy-readmes, npm-audit-backend, npm-audit-frontend
 
 workflows:
   workflow:
