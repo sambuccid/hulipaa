@@ -85,6 +85,7 @@ jobs:
       - run:
           name: Commit to GitHub
           command: |
+            ls -al
             git config user.email "sambuccid@gmail.com"
             git config user.name "CircleCI Deploy"
             git checkout main
@@ -100,11 +101,11 @@ workflows:
   workflow:
     jobs:
       - prepare:
-          <<: *filter-also-on-deployment
+          #<<: *filter-also-on-deployment
       - unit-tests:
           requires:
             - prepare
-          <<: *filter-also-on-deployment
+          #<<: *filter-also-on-deployment
       - deploy:
           #requires:
           #  - unit-tests
