@@ -100,8 +100,9 @@ jobs:
 workflows:
   workflow:
     jobs:
-      - prepare:
-          #<<: *filter-also-on-deployment
+      - prepare
+      #- prepare:
+      #    <<: *filter-also-on-deployment
       - unit-tests:
           requires:
             - prepare
