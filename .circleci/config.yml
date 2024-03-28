@@ -5,10 +5,13 @@ anchors-definitions:
       only: /.*/
   - never: &never
       ignore: /.*/
-  - filter-to-deploy: &filter-to-deploy
+  - filter-just-on-deployment: &filter-just-on-deployment
       filters:
         tags: *always
         branches: *never
+  - filter-also-on-deployment: &filter-also-on-deployment
+      filters:
+        tags: *always
 
 jobs:
   prepare:
@@ -86,10 +89,12 @@ workflows:
   workflow:
     jobs:
       - prepare
+          <<: *filter-also-on-deployment
       - unit-tests:
           requires:
             - prepare
+          <<: *filter-also-on-deployment
       - deploy:
-          # requires:
-          #   - unit-tests
-          <<: *filter-to-deploy
+          requires:
+            - unit-tests
+          <<: *filter-just-on-deployment
