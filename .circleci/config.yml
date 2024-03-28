@@ -80,6 +80,9 @@ jobs:
       - attach_workspace:
           at: ~/project
       - run:
+          name: placeholder
+          command: echo "we ae deployyyyiiinggg"
+      - run:
           name: Commit to GitHub
           command: |
             git config user.email "sambuccid@gmail.com"
