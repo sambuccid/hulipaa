@@ -16,6 +16,10 @@ anchors-definitions:
   - filter-also-on-pre-release: &filter-also-on-pre-release
       filters:
         tags: *pre-release-tag
+  - filter-just-on-release: &filter-just-on-release
+      filters:
+        tags: *release-tag
+        branches: *never
 
 jobs:
   prepare:
@@ -79,7 +83,7 @@ jobs:
           path: ./reports/
   deploy-preparation:
     docker:
-      - image: cimg/node:lts
+      - image: cimg/node:lts # Maybe try lighter image
     steps:
       - attach_workspace:
           at: ~/project
@@ -104,9 +108,6 @@ jobs:
             ./update_package_json_version.sh ./package.json $RELEASE_VERSION
             ./update_package_json_version.sh ./generate_results/package.json $RELEASE_VERSION
             ./update_package_json_version.sh ./frontend/package.json $RELEASE_VERSION
-            cat ./package.json
-            cat ./generate_results/package.json
-            cat ./frontend/package.json
       - run:
           name: Commit new version
           command: |
@@ -124,10 +125,18 @@ jobs:
             RELEASE_VERSION=$(<RELEASE_VERSION.txt)
             git tag -a $RELEASE_TAG -m "Release version $RELEASE_VERSION"
             git push --tags
-      # Initial basic steps: update-packageS-json-version-with-commit-main, git-tag
-      # steps: copy-readmes, npm-audit-backend, npm-audit-frontend
+      # TODO add steps for: copy-readmes, npm-audit-backend, npm-audit-frontend
       # TODO add rule for github for add tags just on main
-  # TODO create workflow for actual deployment, it's fired by the tagging done in pre-deployment workflow, and all it does it npm-publish
+  deploy:
+    docker:
+      - image: cimg/node:lts
+    steps:
+      - checkout
+    - run:
+          name: Placeholder
+          command: |
+            echo "Placeholder"
+            #TODO npm publish
 
 workflows:
   workflow:
@@ -142,3 +151,5 @@ workflows:
           requires:
             - unit-tests
           <<: *filter-just-on-pre-release
+      - deploy:
+          <<: *filter-just-on-release
