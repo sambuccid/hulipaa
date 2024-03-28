@@ -95,6 +95,7 @@ jobs:
           name: Update version in package files
           command: |
             RELEASE_TAG=$(<RELEASE_TAG.txt)
+            chmod a+x ./update_package_json_version.sh
             ./update_package_json_version.sh ./package.json $RELEASE_TAG
             ./update_package_json_version.sh ./generate_results/package.json $RELEASE_TAG
             ./update_package_json_version.sh ./frontend/package.json $RELEASE_TAG
