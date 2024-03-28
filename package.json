@@ -1,6 +1,6 @@
 {
   "name": "hulipaa-repo",
-  "version": "1.0.1",
+  "version": "0.0.02",
   "description": "",
   "scripts": {
     "serve": "live-server",
