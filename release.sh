@@ -12,7 +12,7 @@ function update_package_json_version() {
 }
 
 new_ver=$1
-echo "Releasing ner version $new_ver"
+echo "Releasing new version $new_ver"
 
 npm set "//registry.npmjs.org/:_authToken=$NPM_TOKEN"
 
