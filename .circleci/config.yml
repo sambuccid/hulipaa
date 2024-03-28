@@ -118,10 +118,12 @@ jobs:
             git commit -m "Automatic update of package versions from CircleCI [skip ci]"
             git push
       - run:
-          name: something
+          name: Git Tag Release
           command: |
-            T=$(<RELEASE_TAG.txt)
-            echo "The T is $T"
+            RELEASE_TAG=$(<RELEASE_TAG.txt)
+            RELEASE_VERSION=$(<RELEASE_VERSION.txt)
+            git tag -a $RELEASE_TAG -m "Release version $RELEASE_VERSION"
+            git push --tags
       # Initial basic steps: update-packageS-json-version-with-commit-main, git-tag
       # steps: copy-readmes, npm-audit-backend, npm-audit-frontend
       # TODO add rule for github for add tags just on main
