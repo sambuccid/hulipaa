@@ -2,6 +2,7 @@
 set -e
 set -o pipefail
 
+# TODO use extracted script
 function update_package_json_version() {
   # -i modifies the file
   # -E enables enhanced regular expressions
