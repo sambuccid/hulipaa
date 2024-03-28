@@ -6,9 +6,9 @@ anchors-definitions:
   - never: &never
       ignore: /.*/
   - pre-release-tag: &pre-release-tag
-      only: /^v\d+\.\d+\.\d+[\-pre]$/
+      only: /^v\d+\.\d+\.\d+\-pre$/
   - release-tag: &release-tag
-      only: /^v\d+\.\d+\.\d+[^\-pre]$/
+      only: /^v\d+\.\d+\.\d+$/
   - filter-just-on-pre-release: &filter-just-on-pre-release
       filters:
         tags: *pre-release-tag
