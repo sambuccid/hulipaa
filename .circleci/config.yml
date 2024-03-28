@@ -3,15 +3,17 @@ version: 2.1
 anchors-definitions:
   - always: &always
       only: /.*/
+   # create filter tag for pre-release (EG. v1.1.0-pre)
+   # create filter tag actual releases (EG. v1.1.0)
   - never: &never
       ignore: /.*/
   - filter-just-on-deployment: &filter-just-on-deployment
       filters:
-        tags: *always
+        tags: *always # filter tags for pre-release (EG. v1.1.0-pre)
         branches: *never
-  - filter-also-on-deployment: &filter-also-on-deployment
+  - filter-also-on-deployment: &filter-also-on-deployment # change to "on-pre-deployment"
       filters:
-        tags: *always
+        tags: *always # filter tags for pre-release (EG. v1.1.0-pre)
 
 jobs:
   prepare:
@@ -73,7 +75,7 @@ jobs:
             JEST_JUNIT_ADD_FILE_ATTRIBUTE: "true"
       - store_test_results:
           path: ./reports/
-  deploy:
+  deploy: # Make this a deploy-preparation workflow
     docker:
       - image: cimg/node:lts
     steps:
@@ -92,20 +94,21 @@ jobs:
       - run:
           name: status
           command: git status
-      # Initial basic steps: update-packageS-json-version-with-commit-main, npm-publish
+      # Initial basic steps: update-packageS-json-version-with-commit-main, git-tag
       # steps: copy-readmes, npm-audit-backend, npm-audit-frontend
       # TODO add rule for github for add tags just on main
+  # TODO create workflow for actual deployment, it's fired by the tagging done in pre-deployment workflow, and all it does it npm-publish
 
 workflows:
   workflow:
     jobs:
       - prepare:
-          <<: *filter-also-on-deployment
+          <<: *filter-also-on-deployment # change to "on-pre-deployment"
       - unit-tests:
           requires:
             - prepare
-          <<: *filter-also-on-deployment
-      - deploy:
+          <<: *filter-also-on-deployment # change to "on-pre-deployment"
+      - deploy: # Make this a deploy-preparation workflow
           requires:
             - unit-tests
-          <<: *filter-just-on-deployment
+          <<: *filter-just-on-deployment # change to "on-pre-deployment"
