@@ -82,6 +82,18 @@ jobs:
       - run:
           name: placeholder
           command: echo "we ae deployyyyiiinggg"
+      - run:
+          name: print branch
+          command: git status
+      - run:
+          name: Commit to GitHub
+          command: |
+            # git config user.email "sambuccid@gmail.com"
+            # git config user.name "CircleCI Deploy"
+            # git checkout master
+            # git commit --allow-empty -am "Automatic commit from CircleCI [skip ci]"
+            # git push origin master
+            echo "test"
       # Initial basic steps: update-packageS-json-version-with-commit-main, npm-publish
       # steps: copy-readmes, npm-audit-backend, npm-audit-frontend
 
