@@ -3,17 +3,19 @@ version: 2.1
 anchors-definitions:
   - always: &always
       only: /.*/
-   # create filter tag for pre-release (EG. v1.1.0-pre)
-   # create filter tag actual releases (EG. v1.1.0)
+  - pre-release-tag: &pre-release-tag
+      only: /^.*[\-pre]$/
+  - release-tag: &release-tag
+      only: /^.*[^\-pre]$/
   - never: &never
       ignore: /.*/
-  - filter-just-on-deployment: &filter-just-on-deployment
+  - filter-just-on-pre-release: &filter-just-on-pre-release
       filters:
-        tags: *always # filter tags for pre-release (EG. v1.1.0-pre)
+        tags: *pre-release-tag
         branches: *never
-  - filter-also-on-deployment: &filter-also-on-deployment # change to "on-pre-deployment"
+  - filter-also-on-pre-release: &filter-also-on-pre-release
       filters:
-        tags: *always # filter tags for pre-release (EG. v1.1.0-pre)
+        tags: *pre-release-tag
 
 jobs:
   prepare:
@@ -75,7 +77,7 @@ jobs:
             JEST_JUNIT_ADD_FILE_ATTRIBUTE: "true"
       - store_test_results:
           path: ./reports/
-  deploy: # Make this a deploy-preparation workflow
+  deploy-preparation:
     docker:
       - image: cimg/node:lts
     steps:
@@ -103,12 +105,12 @@ workflows:
   workflow:
     jobs:
       - prepare:
-          <<: *filter-also-on-deployment # change to "on-pre-deployment"
+          <<: *filter-also-on-pre-release
       - unit-tests:
           requires:
             - prepare
-          <<: *filter-also-on-deployment # change to "on-pre-deployment"
-      - deploy: # Make this a deploy-preparation workflow
+          <<: *filter-also-on-pre-release
+      - deploy-preparation:
           requires:
             - unit-tests
-          <<: *filter-just-on-deployment # change to "on-pre-deployment"
+          <<: *filter-just-on-pre-release
