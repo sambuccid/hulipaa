@@ -84,6 +84,11 @@ jobs:
       - attach_workspace:
           at: ~/project
       - run:
+          name: Extract new release tag
+          command: |
+            RELEASE_TAG=$(echo "$CIRCLE_TAG" | perl -wne '/^(.*)\-pre$/i and print $1')
+            echo $RELEASE_TAG > RELEASE_TAG.txt
+      - run:
           name: Commit to GitHub
           command: |
             git config user.email "sambuccid@gmail.com"
@@ -96,8 +101,6 @@ jobs:
       - run:
           name: something
           command: |
-            RELEASE_TAG=$(echo "$CIRCLE_TAG" | perl -wne '/^(.*)\-pre$/i and print $1')
-            echo $RELEASE_TAG > RELEASE_TAG.txt
             T=$(<RELEASE_TAG.txt)
             echo "The T is $T"
       # Initial basic steps: update-packageS-json-version-with-commit-main, git-tag
