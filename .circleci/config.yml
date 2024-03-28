@@ -88,10 +88,10 @@ jobs:
           command: |
             RELEASE_TAG=$(echo "$CIRCLE_TAG" | perl -wne '/^(.*)\-pre$/i and print $1')
             echo $RELEASE_TAG > RELEASE_TAG.txt
-            echo $RELEASE_TAG
+            echo "RELEASE_TAG: $RELEASE_TAG"
             RELEASE_VERSION=$(echo "$RELEASE_TAG" | perl -wne '/^v(\d+\.\d+\.\d+)$/i and print $1')
             echo $RELEASE_VERSION > RELEASE_VERSION.txt
-            echo $RELEASE_VERSION
+            echo "RELEASE_VERSION: $RELEASE_VERSION"
       - run:
           name: Point to main branch
           command: git checkout configure-automatic-deployment # TODO Should be "main"
