@@ -89,13 +89,26 @@ jobs:
             RELEASE_TAG=$(echo "$CIRCLE_TAG" | perl -wne '/^(.*)\-pre$/i and print $1')
             echo $RELEASE_TAG > RELEASE_TAG.txt
       - run:
-          name: Commit to GitHub
+          name: Point to main branch
+          command: git checkout configure-automatic-deployment # TODO Should be "main"
+      - run:
+          name: Update version in package files
+          command: |
+            RELEASE_TAG=$(<RELEASE_TAG.txt)
+            ./update_package_json_version.sh ./package.json $RELEASE_TAG
+            ./update_package_json_version.sh ./generate_results/package.json $RELEASE_TAG
+            ./update_package_json_version.sh ./frontend/package.json $RELEASE_TAG
+            cat ./package.json
+            cat ./generate_results/package.json
+            cat ./frontend/package.json
+      - run:
+          name: Commit new version
           command: |
             git config user.email "sambuccid@gmail.com"
             git config user.name "CircleCI Deploy"
-            git checkout configure-automatic-deployment #Should be "main"
-            echo "\nDEPLOY:$CIRCLE_TAG" >> README.md
-            git add README.md
+            git add package.json
+            git add generate_results/package.json
+            git add frontend/package.json
             git commit -m "Automatic update of package versions from CircleCI [skip ci]"
             git push
       - run:
