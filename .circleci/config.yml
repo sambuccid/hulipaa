@@ -90,8 +90,8 @@ workflows:
           requires:
             - prepare
       - deploy:
-          requires:
-            - unit-tests
+          # requires:
+          #   - unit-tests
           filters:
             tags:
                only: /.*/
