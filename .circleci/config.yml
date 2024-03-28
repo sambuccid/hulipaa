@@ -94,8 +94,8 @@ jobs:
             git commit -m "Automatic update of package versions from CircleCI [skip ci]"
             git push
       - run:
-          name: status
-          command: git status
+          name: something
+          command: perl --version
       # Initial basic steps: update-packageS-json-version-with-commit-main, git-tag
       # steps: copy-readmes, npm-audit-backend, npm-audit-frontend
       # TODO add rule for github for add tags just on main
