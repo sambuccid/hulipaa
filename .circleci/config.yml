@@ -151,6 +151,11 @@ jobs:
             cp README.md generate_results/README.md
             cp README.md frontend/README.md
       - run:
+          name: Build - frontend
+          commend: |
+            cd frontend
+            npm run build
+      - run:
           name: Fetch npm token
           command: npm set "//registry.npmjs.org/:_authToken=$NPM_TOKEN"
       - run:
