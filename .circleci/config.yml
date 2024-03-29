@@ -116,7 +116,7 @@ jobs:
             git add package.json
             git add generate_results/package.json
             git add frontend/package.json
-            git commit -m "Automatic update of package versions from CircleCI [skip ci]"
+            git commit -m "Automatic update of package versions from CircleCI" # Add  [skip ci] ?
             git push
       - run:
           name: Git Tag Release
