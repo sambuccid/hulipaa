@@ -147,9 +147,7 @@ jobs:
           name: Placeholder
           command: |
             echo "Placeholder"
-            ls
-            ls generate_results
-            ls frontend
+            cut -c1-6 <<< $NPM_TOKEN
       # TODO npm publish
 
 workflows:
