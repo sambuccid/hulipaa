@@ -51,7 +51,6 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/project
-      # TODO maybe add npm audit?
       - run:
           name: Unit tests - generate_results
           command: |
@@ -100,6 +99,12 @@ jobs:
           name: Point to main branch
           command: git checkout configure-automatic-deployment # TODO Should be "main"
       - run:
+          name: Npm audit - generate_results
+          command: cd generate_results && npm audit
+      - run:
+          name: Npm audit - frontend
+          command: cd frontend && npm audit
+      - run:
           name: Update version in package files
           command: |
             RELEASE_TAG=$(<RELEASE_TAG.txt)
@@ -127,7 +132,6 @@ jobs:
       #      git tag -a $RELEASE_TAG -m "Release version $RELEASE_VERSION"
       #      git push --tags
       
-      # TODO add steps for: copy-readmes, npm-audit-backend, npm-audit-frontend
       # TODO add rule for github for add tags just on main
   deploy:
     docker:
@@ -146,7 +150,7 @@ jobs:
             ls
             ls generate_results
             ls frontend
-      #TODO npm publish
+      # TODO npm publish
 
 workflows:
   workflow:
