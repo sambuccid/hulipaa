@@ -103,7 +103,7 @@ jobs:
             echo "RELEASE_VERSION: $RELEASE_VERSION"
       - run:
           name: Point to main branch
-          command: git checkout configure-automatic-deployment # TODO Should be "main"
+          command: git checkout main # TODO maybe try and use whatever branch a tag is on
       - run:
           name: Npm audit - generate_results
           command: cd generate_results && npm audit
@@ -144,7 +144,6 @@ jobs:
       #      git tag -a $RELEASE_TAG -m "Release version $RELEASE_VERSION"
       #      git push --tags
       
-      # TODO add rule for github for add tags just on main
   deploy:
     docker:
       - image: cimg/node:lts
@@ -168,12 +167,12 @@ jobs:
           name: Publish - generate_results
           command: |
             cd generate_results
-            npm publish --dry-run
+            npm publish
       - run:
           name: Publish - frontend
           command: |
             cd frontend
-            npm publish --dry-run
+            npm publish
 
 workflows:
   workflow:
