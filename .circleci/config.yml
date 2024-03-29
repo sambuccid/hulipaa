@@ -144,11 +144,18 @@ jobs:
             cp README.md generate_results/README.md
             cp README.md frontend/README.md
       - run:
-          name: Placeholder
+        name: Fetch npm token
+        command: npm set "//registry.npmjs.org/:_authToken=$NPM_TOKEN"
+      - run:
+          name: Publish - generate_results
           command: |
-            echo "Placeholder"
-            echo $NPM_TOKEN | cut -c1-6
-      # TODO npm publish
+            cd generate_results
+            npm publish --dry-run
+      - run:
+          name: Publish - frontend
+          command: |
+            cd frontend
+            npm publish --dry-run
 
 workflows:
   workflow:
