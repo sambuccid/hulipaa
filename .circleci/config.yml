@@ -9,6 +9,8 @@ anchors-definitions:
       only: /^v\d+\.\d+\.\d+\-pre$/
   - release-tag: &release-tag
       only: /^v\d+\.\d+\.\d+$/
+  - pre-release-and-release-tag: &pre-release-and-release-tag
+      only: /^v\d+\.\d+\.\d+(\-pre)?$/
   - filter-just-on-pre-release: &filter-just-on-pre-release
       filters:
         tags: *pre-release-tag
@@ -20,6 +22,9 @@ anchors-definitions:
       filters:
         tags: *release-tag
         branches: *never
+  - filter-also-on-pre-release-and-release: &filter-also-on-pre-release-and-release
+      filters:
+        tags: *pre-release-and-release-tag
 
 jobs:
   prepare:
@@ -144,7 +149,8 @@ jobs:
     docker:
       - image: cimg/node:lts
     steps:
-      - checkout
+      - attach_workspace:
+          at: ~/project
       - run:
           name: Copy readmes to npm packages
           command: |
@@ -173,7 +179,7 @@ workflows:
   workflow:
     jobs:
       - prepare:
-          <<: *filter-also-on-pre-release
+          <<: *filter-also-on-pre-release-and-release
       - unit-tests:
           requires:
             - prepare
@@ -183,4 +189,6 @@ workflows:
             - unit-tests
           <<: *filter-just-on-pre-release
       - deploy:
+          requires:
+            - prepare
           <<: *filter-just-on-release
