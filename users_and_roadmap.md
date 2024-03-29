@@ -118,6 +118,15 @@ So that it becomes more extensible and there is a way to use the library without
 - improve ci/cd pipeline
 - script to copy Readme to sub-folders that generate npm package
 
+### Automated tests
+Set up and add functional tests  
+So that we can make changes to the code more easily  
+And release new versions more often
+
+### Bot to update libraries
+Set up a bot to create PRs to update libraries  
+So that we can keep the project up to date
+
 ### Get started page
 Create a get started page.  
 It should be way smaller that the full tutorial.  
