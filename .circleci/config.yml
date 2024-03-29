@@ -80,6 +80,7 @@ jobs:
             JEST_JUNIT_ADD_FILE_ATTRIBUTE: "true"
       - store_test_results:
           path: ./reports/
+  
   deploy-preparation:
     docker:
       - image: cimg/node:lts # Maybe try lighter image
@@ -105,6 +106,11 @@ jobs:
           name: Npm audit - frontend
           command: cd frontend && npm audit
       - run:
+          name: Update version in document files
+          command: |
+            RELEASE_VERSION=$(<RELEASE_VERSION.txt)
+            npm run update-docs $RELEASE_VERSION
+      - run:
           name: Update version in package files
           command: |
             RELEASE_TAG=$(<RELEASE_TAG.txt)
@@ -121,7 +127,8 @@ jobs:
             git add package.json
             git add generate_results/package.json
             git add frontend/package.json
-            git commit -m "Automatic update of package versions from CircleCI [skip ci]"
+            git add \*.md
+            git commit -m "Automatic update of package version from CircleCI [skip ci]"
             git push
       # TODO re-introduce the step, maybe circleci issue with "config file could not be located" has been resolved
       #- run:
