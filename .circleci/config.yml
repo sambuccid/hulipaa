@@ -118,13 +118,15 @@ jobs:
             git add frontend/package.json
             git commit -m "Automatic update of package versions from CircleCI [skip ci]"
             git push
-      - run:
-          name: Git Tag Release
-          command: |
-            RELEASE_TAG=$(<RELEASE_TAG.txt)
-            RELEASE_VERSION=$(<RELEASE_VERSION.txt)
-            git tag -a $RELEASE_TAG -m "Release version $RELEASE_VERSION"
-            git push --tags
+      # TODO re-introduce the step, maybe circleci issue with "config file could not be located" has been resolved
+      #- run:
+      #    name: Git Tag Release
+      #    command: |
+      #      RELEASE_TAG=$(<RELEASE_TAG.txt)
+      #      RELEASE_VERSION=$(<RELEASE_VERSION.txt)
+      #      git tag -a $RELEASE_TAG -m "Release version $RELEASE_VERSION"
+      #      git push --tags
+      
       # TODO add steps for: copy-readmes, npm-audit-backend, npm-audit-frontend
       # TODO add rule for github for add tags just on main
   deploy:
@@ -133,10 +135,18 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Copy readmes to npm packages
+          command: |
+            cp README.md generate_results/README.md
+            cp README.md frontend/README.md
+      - run:
           name: Placeholder
           command: |
             echo "Placeholder"
-            #TODO npm publish
+            ls
+            ls generate_results
+            ls frontend
+      #TODO npm publish
 
 workflows:
   workflow:
