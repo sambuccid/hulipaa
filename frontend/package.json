@@ -1,6 +1,6 @@
 {
   "name": "hulipaa-ui",
-  "version": "0.00.010",
+  "version": "1.0.1",
   "description": "UI for Hulipaa, Hulipaa is a simple search engine designed to be used in a static website.",
   "repository": {
     "type": "git",
