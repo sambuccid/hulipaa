@@ -147,7 +147,7 @@ jobs:
           name: Placeholder
           command: |
             echo "Placeholder"
-            cut -c1-6 <<< $NPM_TOKEN
+            echo $NPM_TOKEN | cut -c1-6
       # TODO npm publish
 
 workflows:
