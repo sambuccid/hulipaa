@@ -246,7 +246,7 @@ Following our example website, we'll create a file called `search.html` in the r
 ### Import the library
 To import the library all we need to do is to add this line in the `head` section of our html
 ```html
-<script type="module" src="https://cdn.jsdelivr.net/npm/hulipaa-ui@1.0.1"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/hulipaa-ui@1.0.2"></script>
 ```
 
 ### Add the searchbar
