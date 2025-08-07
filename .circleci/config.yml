@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  cypress: cypress-io/cypress@5.0.1
+
 anchors-definitions:
   - always: &always
       only: /.*/
@@ -85,7 +88,7 @@ jobs:
             JEST_JUNIT_ADD_FILE_ATTRIBUTE: "true"
       - store_test_results:
           path: ./reports/
-  
+
   deploy-preparation:
     docker:
       - image: cimg/node:lts # Maybe try lighter image
@@ -183,9 +186,14 @@ workflows:
           requires:
             - prepare
           <<: *filter-also-on-pre-release
-      - deploy-preparation:
+      - cypress/run: # "run" job comes from "cypress" orb
           requires:
             - unit-tests
+          # TODO start-command: 'npm run start-application'
+          <<: *filter-also-on-pre-release
+      - deploy-preparation:
+          requires:
+            - cypress/run
           <<: *filter-just-on-pre-release
       - deploy:
           requires:
