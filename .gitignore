@@ -1,9 +1,0 @@
-node_modules
-.output
-.input
-.testing
-manual_testing/search/*
-
-frontend/dist
-
-*/junit.xml
